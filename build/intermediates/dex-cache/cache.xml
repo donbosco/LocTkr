@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="C:\Users\boscosiva\.android\build-cache\6a500a69d8c3438bf95ddddf07cbaa811079f8ab\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="67eb33110dbacb46a48175b08ae0c96761d2c17d">
+        <dex dex="H:\Android\Projects\YourTime\WS\YourTime\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_6c6a67a85a0be2e8b5615bf5db8206e434bd2637\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\boscosiva\.android\build-cache\65ebffd0550fccf0bcd9df33403fa3a046db84eb\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="e820b7be8c035dd522da4bc822e8a76c8e27921a">
+        <dex dex="H:\Android\Projects\YourTime\WS\YourTime\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_8f027bb0a63efdd7fd7f565d433ba1199548f683\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\boscosiva\.android\build-cache\6cb7e6406e61c5cdc491990479081bc1eecd9ca9\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="69e74a8b1cbf5b8ee0fc0cca6bab1ac6c45efef8">
+        <dex dex="H:\Android\Projects\YourTime\WS\YourTime\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_dd6ce22df9ddbda2d610516d542f02c3866741c4\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="H:\Android\Projects\YourTime\WS\YourTime\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0aa148e6dd8915e269bcee697036d7ee6490fcd5">
+        <dex dex="H:\Android\Projects\YourTime\WS\YourTime\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_58727525ca8589504ddfe5e31fb69f3c61f4027a\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\boscosiva\.android\build-cache\d9af1857722105741fed0826b5737c32c4336d0f\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="297d4bcf6ed4e747a1bf7d0d094a2d911a8d3a8e">
+        <dex dex="H:\Android\Projects\YourTime\WS\YourTime\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_4f185aa15a7fc2aec458f529abbc798bca518e7e\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\boscosiva\.android\build-cache\df7a1ec2192883e298de43c53bd6d4c7d6b6276a\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c1b6ab157e8e12cb08b9ee82bb5e3c5d22632eb3">
+        <dex dex="H:\Android\Projects\YourTime\WS\YourTime\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_fe4792f2fff5727124877c2a15ad376b067b1572\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\boscosiva\.android\build-cache\9b4315c2b9de7727a90d4ca0d23b086bdce8228d\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3f0a85e6000998ac322ddd50750e8cf91601a84b">
+        <dex dex="H:\Android\Projects\YourTime\WS\YourTime\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_78edbdb6804c8957e97310d8990e9f676ea9c8f9\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\boscosiva\.android\build-cache\0783acab5953221c0317164ff8520c02d14e292a\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="ee394a892dd21c03a528139c1e8d4e0e1264ac84">
+        <dex dex="H:\Android\Projects\YourTime\WS\YourTime\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_e2c8d9059d774c5ca9da7c4b4af6a930a9d134bf\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\boscosiva\.android\build-cache\23fcd61dc88d933f438490f8593183b3f678dd6e\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="7e0f082141b7aa90aab5d3a47ab09b0edc958f6b">
+        <dex dex="H:\Android\Projects\YourTime\WS\YourTime\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_880c8d31d77b93a75026ac110818d3955c3c6fd3\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\boscosiva\.android\build-cache\ab6182a40b9813c9d3e098477e5d79b1eb8dd77e\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3b236883e0df6002cabb01ce57d00a5b1e5de610">
+        <dex dex="H:\Android\Projects\YourTime\WS\YourTime\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_206916593be3c0c67181e84268756a9ab007613c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\boscosiva\.android\build-cache\9ccac64ad0a13a6691f4f5ae40fd1cfba228c33a\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="H:\Android\Projects\YourTime\WS\YourTime\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_ebe3e27faffaa1b12f9a7d13df370499e9b5ba6f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="H:\Android\Projects\YourTime\WS\YourTime\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="caff8e51a24901cfc9cd7e1cf83d84f4cb0c103b">
+        <dex dex="H:\Android\Projects\YourTime\WS\YourTime\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_da8a65bc6a2114ca45c7130d1f907b1569cb2887\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\boscosiva\.android\build-cache\264bf368e2401c39a0aec3a21fa7303981b3c1f4\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="810f41e5b7fd99f196ebeabe865ba2c54e7e76dc">
+        <dex dex="H:\Android\Projects\YourTime\WS\YourTime\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_66bb0dd66708178bd80a00967fe64080e29f689b\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="H:\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\25.2.0\support-annotations-25.2.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="4a5a82a027706397fff621b22fd6fa796e91d7c5">
+        <dex dex="H:\Android\Projects\YourTime\WS\YourTime\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-25.2.0_ccd5ce7c16668f50171e97c686b6d777be2a8512\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\boscosiva\.android\build-cache\e22057481948b29841dfdf16a314c792d668552c\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="cb454b52545859ed2f24a6c01366805b0fa04b22">
+        <dex dex="H:\Android\Projects\YourTime\WS\YourTime\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_55d752420466ff6a7b34dda24df225a26e609bd9\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\boscosiva\.gradle\caches\modules-2\files-2.1\com.jakewharton\butterknife\7.0.1\d5d13ea991eab0252e3710e5df3d6a9d4b21d461\butterknife-7.0.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d5d13ea991eab0252e3710e5df3d6a9d4b21d461">
+        <dex dex="H:\Android\Projects\YourTime\WS\YourTime\app\build\intermediates\transforms\dex\debug\folders\1000\10\butterknife-7.0.1_f555a01ab4fc9722d43bf971ca9f45184ea30810\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\boscosiva\.android\build-cache\bc65dd97124dca5c0e8a5b10e7eda534242ddd5b\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="8fe8a8f77d651982ce5e18f6187dc4daf914ac57">
+        <dex dex="H:\Android\Projects\YourTime\WS\YourTime\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_4bc51afa69e58d6f0b547abae5bff0a961c524d2\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\boscosiva\.android\build-cache\d9207b48aaaea7a2e51ae2e8d3bd16517a38a51e\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0c6924cbba8248329a8c58ead6a380efe7eee76e">
+        <dex dex="H:\Android\Projects\YourTime\WS\YourTime\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_ea9911f3ee9274d41245283d02948fa95bcde436\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\boscosiva\.android\build-cache\f221936ee0aa28bd11f95ef99d4499f490b2489e\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="900a290779cdb4eb2e63b6f7806fd9f30ce4f60d">
+        <dex dex="H:\Android\Projects\YourTime\WS\YourTime\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_559e4d3386f6c7c6aaba27993e92ba0da4447077\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\boscosiva\.android\build-cache\31881f409766787e6f0bf8deca476d7030bb4fad\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="702d339bc0a81d21354cd7e2cf2b67225fa4a16c">
+        <dex dex="H:\Android\Projects\YourTime\WS\YourTime\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_c0c5d0a60fd5efe7f1c9f3fc8f5ffbfab66ce96c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\boscosiva\.android\build-cache\0a42d1d426cba794e76a672235a6d2bd8e1a2aac\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="fa0446a14ed5dd3725047d6399ffea771a564b30">
+        <dex dex="H:\Android\Projects\YourTime\WS\YourTime\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_0a853f05f083ad843a3ac1e9514a4c07b44d7623\classes.dex" />
+    </item>
+
+</items>
