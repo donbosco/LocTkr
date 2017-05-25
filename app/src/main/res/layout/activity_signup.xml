@@ -4,10 +4,23 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:fitsSystemWindows="true">
-
-    <TabHost
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <AnalogClock
+        android:id="@+id/analogClock1"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:background="@drawable/logo"
+        android:dial="@drawable/logo" />
+    <TabHost
+        android:id="@+id/tabHost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="ifContentScrolls">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,11 +42,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical">
-                        <ImageView android:src="@drawable/logo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="72dp"
-                            android:layout_marginBottom="24dp"
-                            android:layout_gravity="center_horizontal" />
 
                         <!--  Individual Name Label -->
                         <android.support.design.widget.TextInputLayout
@@ -133,12 +141,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical">
-
-                        <ImageView android:src="@drawable/logo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="72dp"
-                            android:layout_marginBottom="24dp"
-                            android:layout_gravity="center_horizontal" />
 
                         <!--  Company/User Label -->
                         <android.support.design.widget.TextInputLayout
@@ -252,4 +254,5 @@
                     android:textSize="16dip"/>
         </LinearLayout>
     </TabHost>
+    </LinearLayout>
 </ScrollView>

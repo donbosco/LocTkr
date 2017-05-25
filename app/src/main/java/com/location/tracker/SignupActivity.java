@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,6 +60,23 @@ public class SignupActivity extends AppCompatActivity {
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
         });
+
+
+        TabHost host = (TabHost)findViewById(R.id.tabHost);
+        host.setup();
+
+        //Tab 1
+        TabHost.TabSpec spec = host.newTabSpec("Personal");
+        spec.setContent(R.id.individual);
+        spec.setIndicator("Personal");
+        host.addTab(spec);
+
+        //Tab 2
+        spec = host.newTabSpec("Corporate");
+        spec.setContent(R.id.company);
+        spec.setIndicator("Corporate");
+        host.addTab(spec);
+
     }
 
     public void signup() {
