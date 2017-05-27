@@ -38,9 +38,9 @@ public class SignupActivity extends AppCompatActivity {
     Button _indSignupButton;
     @Bind(R.id.link_ind_signin)
     TextView _indLoginLink;
-    @Bind(R.id.link_com_signin)
+    @Bind(R.id.btn_com_signup)
     Button _comSignupButton;
-    @Bind(R.id.link_ind_signin)
+    @Bind(R.id.link_com_signin)
     TextView _comLoginLink;
 
     @Override
