@@ -12,8 +12,8 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import butterknife.ButterKnife;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
@@ -34,8 +34,14 @@ public class SignupActivity extends AppCompatActivity {
     @Bind(R.id.ind_input_password) EditText _userPassword;
     @Bind(R.id.ind_input_confirm_password) EditText _userConfirmPassword;
 
-    @Bind(R.id.btn_signup) Button _signupButton;
-    @Bind(R.id.link_signin) TextView _loginLink;
+    @Bind(R.id.btn_ind_signup)
+    Button _indSignupButton;
+    @Bind(R.id.link_ind_signin)
+    TextView _indLoginLink;
+    @Bind(R.id.link_com_signin)
+    Button _comSignupButton;
+    @Bind(R.id.link_ind_signin)
+    TextView _comLoginLink;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,14 +49,32 @@ public class SignupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
         ButterKnife.bind(this);
 
-        _signupButton.setOnClickListener(new View.OnClickListener() {
+        _indSignupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signup();
             }
         });
 
-        _loginLink.setOnClickListener(new View.OnClickListener() {
+        _indLoginLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Finish the registration screen and return to the Login activity
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+                finish();
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+            }
+        });
+
+        _comSignupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signup();
+            }
+        });
+
+        _comLoginLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Finish the registration screen and return to the Login activity
@@ -87,7 +111,8 @@ public class SignupActivity extends AppCompatActivity {
             return;
         }
 
-        _signupButton.setEnabled(false);
+        _indSignupButton.setEnabled(false);
+        _comSignupButton.setEnabled(false);
 
         final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this,
                 R.style.AppTheme_Dark_Dialog);
@@ -118,7 +143,8 @@ public class SignupActivity extends AppCompatActivity {
 
 
     public void onSignupSuccess() {
-        _signupButton.setEnabled(true);
+        _indSignupButton.setEnabled(true);
+        _comSignupButton.setEnabled(true);
         setResult(RESULT_OK, null);
         finish();
     }
@@ -126,7 +152,8 @@ public class SignupActivity extends AppCompatActivity {
     public void onSignupFailed() {
         Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
 
-        _signupButton.setEnabled(true);
+        _comSignupButton.setEnabled(true);
+        _indSignupButton.setEnabled(true);
     }
 
     public boolean validate() {
