@@ -1,13 +1,11 @@
 package com.location.tracker;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TabHost;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -43,16 +41,19 @@ public class MainActivity extends AppCompatActivity {
     public void signin(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+        finish();
     }
 
     public void bookSchedule(View view) {
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
+        finish();
     }
 
     public void signup(View view) {
         Intent intent = new Intent(this, SignupActivity.class);
         startActivity(intent);
+        finish();
     }
 
 }

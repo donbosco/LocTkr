@@ -3,12 +3,12 @@
 
     <item
         is-multidex="true"
-        jar="H:\Android\Projects\YourTime\WS\YourTime\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jar="C:\Users\boscosiva\.gradle\caches\modules-2\files-2.1\com.loopj.android\android-async-http\1.4.9\386a4339ffe52d5d63e80f9bed8d2b1d1a418249\android-async-http-1.4.9.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="dd87d03a0e1a0bb282f6e1abc5ab2d19b5e9ab1f">
-        <dex dex="H:\Android\Projects\YourTime\WS\YourTime\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_58727525ca8589504ddfe5e31fb69f3c61f4027a\classes.dex" />
+        sha1="386a4339ffe52d5d63e80f9bed8d2b1d1a418249">
+        <dex dex="H:\Android\Projects\YourTime\WS\YourTime\app\build\intermediates\transforms\dex\debug\folders\1000\10\android-async-http-1.4.9_27c4acb1f061d72f0e0bcd67284373600870ce80\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -18,6 +18,24 @@
         revision="25.0.2"
         sha1="caff8e51a24901cfc9cd7e1cf83d84f4cb0c103b">
         <dex dex="H:\Android\Projects\YourTime\WS\YourTime\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_da8a65bc6a2114ca45c7130d1f907b1569cb2887\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="H:\Android\Projects\YourTime\WS\YourTime\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="9998aab24306b049aafaf7f846cc891a9f7f1c44">
+        <dex dex="H:\Android\Projects\YourTime\WS\YourTime\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_58727525ca8589504ddfe5e31fb69f3c61f4027a\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\boscosiva\.gradle\caches\modules-2\files-2.1\cz.msebera.android\httpclient\4.3.6\526a9f794eab830eae4f23a62c572878b3f491ab\httpclient-4.3.6.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="526a9f794eab830eae4f23a62c572878b3f491ab">
+        <dex dex="H:\Android\Projects\YourTime\WS\YourTime\app\build\intermediates\transforms\dex\debug\folders\1000\10\httpclient-4.3.6_8d443af2962c8ac08dcad278ac2e30a1f3ce3994\classes.dex" />
     </item>
 
 </items>

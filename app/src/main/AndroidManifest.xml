@@ -8,6 +8,7 @@
          location permissions for the 'MyLocation' functionality. 
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -34,15 +35,20 @@
             android:label="@string/title_activity_maps">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.location.tracker.LoginActivity"
+            android:name=".LoginActivity"
             android:theme="@style/AppTheme.light" />
         <activity
-            android:name="com.location.tracker.SignupActivity"
+            android:name=".SignupActivity"
             android:theme="@style/AppTheme.light" />
+        <activity
+            android:name=".HomeActivity"
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppTheme.light.NoActionBar"></activity>
     </application>
 
 </manifest>
