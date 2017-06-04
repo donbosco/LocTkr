@@ -5,13 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.location.tracker.HomeActivity"
+    tools:context="com.your.time.activity.HomeActivity"
     tools:showIn="@layout/activity_home">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:text="@string/large_text" />
+    <GridView
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:id="@+id/scheduleGrid"
+        tools:listfooter="copyright@2017"
+        android:stretchMode="columnWidth"
+        android:numColumns="auto_fit"
+        android:gravity="center"
+        android:columnWidth="110dp"
+        android:clickable="true"
+        android:layout_margin="@dimen/text_margin" />
 
 </android.support.v4.widget.NestedScrollView>

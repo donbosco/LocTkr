@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/lbl_name"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:gravity="center"
+        android:text="@string/name"
+        android:layout_weight="0.3"
+        android:textSize="16dip" />
+
+    <TextView
+        android:id="@+id/lbl_contact"
+        android:layout_weight="0.3"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:gravity="center"
+        android:text="@string/contact"
+        android:textSize="16dip" />
+
+    <TextView
+        android:id="@+id/lbl_action"
+        android:layout_weight="0.3"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:gravity="center"
+        android:text="@string/action"
+        android:textSize="16dip" />
+
+</LinearLayout>
