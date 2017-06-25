@@ -11,15 +11,36 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.your.time.adapter.MyExpandableListAdapter;
+import com.your.time.bean.DetailInfo;
+import com.your.time.bean.HeaderInfo;
+import com.your.time.bean.User;
+import com.your.time.util.RestServiceHandler;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity implements RestCaller{
 
     private static final String TAG = "SignupActivity";
+    private ExpandableListAdapter expandableListAdapter;
+    private static String currentCaller = null;
+    List<HeaderInfo> myServiceTypes = new ArrayList<HeaderInfo>();
 
     @Bind(R.id.input_first_name)
     EditText _firstName;
@@ -41,8 +62,8 @@ public class SignUpActivity extends AppCompatActivity {
     EditText _userPassword;
     @Bind(R.id.input_confirm_password)
     EditText _userConfirmPassword;
-    @Bind(R.id.input_service_type)
-    int t;
+    @Bind(R.id.lst_company_spec)
+    ExpandableListView serviceType;
 
     @Bind(R.id.btn_signup)
     Button _signupButton;
@@ -66,6 +87,13 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
         ButterKnife.bind(this);
+
+        Map<String, User> params = new HashMap<String,User>();
+        params.put(this.getResources().getString(R.string.ws_param),null);
+        currentCaller = this.getResources().getString(R.string.ws_service_type_fetch) ;
+        new RestServiceHandler(this, params,this.getResources().getString(R.string.get)).execute();
+
+        serviceType = (ExpandableListView) findViewById(R.id.lst_company_spec);
 
 
         _signupButton.setOnClickListener(new View.OnClickListener() {
@@ -192,4 +220,70 @@ public class SignUpActivity extends AppCompatActivity {
 
         return valid;
     }
+
+    @Override
+    public void onWebServiceResult(JSONObject jsonObject) {
+        Log.i(TAG,jsonObject.toString());
+        if(currentCaller == null)return;
+        else if(currentCaller.equalsIgnoreCase(this.getResources().getString(R.string.ws_service_type_fetch))){
+            try {
+                JSONArray jsonArray = jsonObject.getJSONArray("ServiceTypes");
+                HeaderInfo headerInfo = new HeaderInfo();
+                for (int i=0; i < jsonArray.length();i++) {
+                    JSONObject object = jsonArray.getJSONObject(i);
+                    DetailInfo detailInfo = new DetailInfo();
+                    detailInfo.setName(object.getString("value"));
+                    detailInfo.setSequence(""+(i+1));
+                    headerInfo.getList().add(detailInfo);
+                }
+                headerInfo.setName("Are you service provider?");
+                myServiceTypes.add(headerInfo);
+
+                //listener for child row click
+                serviceType.setOnChildClickListener(myListItemClicked);
+                //listener for group heading click
+                serviceType.setOnGroupClickListener(myListGroupClicked);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            MyExpandableListAdapter listAdapter = new MyExpandableListAdapter(this, myServiceTypes);
+            serviceType.setAdapter(listAdapter);
+        }else if (currentCaller.equalsIgnoreCase(this.getResources().getString(R.string.ws_sign_up))){
+            Toast.makeText(this,"Created user",Toast.LENGTH_SHORT);
+        }
+    }
+
+    private ExpandableListView.OnChildClickListener myListItemClicked =  new ExpandableListView.OnChildClickListener() {
+
+        public boolean onChildClick(ExpandableListView parent, View v,
+                                    int groupPosition, int childPosition, long id) {
+
+            //get the group header
+            HeaderInfo headerInfo = myServiceTypes.get(groupPosition);
+            //get the child info
+            DetailInfo detailInfo =  headerInfo.getList().get(childPosition);
+            //display it or do something with it
+            Toast.makeText(getBaseContext(), "Clicked on Detail " + headerInfo.getName()
+                    + "/" + detailInfo.getName(), Toast.LENGTH_LONG).show();
+            return false;
+        }
+    };
+
+    //our group listener
+    private ExpandableListView.OnGroupClickListener myListGroupClicked =  new ExpandableListView.OnGroupClickListener() {
+
+        public boolean onGroupClick(ExpandableListView parent, View v,
+                                    int groupPosition, long id) {
+
+            //get the group header
+            HeaderInfo headerInfo = myServiceTypes.get(groupPosition);
+            //display it or do something with it
+            Toast.makeText(getBaseContext(), "Child on Header " + headerInfo.getName(),
+                    Toast.LENGTH_LONG).show();
+
+            return false;
+        }
+    };
+
 }

@@ -25,4 +25,13 @@
     <string name="service_type">Service Type</string>
     <string name="title_activity_home">Your Schedules</string>
     <string name="title_activity_sign_up">Sign Up</string>
+    <string name="ws_authendicate">http://192.168.42.232:8080/YourTime/users/authendicate/</string>
+    <string name="ws_service_type_fetch">http://192.168.42.232:8080/YourTime/static/fetchActiveType</string>
+    <string name="ws_home">http://192.168.42.232:8080/YourTime/users/authendicate/</string>
+    <string name="ws_sign_up">http://192.168.42.232:8080/YourTime/users/signup/</string>
+    <string name="post">POST</string>
+    <string name="get">GET</string>
+    <string name="ws_method_type">method</string>
+    <string name="ws_param">param</string>
+    <string name="ServiceListType"></string>
 </resources>
