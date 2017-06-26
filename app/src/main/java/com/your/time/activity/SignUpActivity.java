@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.your.time.adapter.MyExpandableListAdapter;
 import com.your.time.bean.DetailInfo;
 import com.your.time.bean.HeaderInfo;
+import com.your.time.bean.Rest;
 import com.your.time.bean.User;
 import com.your.time.util.RestServiceHandler;
 
@@ -41,6 +42,7 @@ public class SignUpActivity extends AppCompatActivity implements RestCaller{
     private ExpandableListAdapter expandableListAdapter;
     private static String currentCaller = null;
     List<HeaderInfo> myServiceTypes = new ArrayList<HeaderInfo>();
+    private String selectedServiceType = null;
 
     @Bind(R.id.input_first_name)
     EditText _firstName;
@@ -48,6 +50,8 @@ public class SignUpActivity extends AppCompatActivity implements RestCaller{
     EditText _lastName;
     @Bind(R.id.input_address1)
     EditText _addressLine1;
+    @Bind(R.id.input_address2)
+    EditText _addressLine2;
     @Bind(R.id.input_state)
     EditText _state;
     @Bind(R.id.input_country)
@@ -91,10 +95,8 @@ public class SignUpActivity extends AppCompatActivity implements RestCaller{
         Map<String, User> params = new HashMap<String,User>();
         params.put(this.getResources().getString(R.string.ws_param),null);
         currentCaller = this.getResources().getString(R.string.ws_service_type_fetch) ;
-        new RestServiceHandler(this, params,this.getResources().getString(R.string.get)).execute();
-
         serviceType = (ExpandableListView) findViewById(R.id.lst_company_spec);
-
+        new RestServiceHandler(this, params,this.getResources().getString(R.string.get)).execute();
 
         _signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,12 +133,37 @@ public class SignUpActivity extends AppCompatActivity implements RestCaller{
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();
 
-        /*String name = _nameText.getText().toString();
-        String address = _addressText.getText().toString();
-        String email = _emailText.getText().toString();
-        String mobile = _mobileText.getText().toString();
-        String password = _passwordText.getText().toString();
-        String reEnterPassword = _reEnterPasswordText.getText().toString();*/
+        String firstname = _firstName.getText().toString();
+        String lastname = _lastName.getText().toString();
+        String addressLine1 = _addressLine1.getText().toString();
+        String addressLine2 = _addressLine1.getText().toString();
+        String state = _state.getText().toString();
+        String country = _country.getText().toString();
+        String zipCode = _zip.getText().toString();
+        String email = _email.getText().toString();
+        String mobile = _phone.getText().toString();
+        String userPassword = _userPassword.getText().toString();
+        String userConfirmPassword = _userConfirmPassword.getText().toString();
+
+        User user = new User();
+        user.setFirstname(firstname);
+        user.setLastname(lastname);
+        user.setAddressline1(addressLine1);
+        user.setAddressline2(addressLine2);
+        user.setState(state);
+        user.setCountry(country);
+        user.setZip(zipCode);
+        user.setEmail(email);
+        user.setPhonenumber(mobile);
+        user.setPassword(userPassword);
+        user.setConfirmPassword(userConfirmPassword);
+        user.setServiceProvider(selectedServiceType==null?false:true);
+        user.setRole("User");
+
+        Map<String, User> params = new HashMap<String, User>();
+        params.put(this.getResources().getString(R.string.ws_param),user);
+        currentCaller = this.getResources().getString(R.string.ws_sign_up) ;
+        new RestServiceHandler(this,params,this.getResources().getString(R.string.post)).execute();
 
         // TODO: Implement your own signup logic here.
 
@@ -252,6 +279,7 @@ public class SignUpActivity extends AppCompatActivity implements RestCaller{
         }else if (currentCaller.equalsIgnoreCase(this.getResources().getString(R.string.ws_sign_up))){
             Toast.makeText(this,"Created user",Toast.LENGTH_SHORT);
         }
+        currentCaller = null;
     }
 
     private ExpandableListView.OnChildClickListener myListItemClicked =  new ExpandableListView.OnChildClickListener() {
