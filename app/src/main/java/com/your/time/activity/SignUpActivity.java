@@ -19,7 +19,7 @@ import android.widget.Toast;
 import com.your.time.adapter.MyExpandableListAdapter;
 import com.your.time.bean.DetailInfo;
 import com.your.time.bean.HeaderInfo;
-import com.your.time.bean.Rest;
+import com.your.time.bean.MasterData;
 import com.your.time.bean.User;
 import com.your.time.util.RestServiceHandler;
 
@@ -29,7 +29,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -92,11 +91,15 @@ public class SignUpActivity extends AppCompatActivity implements RestCaller{
 
         ButterKnife.bind(this);
 
-        Map<String, User> params = new HashMap<String,User>();
-        params.put(this.getResources().getString(R.string.ws_param),null);
+        Map<String, Object> params = new HashMap<String,Object>();
+        MasterData masterData = new MasterData();
+        masterData.setType(this.getResources().getString(R.string.static_service_type));
+        params.put(this.getResources().getString(R.string.ws_param),masterData);
+        params.put(this.getResources().getString(R.string.ws_method),this.getResources().getString(R.string.post));
         currentCaller = this.getResources().getString(R.string.ws_service_type_fetch) ;
+        params.put(this.getResources().getString(R.string.ws_url),currentCaller);
         serviceType = (ExpandableListView) findViewById(R.id.lst_company_spec);
-        new RestServiceHandler(this, params,this.getResources().getString(R.string.get)).execute();
+        new RestServiceHandler(this, params,this).execute();
 
         _signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,14 +163,17 @@ public class SignUpActivity extends AppCompatActivity implements RestCaller{
         user.setServiceProvider(selectedServiceType==null?false:true);
         user.setRole("User");
 
-        Map<String, User> params = new HashMap<String, User>();
+        Map<String, Object> params = new HashMap<String,Object>();
+        MasterData masterData = new MasterData();
+        masterData.setType(this.getResources().getString(R.string.static_service_type));
         params.put(this.getResources().getString(R.string.ws_param),user);
-        currentCaller = this.getResources().getString(R.string.ws_sign_up) ;
-        new RestServiceHandler(this,params,this.getResources().getString(R.string.post)).execute();
-
+        params.put(this.getResources().getString(R.string.ws_method),this.getResources().getString(R.string.post));
+        currentCaller = this.getResources().getString(R.string.ws_sign_up);
+        params.put(this.getResources().getString(R.string.ws_url),currentCaller);
+        new RestServiceHandler(this, params,this).execute();
         // TODO: Implement your own signup logic here.
 
-        new android.os.Handler().postDelayed(
+        /*new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
                         // On complete call either onSignupSuccess or onSignupFailed
@@ -176,7 +182,7 @@ public class SignUpActivity extends AppCompatActivity implements RestCaller{
                         // onSignupFailed();
                         progressDialog.dismiss();
                     }
-                }, 3000);
+                }, 3000);*/
     }
 
 
@@ -254,7 +260,7 @@ public class SignUpActivity extends AppCompatActivity implements RestCaller{
         if(currentCaller == null)return;
         else if(currentCaller.equalsIgnoreCase(this.getResources().getString(R.string.ws_service_type_fetch))){
             try {
-                JSONArray jsonArray = jsonObject.getJSONArray("ServiceTypes");
+                JSONArray jsonArray = jsonObject.getJSONArray("results");
                 HeaderInfo headerInfo = new HeaderInfo();
                 for (int i=0; i < jsonArray.length();i++) {
                     JSONObject object = jsonArray.getJSONObject(i);

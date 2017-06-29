@@ -25,13 +25,13 @@ public class RestServiceHandler {
 
     private Context context;
     private RestCaller restCaller;
-    private Map<String, ? extends Rest> params;
+    private Map<String, Object> params;
     private final static String TAG = "RestServiceHandler";
-    private final static String METHOD = "method";
 
-    public RestServiceHandler(Context context, Map<String, ? extends Rest> params, String method) {
+    public RestServiceHandler(Context context, Map<String,Object> params,RestCaller caller) {
         this.context = context;
         this.params = params;
+        this.restCaller = caller;
     }
 
     public void execute() {
@@ -78,10 +78,10 @@ public class RestServiceHandler {
                     text = "\"message\":\"The parameter is empty\"";
                 } else {
 
-                    URL url = new URL(context.getResources().getString(R.string.ws_sign_up));
+                    URL url = new URL((String)params.get(context.getResources().getString(R.string.ws_url)));
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setDoOutput(true);
-                    conn.setRequestMethod(METHOD);
+                    conn.setRequestMethod((String)params.get(context.getResources().getString(R.string.ws_method)));
                     conn.setRequestProperty("Content-Type", "application/json");
 
 
@@ -89,11 +89,11 @@ public class RestServiceHandler {
                     OutputStream os = conn.getOutputStream();
                     os.write(input.getBytes());
                     os.flush();
-                    if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
-                    /*throw new RuntimeException("Failed : HTTP error code : "
-                            + conn.getResponseCode());*/
+                    /*if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
+                    *//*throw new RuntimeException("Failed : HTTP error code : "
+                            + conn.getResponseCode());*//*
                         return "\"message\":\"Failed - HTTP error code. " + conn.getResponseCode() + " \"";
-                    }
+                    }*/
                     BufferedReader br = new BufferedReader(new InputStreamReader(
                             (conn.getInputStream())));
                     StringBuffer outputBuffer = new StringBuffer();
@@ -116,7 +116,7 @@ public class RestServiceHandler {
             return text;
         }
 
-        private String toJson(Rest paramBean) {
+        private String toJson(Object paramBean) {
 
             if (paramBean == null) return "";
 
@@ -132,7 +132,7 @@ public class RestServiceHandler {
 
                     Object object = field.get(paramBean);
                     if (object instanceof String) {
-                        stringBuffer.append("\"" + field.getName() + "\":\"" + field.get(paramBean) + "\"");
+                        stringBuffer.append("\"" + field.getName() + "\":\"" + field.get(paramBean) + "\",");
                     } else if (object instanceof List) {
                         List<? extends Rest> rests = (List<? extends Rest>) object;
                         if (!rests.isEmpty()) {
@@ -143,7 +143,7 @@ public class RestServiceHandler {
                         }
                     }
                 }
-                stringBuffer.append("}}");
+                stringBuffer.append("\"test\":\"test\"}");
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
