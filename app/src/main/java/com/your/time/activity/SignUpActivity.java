@@ -11,16 +11,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.your.time.adapter.MyExpandableListAdapter;
 import com.your.time.bean.DetailInfo;
 import com.your.time.bean.HeaderInfo;
 import com.your.time.bean.MasterData;
 import com.your.time.bean.User;
+import com.your.time.custom.adapter.MyExpandableListAdapter;
 import com.your.time.util.RestServiceHandler;
 
 import org.json.JSONArray;
@@ -38,10 +38,10 @@ import butterknife.ButterKnife;
 public class SignUpActivity extends AppCompatActivity implements RestCaller{
 
     private static final String TAG = "SignupActivity";
-    private ExpandableListAdapter expandableListAdapter;
     private static String currentCaller = null;
     List<HeaderInfo> myServiceTypes = new ArrayList<HeaderInfo>();
     private String selectedServiceType = null;
+    private ProgressDialog progressDialog = null;
 
     @Bind(R.id.input_first_name)
     EditText _firstName;
@@ -129,9 +129,7 @@ public class SignUpActivity extends AppCompatActivity implements RestCaller{
         }
 
         _signupButton.setEnabled(false);
-
-        final ProgressDialog progressDialog = new ProgressDialog(SignUpActivity.this,
-                R.style.AppTheme_Dark_Dialog);
+        progressDialog = new ProgressDialog(SignUpActivity.this,R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();
@@ -161,6 +159,7 @@ public class SignUpActivity extends AppCompatActivity implements RestCaller{
         user.setPassword(userPassword);
         user.setConfirmPassword(userConfirmPassword);
         user.setServiceProvider(selectedServiceType==null?false:true);
+        user.setServiceProviderTye(selectedServiceType);
         user.setRole("User");
 
         Map<String, Object> params = new HashMap<String,Object>();
@@ -282,8 +281,52 @@ public class SignUpActivity extends AppCompatActivity implements RestCaller{
             }
             MyExpandableListAdapter listAdapter = new MyExpandableListAdapter(this, myServiceTypes);
             serviceType.setAdapter(listAdapter);
+
+            // setOnChildClickListener listener for child row click
+            serviceType.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                @Override
+                public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                    TextView textView = (TextView) (((LinearLayout) v).getChildAt(0));
+                    selectedServiceType = textView.getText().toString();
+                    //display it or do something with it
+                    Toast.makeText(getBaseContext(), " Clicked on :: " +selectedServiceType, Toast.LENGTH_LONG).show();
+                    return false;
+                }
+            });
+            // setOnGroupClickListener listener for group heading click
+            serviceType.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+                @Override
+                public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                    TextView textView = (TextView) (((LinearLayout) v).getChildAt(0));
+                    //display it or do something with it
+                    Toast.makeText(getBaseContext(), " Clicked on :: " +textView.getText(), Toast.LENGTH_LONG).show();
+                    int hei=v.getLayoutParams().height;
+                    System.out.println("Height   "+hei);
+                    if (hei== LinearLayout.LayoutParams.WRAP_CONTENT) {
+                        int height = hei;
+                        if(!serviceType.isGroupExpanded(groupPosition)) {
+                            HeaderInfo headerInfo = ((HeaderInfo) parent.getExpandableListAdapter().getGroup(0));
+                            for (DetailInfo detailInfo : headerInfo.getList()) {
+                                height += 60;
+                            }
+                        }
+                        parent.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,height));
+                        parent.requestLayout();
+                    }
+                    else {
+                        parent.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT));
+                        parent.requestLayout();
+                    }
+                    return  serviceType.isGroupExpanded(groupPosition) ? serviceType.collapseGroup(groupPosition) : serviceType.expandGroup(groupPosition);
+                }
+            });
+
         }else if (currentCaller.equalsIgnoreCase(this.getResources().getString(R.string.ws_sign_up))){
+            progressDialog.dismiss();
             Toast.makeText(this,"Created user",Toast.LENGTH_SHORT);
+            Intent intent = new Intent(this, HomeActivity.class);
+            startActivity(intent);
+            finish();
         }
         currentCaller = null;
     }
@@ -319,5 +362,4 @@ public class SignUpActivity extends AppCompatActivity implements RestCaller{
             return false;
         }
     };
-
 }

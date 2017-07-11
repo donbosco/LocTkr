@@ -15,6 +15,7 @@ public class User extends Rest{
 	protected String zip;
 	protected String phonenumber;
 	protected boolean isServiceProvider;
+	protected String serviceProviderTye;
 	protected String role;
     
     public User() {}
@@ -159,4 +160,11 @@ public class User extends Rest{
 	public void setRole(String role) {
 		this.role = role;
 	}
+    public String getServiceProviderTye() {
+        return serviceProviderTye;
+    }
+
+    public void setServiceProviderTye(String serviceProviderTye) {
+        this.serviceProviderTye = serviceProviderTye;
+    }
 }
