@@ -1,165 +1,175 @@
 package com.your.time.bean;
 
-public class User extends Rest{
-	protected String _id;
-	protected String username;
-	protected String password;
-	protected String confirmPassword;
-	protected String firstname;
-	protected String lastname;
-	protected String email;
-	protected String addressline1;
-	protected String addressline2;
-	protected String country;
-	protected String state;
-	protected String zip;
-	protected String phonenumber;
-	protected boolean isServiceProvider;
-	protected String serviceProviderTye;
-	protected String role;
-    
-    public User() {}
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-	public User(String _id, String username, String password, String confirmPassword, String firstname, String lastname,
-				String email, String addressline1, String addressline2, String country, String state, String zip,
-				String phonenumber, boolean isServiceProvider, String role) {
-		super();
-		this._id = _id;
-		this.username = username;
-		this.password = password;
-		this.confirmPassword = confirmPassword;
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.email = email;
-		this.addressline1 = addressline1;
-		this.addressline2 = addressline2;
-		this.country = country;
-		this.state = state;
-		this.zip = zip;
-		this.phonenumber = phonenumber;
-		this.isServiceProvider = isServiceProvider;
-		this.role = role;
-	}
+import java.io.Serializable;
 
-	public String get_id() {
-		return _id;
-	}
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+public class User extends Rest implements Serializable {
 
-	public void set_id(String _id) {
-		this._id = _id;
-	}
+    private String _id;
+    private String username;
+    private String password;
+    private String confirmPassword;
+    private String firstname;
+    private String lastname;
+    private String email;
+    private String addressline1;
+    private String addressline2;
+    private String country;
+    private String state;
+    private String zip;
+    private String phonenumber;
+    private boolean isServiceProvider;
+    private String serviceProviderTye;
+    private String role;
 
-	public String getUsername() {
-		return username;
-	}
+    public User() {
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public User(String _id, String username, String password, String confirmPassword, String firstname, String lastname,
+                String email, String addressline1, String addressline2, String country, String state, String zip,
+                String phonenumber, boolean isServiceProvider, String role) {
+        super();
+        this._id = _id;
+        this.username = username;
+        this.password = password;
+        this.confirmPassword = confirmPassword;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.addressline1 = addressline1;
+        this.addressline2 = addressline2;
+        this.country = country;
+        this.state = state;
+        this.zip = zip;
+        this.phonenumber = phonenumber;
+        this.isServiceProvider = isServiceProvider;
+        this.role = role;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String get_id() {
+        return _id;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void set_id(String _id) {
+        this._id = _id;
+    }
 
-	public String getConfirmPassword() {
-		return confirmPassword;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public void setConfirmPassword(String confirmPassword) {
-		this.confirmPassword = confirmPassword;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public String getFirstname() {
-		return firstname;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public String getLastname() {
-		return lastname;
-	}
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
 
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getFirstname() {
+        return firstname;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
 
-	public String getAddressline1() {
-		return addressline1;
-	}
+    public String getLastname() {
+        return lastname;
+    }
 
-	public void setAddressline1(String addressline1) {
-		this.addressline1 = addressline1;
-	}
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
 
-	public String getAddressline2() {
-		return addressline2;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setAddressline2(String addressline2) {
-		this.addressline2 = addressline2;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public String getCountry() {
-		return country;
-	}
+    public String getAddressline1() {
+        return addressline1;
+    }
 
-	public void setCountry(String country) {
-		this.country = country;
-	}
+    public void setAddressline1(String addressline1) {
+        this.addressline1 = addressline1;
+    }
 
-	public String getState() {
-		return state;
-	}
+    public String getAddressline2() {
+        return addressline2;
+    }
 
-	public void setState(String state) {
-		this.state = state;
-	}
+    public void setAddressline2(String addressline2) {
+        this.addressline2 = addressline2;
+    }
 
-	public String getZip() {
-		return zip;
-	}
+    public String getCountry() {
+        return country;
+    }
 
-	public void setZip(String zip) {
-		this.zip = zip;
-	}
+    public void setCountry(String country) {
+        this.country = country;
+    }
 
-	public String getPhonenumber() {
-		return phonenumber;
-	}
+    public String getState() {
+        return state;
+    }
 
-	public void setPhonenumber(String phonenumber) {
-		this.phonenumber = phonenumber;
-	}
+    public void setState(String state) {
+        this.state = state;
+    }
 
-	public boolean isServiceProvider() {
-		return isServiceProvider;
-	}
+    public String getZip() {
+        return zip;
+    }
 
-	public void setServiceProvider(boolean serviceProvider) {
-		isServiceProvider = serviceProvider;
-	}
+    public void setZip(String zip) {
+        this.zip = zip;
+    }
 
-	public String getRole() {
-		return role;
-	}
+    public String getPhonenumber() {
+        return phonenumber;
+    }
 
-	public void setRole(String role) {
-		this.role = role;
-	}
+    public void setPhonenumber(String phonenumber) {
+        this.phonenumber = phonenumber;
+    }
+
+    public boolean isServiceProvider() {
+        return isServiceProvider;
+    }
+
+    public void setServiceProvider(boolean serviceProvider) {
+        isServiceProvider = serviceProvider;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public String getServiceProviderTye() {
         return serviceProviderTye;
     }

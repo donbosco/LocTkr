@@ -23,9 +23,11 @@ public abstract class Rest {
                 }
             }else if(viewId.equals("sno")) {
                 text.setText(""+sno);
-                text.setGravity(Gravity.CENTER);
+                text.setGravity(Gravity.LEFT);
             }else{
-                text.setText((String) ReflectionUtil.getValue(rest, viewId));
+                String string = (String) ReflectionUtil.getValue(rest, viewId);
+                string = string == null?"":string.trim();
+                text.setText(string);
                 text.setGravity(Gravity.LEFT);
             }
             text.setTextColor(Color.WHITE);

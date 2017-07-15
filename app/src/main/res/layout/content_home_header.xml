@@ -7,42 +7,38 @@
 
     <TextView
         android:id="@+id/scheduleHdrNo"
-        android:layout_width="wrap_content"
+        android:layout_width="2dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:textSize="14dp"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
         android:text="@string/sno"
-        android:paddingLeft="5dp"
         android:layout_weight="0.16" />
     <TextView
         android:id="@+id/scheduleHdrName"
-        android:layout_width="wrap_content"
+        android:layout_width="63dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:textSize="14dp"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
         android:text="@string/name"
-        android:paddingLeft="5dp"
-        android:layout_weight="0.57" />
+        android:layout_weight="0.32" />
     <TextView
         android:id="@+id/scheduleHdrMobile"
-        android:layout_width="wrap_content"
+        android:layout_width="30dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:textSize="14dp"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
         android:text="@string/mobile"
-        android:paddingLeft="5dp"
-        android:layout_weight="0.23" />
+        android:layout_weight="0.25" />
     <TextView
         android:id="@+id/scheduleHdrAction"
-        android:layout_width="wrap_content"
+        android:layout_width="15dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:textSize="14dp"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
         android:text="@string/action"
-        android:paddingLeft="5dp"/>
-
+        android:layout_weight="0.13" />
 </LinearLayout>

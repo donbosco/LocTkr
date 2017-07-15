@@ -29,6 +29,7 @@
     <string name="ws_service_type_fetch">http://169.254.9.202:8080/YourTime/static/fetchActiveType</string>
     <string name="ws_home">http://169.254.9.202:8080/YourTime/users/all</string>
     <string name="ws_sign_up">http://169.254.9.202:8080/YourTime/users/signup</string>
+    <string name="ws_isp_schedules_fetch">http://169.254.9.202:8080/YourTime/isp/fetchActiveSchedules</string>
     <string name="post">POST</string>
     <string name="get">GET</string>
     <string name="ws_method">method</string>

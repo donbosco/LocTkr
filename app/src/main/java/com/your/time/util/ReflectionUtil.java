@@ -1,5 +1,9 @@
 package com.your.time.util;
 
+import com.your.time.bean.Status;
+
+import org.json.JSONObject;
+
 public class ReflectionUtil {
 
     public static String getFieldName(String columnName){
@@ -30,6 +34,10 @@ public class ReflectionUtil {
             e.printStackTrace();
         }
         return (T)value;
+    }
+
+    public static <T> Status<T> mapJson2Bean(JSONObject jsonObject,T t){
+        return null;
     }
 
 }

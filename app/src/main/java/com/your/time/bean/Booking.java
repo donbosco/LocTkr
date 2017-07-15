@@ -3,6 +3,7 @@ package com.your.time.bean;
 public class Booking extends Rest{
 	protected String _id;
 	protected String username;
+    protected User userDetail;
 	protected String serviceProviderId;
 	protected String date;
 	protected String time;
@@ -76,4 +77,8 @@ public class Booking extends Rest{
 	public void setWaitTime(String waitTime) {
 		this.waitTime = waitTime;
 	}
+
+    public User getUserDetail() { return userDetail; }
+
+    public void setUserDetail(User userDetail) { this.userDetail = userDetail; }
 }
