@@ -30,6 +30,18 @@
     <string name="ws_home">http://169.254.9.202:8080/YourTime/users/all</string>
     <string name="ws_sign_up">http://169.254.9.202:8080/YourTime/users/signup</string>
     <string name="ws_isp_schedules_fetch">http://169.254.9.202:8080/YourTime/isp/fetchActiveSchedules</string>
+    <string name="gws_nearby_search">https://maps.googleapis.com/maps/api/place/nearbysearch/json</string>
+    <string name="gws_search">https://maps.googleapis.com/maps/api/place/search/json</string>
+    <string name="gws_nearby_textsearch">https://maps.googleapis.com/maps/api/place/textsearch/json</string>
+    <string name="gws_param_key">key</string>
+    <string name="gws_param_location">location</string>
+    <string name="gws_param_address">address</string>
+    <string name="gws_param_types">types</string>
+    <string name="gws_param_radius">radius</string>
+    <string name="gws_param_sensor">sensor</string>
+    
+    
+    
     <string name="post">POST</string>
     <string name="get">GET</string>
     <string name="ws_method">method</string>
@@ -41,4 +53,8 @@
     <string name="phonenumber">Phone Number</string>
     <string name="username">Username</string>
     <string name="p_header">HEADER</string>
+    <string name="label_btn_find">Find</string>
+    <string name="search_text">Enter text to search</string>
+    <string name="search">Search</string>
+    <string name="address">Address</string>
 </resources>

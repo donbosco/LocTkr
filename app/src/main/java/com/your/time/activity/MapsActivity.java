@@ -1,6 +1,7 @@
 package com.your.time.activity;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
@@ -14,48 +15,109 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.your.time.util.PlacesDisplayTask;
+import com.your.time.util.RestServiceHandler;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener {
+        LocationListener, RestCaller {
 
     public static final int UPDATE_INTERVAL_IN_SECONDS = 5;
     private static final int MILLISECONDS_PER_SECOND = 1000;
-    private static final long UPDATE_INTERVAL =
-            MILLISECONDS_PER_SECOND * UPDATE_INTERVAL_IN_SECONDS;
+    private static final long UPDATE_INTERVAL = MILLISECONDS_PER_SECOND * UPDATE_INTERVAL_IN_SECONDS;
     private static final int FASTEST_INTERVAL_IN_SECONDS = 1;
-    private static final float FASTEST_INTERVAL =
-            MILLISECONDS_PER_SECOND * FASTEST_INTERVAL_IN_SECONDS;
+    private static final float FASTEST_INTERVAL = MILLISECONDS_PER_SECOND * FASTEST_INTERVAL_IN_SECONDS;
+    private int PROXIMITY_RADIUS = 5000;
 
     LocationManager locationManager;
     private GoogleMap mMap;
     private double currentLatitude;
     private double currentLongitude;
+    private ProgressDialog progressDialog = null;
+    private static String currentCaller = null;
+    Map<String, Object> params = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.googleMap);
         mapFragment.getMapAsync(this);
 
-        LocationManager locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
-        getLocation();
+        //LocationManager locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
+        //getLocation();
+        Button btnFind = (Button) findViewById(R.id.map_btn_search);
+        btnFind.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText serviceType = (EditText) findViewById(R.id.map_input_service_type);
+                EditText address = (EditText) findViewById(R.id.map_input_address);
+                String type = serviceType.getText().toString();
+                StringBuilder googlePlacesUrl = new StringBuilder("");
+                if(address != null && address.getText() != null && !address.getText().toString().equals("")) {
+                    googlePlacesUrl.append(MapsActivity.this.getResources().getString(R.string.gws_param_address)+"="+MapsActivity.this.getResources().getString(R.string.gws_nearby_search));
+                }else{
+                    googlePlacesUrl.append(MapsActivity.this.getResources().getString(R.string.gws_param_location)+"="+currentLatitude + "," + currentLongitude);
+                }
+                googlePlacesUrl.append("&"+MapsActivity.this.getResources().getString(R.string.gws_param_radius)+"=" + PROXIMITY_RADIUS);
+                if(serviceType != null && serviceType.getText() != null && !serviceType.getText().toString().equals("")) {
+                    googlePlacesUrl.append("&"+MapsActivity.this.getResources().getString(R.string.gws_param_types)+"=" + type);
+                }
+                googlePlacesUrl.append("&"+MapsActivity.this.getResources().getString(R.string.gws_param_sensor)+"=true");
+                googlePlacesUrl = new StringBuilder("query="+type);
+                googlePlacesUrl.append("&"+MapsActivity.this.getResources().getString(R.string.gws_param_key)+"=" + MapsActivity.this.getResources().getString(R.string.google_maps_key));
+                /*StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/autocomplete/json?");
+                googlePlacesUrl.append("key="+GOOGLE_API_KEY);
+                googlePlacesUrl.append("&components=country:gr");
+                googlePlacesUrl.append("&input="+type);*/
+                currentCaller = MapsActivity.this.getResources().getString(R.string.gws_nearby_textsearch);
+
+                params = new LinkedHashMap<String,Object>();
+                params.put(MapsActivity.this.getResources().getString(R.string.ws_url),currentCaller +"?"+googlePlacesUrl.toString());
+                params.put(MapsActivity.this.getResources().getString(R.string.ws_method),MapsActivity.this.getResources().getString(R.string.post));
+                params.put(MapsActivity.this.getResources().getString(R.string.gws_param_radius),PROXIMITY_RADIUS);
+                if(serviceType != null && serviceType.getText() != null && !serviceType.getText().toString().equals("")) {
+                    params.put(MapsActivity.this.getResources().getString(R.string.gws_param_types),type);
+                }
+                if(address != null && address.getText() != null && !address.getText().toString().equals("")) {
+                    params.put(MapsActivity.this.getResources().getString(R.string.gws_param_address),MapsActivity.this.getResources().getString(R.string.gws_nearby_search));
+                }else{
+                    params.put(MapsActivity.this.getResources().getString(R.string.gws_param_location),currentLatitude + "," + currentLongitude);
+                }
+                params.put(MapsActivity.this.getResources().getString(R.string.gws_param_sensor),"true");
+                params.put(MapsActivity.this.getResources().getString(R.string.gws_param_key),MapsActivity.this.getResources().getString(R.string.google_maps_key));
+
+                new RestServiceHandler(MapsActivity.this, params,MapsActivity.this).execute();
+
+                /*GooglePlacesReadTask googlePlacesReadTask = new GooglePlacesReadTask();
+                Object[] toPass = new Object[2];
+                toPass[0] = mMap;
+                toPass[1] = googlePlacesUrl.toString();
+                Log.i("Google WebService URL: ",googlePlacesUrl.toString());
+                googlePlacesReadTask.execute(toPass);*/
+            }
+        });
     }
 
     public Location getLocation() {
@@ -104,7 +166,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             } catch (SecurityException e) {
 
             }
-        }
+        }else
 
         // if GPS Enabled get lat/long using GPS Services
         if (checkGPS) {
@@ -124,8 +186,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             } catch (SecurityException e) {
 
             }
-
         }
+        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(7));
+        /*mMap.setMaxZoomPreference(7);
+        mMap.setMinZoomPreference(12);*/
         return loc;
     }
 
@@ -183,6 +249,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         //Toast.makeText(this, "Map Ready.", Toast.LENGTH_SHORT);
+        getLocation();
     }
 
     @Override
@@ -226,7 +293,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng currentLocation = new LatLng(currentLatitude, currentLongitude);
 
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-        StringBuilder addressText = new StringBuilder("");
+        StringBuilder addressText = new StringBuilder("You are at ");
         try {
             List<Address> addresses = geocoder.getFromLocation(currentLatitude, currentLongitude, 1);
             if (addresses != null && addresses.size() > 0) {
@@ -257,5 +324,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onProviderDisabled(String provider) {
 
+    }
+
+    @Override
+    public void onWebServiceResult(JSONObject jsonObject) {
+        if(currentCaller == null)return;
+        else if(currentCaller.equalsIgnoreCase(this.getResources().getString(R.string.gws_nearby_search))){
+            PlacesDisplayTask placesDisplayTask = new PlacesDisplayTask(params);
+            Object[] toPass = new Object[2];
+            toPass[0] = mMap;
+            toPass[1] = jsonObject.toString();
+            placesDisplayTask.execute(toPass);
+        }
     }
 }
