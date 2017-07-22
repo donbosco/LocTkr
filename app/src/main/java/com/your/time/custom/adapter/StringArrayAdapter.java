@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import com.your.time.activity.IClickListner;
+import com.your.time.custom.listner.IClickListner;
 import com.your.time.custom.listner.OnItemClickListenerClass;
 
 public class StringArrayAdapter implements ListAdapter {

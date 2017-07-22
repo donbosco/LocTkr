@@ -16,7 +16,7 @@ public abstract class Rest {
         for (int i=0;i < itemIds.length;i++) {
             TextView text = (TextView) layoutView.findViewById(itemIds[i]);
             String viewId = layoutView.getResources().getResourceName(text.getId());
-            viewId = viewId.substring(viewId.indexOf("_")+1,viewId.length());
+            viewId = viewId.substring(viewId.lastIndexOf("_")+1,viewId.length());
             if(viewId.equals("action")){
                 if(resourceId != 0){
                     text.setGravity(Gravity.CENTER);

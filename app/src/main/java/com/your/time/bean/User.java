@@ -25,6 +25,7 @@ public class User extends Rest implements Serializable {
     private boolean isServiceProvider;
     private String serviceProviderTye;
     private String role;
+    private String serviceProviderId;
 
     public User() {
     }
@@ -176,5 +177,13 @@ public class User extends Rest implements Serializable {
 
     public void setServiceProviderTye(String serviceProviderTye) {
         this.serviceProviderTye = serviceProviderTye;
+    }
+
+    public void setServiceProviderId(String serviceProviderId) {
+        this.serviceProviderId = serviceProviderId;
+    }
+
+    public String getServiceProviderId() {
+        return serviceProviderId;
     }
 }

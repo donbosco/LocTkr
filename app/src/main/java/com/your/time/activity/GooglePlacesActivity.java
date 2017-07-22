@@ -38,7 +38,6 @@ public class GooglePlacesActivity extends FragmentActivity implements LocationLi
             finish();
         }
         setContentView(R.layout.activity_google_places);
-
         placeText = (EditText) findViewById(R.id.placeText);
         Button btnFind = (Button) findViewById(R.id.btnFind);
         SupportMapFragment fragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.googleMap);

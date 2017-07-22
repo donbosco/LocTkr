@@ -5,6 +5,8 @@ public class Booking extends Rest{
 	protected String username;
     protected User userDetail;
 	protected String serviceProviderId;
+	protected String service;
+    protected String phonenumber;
 	protected String date;
 	protected String time;
 	protected String status;
@@ -60,6 +62,7 @@ public class Booking extends Rest{
 
 	public void setTime(String time) {
 		this.time = time;
+        
 	}
 
 	public String getStatus() {
@@ -81,4 +84,20 @@ public class Booking extends Rest{
     public User getUserDetail() { return userDetail; }
 
     public void setUserDetail(User userDetail) { this.userDetail = userDetail; }
+
+    public void setService(String service) {
+        this.service = service;
+    }
+
+    public String getService() {
+        return service;
+    }
+
+    public void setPhonenumber(String phonenumber) {
+        this.phonenumber = phonenumber;
+    }
+
+    public String getPhonenumber() {
+        return phonenumber;
+    }
 }

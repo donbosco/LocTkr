@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +20,7 @@ import com.your.time.bean.HeaderInfo;
 import com.your.time.bean.MasterData;
 import com.your.time.bean.User;
 import com.your.time.custom.adapter.MyExpandableListAdapter;
+import com.your.time.util.Pages;
 import com.your.time.util.RestServiceHandler;
 
 import org.json.JSONArray;
@@ -35,13 +35,12 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SignUpActivity extends AppCompatActivity implements RestCaller{
+public class SignUpActivity extends YourTimeActivity implements RestCaller{
 
     private static final String TAG = "SignupActivity";
-    private static String currentCaller = null;
     List<HeaderInfo> myServiceTypes = new ArrayList<HeaderInfo>();
     private String selectedServiceType = null;
-    private ProgressDialog progressDialog = null;
+    private static String currentCaller = null;
 
     @Bind(R.id.input_first_name)
     EditText _firstName;
@@ -75,12 +74,15 @@ public class SignUpActivity extends AppCompatActivity implements RestCaller{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        currentActivity = Pages.SIGN_UP_ACTIVITY;
+        activity = this;
         super.onCreate(savedInstanceState);
+    }
+    public void loadUI(){
         setContentView(R.layout.activity_sign_up);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.isp_toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.isp_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -324,7 +326,7 @@ public class SignUpActivity extends AppCompatActivity implements RestCaller{
         }else if (currentCaller.equalsIgnoreCase(this.getResources().getString(R.string.ws_sign_up))){
             progressDialog.dismiss();
             Toast.makeText(this,"Created user",Toast.LENGTH_SHORT);
-            Intent intent = new Intent(this, HomeActivity.class);
+            Intent intent = new Intent(this, IspHomeActivity.class);
             startActivity(intent);
             finish();
         }

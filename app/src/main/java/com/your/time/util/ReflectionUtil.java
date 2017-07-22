@@ -1,8 +1,15 @@
 package com.your.time.util;
 
-import com.your.time.bean.Status;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
+import com.your.time.bean.Rest;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.List;
 
 public class ReflectionUtil {
 
@@ -27,7 +34,11 @@ public class ReflectionUtil {
     public static <T> T getValue(Object object, String fieldName){
         Object value = null;
         try {
-            value = object.getClass().getDeclaredField(fieldName).get(object);
+            Field field = object.getClass().getDeclaredField(fieldName);
+            boolean isAccessible = field.isAccessible();
+            field.setAccessible(true);
+            value = field.get(object);
+            field.setAccessible(isAccessible);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (NoSuchFieldException e) {
@@ -36,8 +47,23 @@ public class ReflectionUtil {
         return (T)value;
     }
 
-    public static <T> Status<T> mapJson2Bean(JSONObject jsonObject,T t){
+    public static <T> Rest mapJson2Bean(JSONObject jsonObject, Class<T> t){
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return (Rest) objectMapper.readValue(jsonObject.toString(),t);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
+    public static <T> List<T> mapJson2Bean(JSONArray jsonArray, Class<T> t){
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.readValue(jsonArray.toString(), TypeFactory.defaultInstance().constructCollectionType(List.class, t));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

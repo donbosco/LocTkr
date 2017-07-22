@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Your Time</string>
     <string name="title_activity_maps">Your Time</string>
-    <string name="action_settings">Settings</string>
+    <string name="consumer_action_settings">Settings</string>
     <string name="yourtime">YourTime</string>
     <string name="save_time">Save Time</string>
     <string name="sign_up">Sign up</string>
@@ -23,7 +23,7 @@
     <string name="phone">Phone Number</string>
     <string name="forgot_password">Already a member? Sign in</string>
     <string name="service_type">Service Type</string>
-    <string name="title_activity_home">Your Schedules</string>
+    <string name="title_activity_isp_home">Your Schedules</string>
     <string name="title_activity_sign_up">Sign Up</string>
     <string name="ws_authendicate">http://169.254.9.202:8080/YourTime/users/authendicate</string>
     <string name="ws_service_type_fetch">http://169.254.9.202:8080/YourTime/static/fetchActiveType</string>
@@ -57,4 +57,17 @@
     <string name="search_text">Enter text to search</string>
     <string name="search">Search</string>
     <string name="address">Address</string>
+    <string name="booking_date">Booking Date</string>
+    <string name="booking_time">Booking Time</string>
+    <string name="cancel">Cancel</string>
+    <string name="title_activity_book">Continue Book</string>
+    <string name="booking_reason">Reason</string>
+    <string name="ws_consumer_appointments_fetch">http://</string>
+    <string name="title_activity_consumer_home">Your appointments</string>
+    <string name="caller">caller</string>
+    <string name="consumer_action_book">Book</string>
+    <string name="consumer_action_logout">Logout</string>
+    <string name="isp_action_settings">Settings</string>
+    <string name="isp_action_logout">Logout</string>
+    <string name="service">Service</string>
 </resources>

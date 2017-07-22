@@ -2,8 +2,6 @@ package com.your.time.custom.listner;
 
 import android.view.View;
 
-import com.your.time.activity.IClickListner;
-
 public class OnItemClickListenerClass implements View.OnClickListener
     {
         private String callerIdentifier;

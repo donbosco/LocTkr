@@ -76,35 +76,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 String type = serviceType.getText().toString();
                 StringBuilder googlePlacesUrl = new StringBuilder("");
                 if(address != null && address.getText() != null && !address.getText().toString().equals("")) {
-                    googlePlacesUrl.append(MapsActivity.this.getResources().getString(R.string.gws_param_address)+"="+MapsActivity.this.getResources().getString(R.string.gws_nearby_search));
+                    googlePlacesUrl.append(MapsActivity.this.getResources().getString(R.string.gws_param_address)+"="+address.getText().toString().toLowerCase());
                 }else{
                     googlePlacesUrl.append(MapsActivity.this.getResources().getString(R.string.gws_param_location)+"="+currentLatitude + "," + currentLongitude);
                 }
                 googlePlacesUrl.append("&"+MapsActivity.this.getResources().getString(R.string.gws_param_radius)+"=" + PROXIMITY_RADIUS);
                 if(serviceType != null && serviceType.getText() != null && !serviceType.getText().toString().equals("")) {
-                    googlePlacesUrl.append("&"+MapsActivity.this.getResources().getString(R.string.gws_param_types)+"=" + type);
+                    googlePlacesUrl.append("&"+MapsActivity.this.getResources().getString(R.string.gws_param_types)+"=" + type.toLowerCase());
                 }
                 googlePlacesUrl.append("&"+MapsActivity.this.getResources().getString(R.string.gws_param_sensor)+"=true");
-                googlePlacesUrl = new StringBuilder("query="+type);
+                //googlePlacesUrl = new StringBuilder("query="+type);
                 googlePlacesUrl.append("&"+MapsActivity.this.getResources().getString(R.string.gws_param_key)+"=" + MapsActivity.this.getResources().getString(R.string.google_maps_key));
                 /*StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/autocomplete/json?");
                 googlePlacesUrl.append("key="+GOOGLE_API_KEY);
                 googlePlacesUrl.append("&components=country:gr");
                 googlePlacesUrl.append("&input="+type);*/
-                currentCaller = MapsActivity.this.getResources().getString(R.string.gws_nearby_textsearch);
+                currentCaller = MapsActivity.this.getResources().getString(R.string.gws_nearby_search);
 
                 params = new LinkedHashMap<String,Object>();
-                params.put(MapsActivity.this.getResources().getString(R.string.ws_url),currentCaller +"?"+googlePlacesUrl.toString());
                 params.put(MapsActivity.this.getResources().getString(R.string.ws_method),MapsActivity.this.getResources().getString(R.string.post));
                 params.put(MapsActivity.this.getResources().getString(R.string.gws_param_radius),PROXIMITY_RADIUS);
                 if(serviceType != null && serviceType.getText() != null && !serviceType.getText().toString().equals("")) {
                     params.put(MapsActivity.this.getResources().getString(R.string.gws_param_types),type);
                 }
                 if(address != null && address.getText() != null && !address.getText().toString().equals("")) {
-                    params.put(MapsActivity.this.getResources().getString(R.string.gws_param_address),MapsActivity.this.getResources().getString(R.string.gws_nearby_search));
+                    params.put(MapsActivity.this.getResources().getString(R.string.gws_param_address),address.getText().toString());
                 }else{
                     params.put(MapsActivity.this.getResources().getString(R.string.gws_param_location),currentLatitude + "," + currentLongitude);
                 }
+                params.put(MapsActivity.this.getResources().getString(R.string.ws_url),currentCaller +"?"+googlePlacesUrl.toString());
                 params.put(MapsActivity.this.getResources().getString(R.string.gws_param_sensor),"true");
                 params.put(MapsActivity.this.getResources().getString(R.string.gws_param_key),MapsActivity.this.getResources().getString(R.string.google_maps_key));
 
