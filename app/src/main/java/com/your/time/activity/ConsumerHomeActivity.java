@@ -17,21 +17,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
-import com.your.time.bean.Status;
-import com.your.time.bean.User;
+import com.your.time.bean.Booking;
 import com.your.time.custom.adapter.CommonArrayAdapter;
 import com.your.time.util.Pages;
+import com.your.time.util.RestServiceHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ConsumerHomeActivity extends YourTimeActivity implements RestCaller{
 
@@ -39,7 +40,7 @@ public class ConsumerHomeActivity extends YourTimeActivity implements RestCaller
 
     private static final String TAG = "ConsumerHomeActivity";
     private static String currentCaller = null;
-    private List<User> users = new ArrayList<User>();
+    private List<Booking> bookings = new ArrayList<Booking>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,27 +65,26 @@ public class ConsumerHomeActivity extends YourTimeActivity implements RestCaller
             }
         });
 
-        final List<User> users = new ArrayList<User>();
-        users.add(new User(null, "Don", null, null, null, null,null, null, null, null, null, null,"846546874", false, null));
-        users.add(new User(null, "Bosco", null, null, null, null,null, null, null, null, null, null,"846546874", false, null));
-        users.add(new User(null, "Rayappan", null, null, null, null,null, null, null, null, null, null,"846546874", false, null));
+        /*bookings.add(new Booking(null,null,null, null, "Clinic","1234567890", "25/07/2017", "11:20:21", null));
+        bookings.add(new Booking(null,null,null, null, "Saloon","1234567890", "23/07/2017", "11:20:21", null));
+        bookings.add(new Booking(null,null,null, null, "Textile","1234567890", "24/07/2017", "11:20:21", null));
 
-        Status<User> status = new Status<User>();
-        status.setResults(users);
+        Status<Booking> status = new Status<Booking>();
+        status.setResults(bookings);
 
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             String string = objectMapper.writeValueAsString(status.getResults());
             status = null;
-            List<User> l = objectMapper.readValue(string, TypeFactory.defaultInstance().constructCollectionType(List.class, User.class));
-            int[] items = {R.id.consumer_home_sno,R.id.consumer_home_username,R.id.consumer_home_phonenumber,R.id.consumer_home_action};
-            CommonArrayAdapter commonArrayAdapter = new CommonArrayAdapter(this,users,R.layout.content_consumer_home_row,items);
+            List<Booking> l = objectMapper.readValue(string, TypeFactory.defaultInstance().constructCollectionType(List.class, Booking.class));
+            int[] items = {R.id.consumer_home_sno,R.id.consumer_home_service,R.id.consumer_home_phonenumber,R.id.consumer_home_waitTime};
+            CommonArrayAdapter commonArrayAdapter = new CommonArrayAdapter(this,bookings,R.layout.content_consumer_home_row,items);
             grid.setAdapter(commonArrayAdapter);
             grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    User user = users.get(position-1);
-                    Toast.makeText(ConsumerHomeActivity.this,"Clicked on position "+user.getUsername(),Toast.LENGTH_SHORT).show();
+                    Booking booking = bookings.get(position-1);
+                    Toast.makeText(ConsumerHomeActivity.this,"Clicked on position "+booking.getUsername(),Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -93,17 +93,17 @@ public class ConsumerHomeActivity extends YourTimeActivity implements RestCaller
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
 
 
-        /*Map<String, Object> params = new HashMap<String,Object>();
-        ServiceProvider serviceProvider = new ServiceProvider();
-        serviceProvider.setUsername("9500429891");
-        params.put(this.getResources().getString(R.string.ws_param),serviceProvider);
+        Map<String, Object> params = new HashMap<String,Object>();
+        Booking booking = new Booking();
+        booking.setUsername(SESSION_MANAGER.getUserDetails().getUsername());
+        params.put(this.getResources().getString(R.string.ws_param),booking);
         params.put(this.getResources().getString(R.string.ws_method),this.getResources().getString(R.string.post));
         currentCaller = this.getResources().getString(R.string.ws_consumer_appointments_fetch) ;
         params.put(this.getResources().getString(R.string.ws_url),currentCaller);
-        new RestServiceHandler(this, params,this).execute();*/
+        new RestServiceHandler(this, params,this).execute();
     }
 
     private void loadFooter() {
@@ -130,15 +130,15 @@ public class ConsumerHomeActivity extends YourTimeActivity implements RestCaller
         else if(currentCaller.equalsIgnoreCase(this.getResources().getString(R.string.ws_consumer_appointments_fetch))){
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
-                users = objectMapper.readValue(jsonObject.getJSONArray("results").toString(),TypeFactory.defaultInstance().constructCollectionType(List.class,User.class));
-                int[] items = {R.id.consumer_home_sno,R.id.consumer_home_username,R.id.consumer_home_phonenumber,R.id.consumer_home_action};
-                CommonArrayAdapter commonArrayAdapter = new CommonArrayAdapter(this,users,R.layout.content_consumer_home_row,items);
+                bookings = objectMapper.readValue(jsonObject.getJSONArray("results").toString(),TypeFactory.defaultInstance().constructCollectionType(List.class,Booking.class));
+                int[] items = {R.id.consumer_home_sno,R.id.consumer_home_service,R.id.consumer_home_phonenumber,R.id.consumer_home_waitTime};
+                CommonArrayAdapter commonArrayAdapter = new CommonArrayAdapter(this,bookings,R.layout.content_consumer_home_row,items);
                 grid.setAdapter(commonArrayAdapter);
                 grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        User user = users.get(position-1);
-                        Toast.makeText(ConsumerHomeActivity.this,"Clicked on position "+user.getUsername(),Toast.LENGTH_SHORT).show();
+                        Booking booking = bookings.get(position-1);
+                        Toast.makeText(ConsumerHomeActivity.this,"Clicked on position "+booking.getUsername(),Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -171,24 +171,21 @@ public class ConsumerHomeActivity extends YourTimeActivity implements RestCaller
         int id = item.getItemId();
         Intent intent = null;
         switch (id){
-            case R.id.consumer_action_book:
-                intent = new Intent(this, BookActivity.class);
+            case R.id.consumer_action_home_book:
+                intent = new Intent(this, MapsActivity.class);
                 intent.putExtra(this.getResources().getString(R.string.caller), Pages.CONSUMER_HOME_ACTIVITY);
                 startActivity(intent);
                 finish();
                 break;
-            case R.id.consumer_action_settings:
-                intent = new Intent(this, BookActivity.class);
+            case R.id.consumer_action_home_settings:
+                intent = new Intent(this, IspSettingActivity.class);
                 intent.putExtra(this.getResources().getString(R.string.caller), Pages.CONSUMER_HOME_ACTIVITY);
                 startActivity(intent);
                 finish();
                 break;
-            case R.id.consumer_action_logout:
-                SESSION_MANAGER.logoutUser(this);
-                intent = new Intent(this, MainActivity.class);
-                intent.putExtra(this.getResources().getString(R.string.caller), Pages.CONSUMER_HOME_ACTIVITY);
-                startActivity(intent);
-                finish();
+            case R.id.consumer_action_home_logout:
+                callingFrom = Pages.CONSUMER_HOME_ACTIVITY;
+                super.logout(this);
                 break;
         }
 

@@ -103,7 +103,9 @@ public class SessionManager {
          
     }
      
-     
+    public String getUsername(){
+        return pref.getString(KEY_USERNAME,null);
+    }
      
     /**
      * Get stored session data

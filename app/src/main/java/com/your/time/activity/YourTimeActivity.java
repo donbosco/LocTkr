@@ -2,7 +2,11 @@ package com.your.time.activity;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
 import com.your.time.util.Pages;
@@ -38,4 +42,21 @@ public abstract class YourTimeActivity extends AppCompatActivity {
     }
 
     public abstract void loadUI();
+
+    public void logout(final Context context){
+        new AlertDialog.Builder(this)
+                .setTitle("YourTime says")
+                .setMessage("Do you want to logout?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        SESSION_MANAGER.logoutUser(context);
+                        Intent intent = new Intent(context, MainActivity.class);
+                        intent.putExtra(context.getResources().getString(R.string.caller), callingFrom);
+                        startActivity(intent);
+                        finish();
+                    }
+                }).setNegativeButton(android.R.string.no, null).show();
+    }
 }

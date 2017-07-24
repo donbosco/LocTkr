@@ -27,9 +27,12 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.your.time.util.Pages;
 import com.your.time.util.PlacesDisplayTask;
 import com.your.time.util.RestServiceHandler;
+import com.your.time.util.SessionManager;
 
 import org.json.JSONObject;
 
@@ -250,6 +253,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         //Toast.makeText(this, "Map Ready.", Toast.LENGTH_SHORT);
         getLocation();
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                continueBooking(marker);
+            }
+        });
     }
 
     @Override
@@ -335,6 +344,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             toPass[0] = mMap;
             toPass[1] = jsonObject.toString();
             placesDisplayTask.execute(toPass);
+        }
+    }
+
+    public void continueBooking(Marker marker){
+        SessionManager manager = new SessionManager(this);
+        if(manager.isLoggedIn()) {
+            Intent intent = new Intent(this, BookActivity.class);
+            intent.putExtra(this.getResources().getString(R.string.caller), Pages.MAPS_ACTIVITY);
+            startActivity(intent);
+            finish();
+        }else{
+            Intent intent = new Intent(this, SignUpActivity.class);
+            intent.putExtra(this.getResources().getString(R.string.caller), Pages.MAPS_ACTIVITY);
+            intent.putExtra(getString(R.string.param_service_provider_id),marker.getSnippet());
+            startActivity(intent);
+            finish();
         }
     }
 }

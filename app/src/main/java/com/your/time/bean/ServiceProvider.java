@@ -18,12 +18,14 @@ public class ServiceProvider extends Rest implements Serializable{
     protected String zip;
     protected String phonenumber;
     protected String serviceProviderTye;
+	protected String latitude;
+	protected String longitude;
     
     public ServiceProvider() {}
 
 	public ServiceProvider(String _id, String username, String ispId, String displayName, String officialName,
 			String email, String addressline1, String addressline2, String country, String state, String zip,
-			String phonenumber, String serviceProviderTye) {
+			String phonenumber, String serviceProviderTye,String latitude,String longitude) {
 		super();
 		this._id = _id;
 		this.username = username;
@@ -38,6 +40,8 @@ public class ServiceProvider extends Rest implements Serializable{
 		this.zip = zip;
 		this.phonenumber = phonenumber;
 		this.serviceProviderTye = serviceProviderTye;
+		this.latitude = latitude;
+		this.longitude = longitude;
 	}
 
 	public String get_id() {
@@ -142,5 +146,21 @@ public class ServiceProvider extends Rest implements Serializable{
 
 	public void setServiceProviderTye(String serviceProviderTye) {
 		this.serviceProviderTye = serviceProviderTye;
-	}	   
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getLatitude() {
+		return latitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+
+	public String getLongitude() {
+		return longitude;
+	}
 }

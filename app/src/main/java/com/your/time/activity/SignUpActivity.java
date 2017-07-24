@@ -133,7 +133,7 @@ public class SignUpActivity extends YourTimeActivity implements RestCaller{
         _signupButton.setEnabled(false);
         progressDialog = new ProgressDialog(SignUpActivity.this,R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Creating Account...");
+        progressDialog.setMessage(getString(R.string.user_acc_creating_message));
         progressDialog.show();
 
         String firstname = _firstName.getText().toString();
@@ -172,25 +172,6 @@ public class SignUpActivity extends YourTimeActivity implements RestCaller{
         currentCaller = this.getResources().getString(R.string.ws_sign_up);
         params.put(this.getResources().getString(R.string.ws_url),currentCaller);
         new RestServiceHandler(this, params,this).execute();
-        // TODO: Implement your own signup logic here.
-
-        /*new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onSignupSuccess or onSignupFailed
-                        // depending on success
-                        onSignupSuccess();
-                        // onSignupFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);*/
-    }
-
-
-    public void onSignupSuccess() {
-        _signupButton.setEnabled(true);
-        setResult(RESULT_OK, null);
-        finish();
     }
 
     public void onSignupFailed() {
@@ -270,7 +251,7 @@ public class SignUpActivity extends YourTimeActivity implements RestCaller{
                     detailInfo.setSequence(""+(i+1));
                     headerInfo.getList().add(detailInfo);
                 }
-                headerInfo.setName("Are you service provider?");
+                headerInfo.setName(getString(R.string.are_you_isp));
                 myServiceTypes.add(headerInfo);
 
                 //listener for child row click
@@ -325,10 +306,28 @@ public class SignUpActivity extends YourTimeActivity implements RestCaller{
 
         }else if (currentCaller.equalsIgnoreCase(this.getResources().getString(R.string.ws_sign_up))){
             progressDialog.dismiss();
-            Toast.makeText(this,"Created user",Toast.LENGTH_SHORT);
-            Intent intent = new Intent(this, IspHomeActivity.class);
-            startActivity(intent);
-            finish();
+            try {
+                boolean isSignedUp = jsonObject.getBoolean(getString(R.string.param_status));
+                if (isSignedUp) {
+                    if (callingFrom == Pages.MAPS_ACTIVITY) {
+                        Toast.makeText(this, R.string.user_creation_success_message, Toast.LENGTH_SHORT);
+                        String serviceProviderId = this.getIntent().getExtras().getString(this.getResources().getString(R.string.param_service_provider_id));
+                        Intent intent = new Intent(this, BookActivity.class);
+                        intent.putExtra(this.getResources().getString(R.string.caller), Pages.SIGN_UP_ACTIVITY);
+                        intent.putExtra(this.getResources().getString(R.string.param_service_provider_id), serviceProviderId);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Toast.makeText(this, R.string.user_creation_success_message, Toast.LENGTH_SHORT);
+                        Intent intent = new Intent(this, IspHomeActivity.class);
+                        intent.putExtra(this.getResources().getString(R.string.caller), Pages.SIGN_UP_ACTIVITY);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
         currentCaller = null;
     }
@@ -360,7 +359,6 @@ public class SignUpActivity extends YourTimeActivity implements RestCaller{
             //display it or do something with it
             Toast.makeText(getBaseContext(), "Child on Header " + headerInfo.getName(),
                     Toast.LENGTH_LONG).show();
-
             return false;
         }
     };

@@ -1,5 +1,7 @@
 package com.your.time.bean;
 
+import com.your.time.util.YourTimeUtil;
+
 public class Booking extends Rest{
 	protected String _id;
 	protected String username;
@@ -14,14 +16,26 @@ public class Booking extends Rest{
 
     public Booking() {}
 
-	public Booking(String _id, String username, String serviceProviderId, String date, String time, String status, String waitTime) {
+    public Booking(String _id, String username, User userDetail, String serviceProviderId, String service, String phonenumber, String date, String time, String status) {
+        this._id = _id;
+        this.username = username;
+        this.userDetail = userDetail;
+        this.serviceProviderId = serviceProviderId;
+        this.service = service;
+        this.phonenumber = phonenumber;
+        this.date = date;
+        this.time = time;
+        this.status = status;
+    }
+
+    public Booking(String _id, String username, String serviceProviderId, String date, String time, String status) {
 		this._id = _id;
 		this.username = username;
 		this.serviceProviderId = serviceProviderId;
 		this.date = date;
 		this.time = time;
 		this.status = status;
-		this.waitTime = waitTime;
+		this.waitTime = YourTimeUtil.calculateWaitTime(date+" "+time);
 	}
 
 	public String get_id() {
@@ -62,7 +76,7 @@ public class Booking extends Rest{
 
 	public void setTime(String time) {
 		this.time = time;
-        
+		waitTime = YourTimeUtil.calculateWaitTime(date+" "+time);
 	}
 
 	public String getStatus() {
@@ -74,6 +88,7 @@ public class Booking extends Rest{
 	}
 
 	public String getWaitTime() {
+		waitTime = YourTimeUtil.calculateWaitTime(date+" "+time);
 		return waitTime;
 	}
 

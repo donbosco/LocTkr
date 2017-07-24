@@ -13,14 +13,14 @@
         android:layout_weight="0.10" />
     <TextView
         android:id="@+id/consumer_home_service"
-        android:layout_width="35dp"
+        android:layout_width="28dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:textSize="14dp"
         android:layout_weight="0.32" />
     <TextView
         android:id="@+id/consumer_home_phonenumber"
-        android:layout_width="25dp"
+        android:layout_width="11dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:textSize="14dp"
@@ -31,6 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:textSize="14dp"
-        android:layout_weight="0.13" />
+        android:layout_marginLeft="3dp"
+        android:layout_weight="0.20" />
 
 </LinearLayout>

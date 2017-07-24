@@ -30,6 +30,7 @@
     <string name="ws_home">http://169.254.9.202:8080/YourTime/users/all</string>
     <string name="ws_sign_up">http://169.254.9.202:8080/YourTime/users/signup</string>
     <string name="ws_isp_schedules_fetch">http://169.254.9.202:8080/YourTime/isp/fetchActiveSchedules</string>
+    <string name="ws_consumer_booking">http://169.254.9.202:8080/YourTime/users/signup</string>
     <string name="gws_nearby_search">https://maps.googleapis.com/maps/api/place/nearbysearch/json</string>
     <string name="gws_search">https://maps.googleapis.com/maps/api/place/search/json</string>
     <string name="gws_nearby_textsearch">https://maps.googleapis.com/maps/api/place/textsearch/json</string>
@@ -70,4 +71,14 @@
     <string name="isp_action_settings">Settings</string>
     <string name="isp_action_logout">Logout</string>
     <string name="service">Service</string>
+    <string name="waitTime">Wait Time</string>
+    <string name="consumer_action_home">Home</string>
+    <string name="booking_processing_message">Please wait while we book your appointment...</string>
+    <string name="your_booking_confirmed_message">Your appointment is booked</string>
+    <string name="are_you_isp">Are you service provider?</string>
+    <string name="user_acc_creating_message">Creating Account...</string>
+    <string name="user_creation_success_message">Created user</string>
+    <string name="param_service_provider_id">serviceProviderId</string>
+    <string name="param_status">status</string>
+    <string name="param_message">message</string>
 </resources>

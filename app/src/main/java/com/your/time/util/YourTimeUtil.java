@@ -9,23 +9,32 @@ import java.util.Date;
  */
 
 public class YourTimeUtil {
-    public String calculateWaitTime(String targetDate){
-        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    public static String calculateWaitTime(String targetDate){
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         String waitTime = "";
         try {
             Date d1 = format.parse(targetDate);
             long diff = d1.getTime() - (new Date()).getTime();
-            long days = diff/(1000 * 60 * 60 * 24);
-            long hours = (diff-(1000 * 60 * 60 * 24))/(1000 * 60 * 60);
-            long diffSeconds = diff / 1000 % 60;
-            long diffMinutes = diff / (60 * 1000) % 60;
-            long diffHours = diff / (60 * 60 * 1000);
-            System.out.println("Time in seconds: " + diffSeconds + " seconds.");
-            System.out.println("Time in minutes: " + diffMinutes + " minutes.");
-            System.out.println("Time in hours: " + diffHours + " hours.");
+            diff = diff < 0?0:diff;
+            long days = Math.round(diff/1000/60/60/24);
+            long reminder = diff % (1000*60*60*24);
+            long hours = reminder/1000/60/60;
+            reminder = reminder % (1000*60*60);
+            long minutes = reminder/1000/60;
+            reminder = reminder % (1000*60);
+            long seconds = reminder/1000;
+            if (days != 0)
+                waitTime += days+"d";
+            if (hours != 0)
+                waitTime += hours+"h";
+            if (minutes != 0)
+                waitTime += minutes+"m";
+            if (seconds != 0)
+                waitTime += seconds+"s";
+            System.out.println("Waiting Time : "+waitTime);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return null;
+        return waitTime;
     }
 }

@@ -7,6 +7,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.your.time.bean.Places;
+import com.your.time.bean.ServiceProvider;
 
 import org.json.JSONObject;
 
@@ -59,8 +60,11 @@ public class PlacesDisplayTask extends AsyncTask<Object, Integer, List<HashMap<S
                     LatLng latLng = new LatLng(lat, lng);
                     markerOptions.position(latLng);
                     markerOptions.title(placeName + " : " + vicinity);
-                    markerOptions.snippet("9m");
-                    //markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker));
+                    ServiceProvider serviceProvider = (ServiceProvider) param.get(latLng.latitude+","+latLng.longitude);
+                    if(serviceProvider != null) {
+                        markerOptions.snippet(serviceProvider.getIspId());
+                        //markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker));
+                    }
                     googleMap.addMarker(markerOptions);
                 //}
             //}

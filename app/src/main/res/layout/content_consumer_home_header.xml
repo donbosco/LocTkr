@@ -33,12 +33,12 @@
         android:text="@string/mobile"
         android:layout_weight="0.25" />
     <TextView
-        android:id="@+id/appointmentHdrAction"
+        android:id="@+id/appointmentHdrWaitTime"
         android:layout_width="15dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:textSize="14dp"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
-        android:text="@string/action"
+        android:text="@string/waitTime"
         android:layout_weight="0.13" />
 </LinearLayout>

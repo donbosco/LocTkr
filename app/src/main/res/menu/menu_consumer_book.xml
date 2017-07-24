@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.your.time.activity.ConsumerHomeActivity">
+    <item
+        android:id="@+id/consumer_action_book_home"
+        android:orderInCategory="100"
+        android:title="@string/consumer_action_home"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/consumer_action_book_settings"
+        android:orderInCategory="100"
+        android:title="@string/consumer_action_settings"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/consumer_action_book_logout"
+        android:orderInCategory="100"
+        android:title="@string/consumer_action_logout"
+        app:showAsAction="never" />
+</menu>
