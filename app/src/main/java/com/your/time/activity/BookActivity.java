@@ -5,8 +5,7 @@ import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -20,7 +19,9 @@ import android.widget.Toast;
 
 import com.your.time.bean.Booking;
 import com.your.time.util.Pages;
+import com.your.time.util.ReflectionUtil;
 import com.your.time.util.RestServiceHandler;
+import com.your.time.util.YourTimeUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,12 +38,18 @@ public class BookActivity extends YourTimeActivity implements RestCaller{
 
     private static final String TAG = "BookActivity";
     private static String currentCaller = null;
-    private String serviceProviderId;
+    private boolean isIspSpecific;
+    private Booking booking;
 
+    @Bind(R.id.input_on_behalf_of)
+    EditText _onBehalfOf;
     @Bind(R.id.input_booking_date)
     EditText _bookingDate;
     @Bind(R.id.input_booking_time)
     EditText _bookingTime;
+    @Bind(R.id.input_booking_reason)
+    EditText _bookingReason;
+
 
     @Bind(R.id.btn_book)
     Button _bookButton;
@@ -53,25 +60,30 @@ public class BookActivity extends YourTimeActivity implements RestCaller{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        currentActivity = Pages.BOOK_ACTIVITY;
         activity = this;
         super.onCreate(savedInstanceState);
-        if(callingFrom == Pages.SIGN_UP_ACTIVITY) {
-            serviceProviderId = this.getIntent().getExtras().getString(getString(R.string.param_service_provider_id));
-        }
     }
     public void loadUI(){
         setContentView(R.layout.activity_book);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.isp_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.book_toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.isp_fab);
+        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.book_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
+
+        booking = new Booking();
+        if(callingFrom == Pages.SIGN_UP_ACTIVITY || callingFrom == Pages.MAPS_ACTIVITY) {
+            booking.setServiceProviderId(this.getIntent().getExtras().getString(getString(R.string.param_service_provider_id)));
+        }else if(Pages.isIspSpecific(callingFrom,true)){
+            booking.setServiceProviderId(getSessionManager().getUserDetails().getServiceProviderId());
+            ((TextInputLayout)findViewById(R.id.onBehalfOf)).setVisibility(View.VISIBLE);
+            isIspSpecific = true;
+        }
 
         ButterKnife.bind(this);
 
@@ -110,6 +122,19 @@ public class BookActivity extends YourTimeActivity implements RestCaller{
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
         });
+
+        currentCaller = getString(R.string.WS_VIEW_APPOINTMENT_DETAILS);
+
+        String bookingId = (String) this.getIntent().getExtras().get(this.getResources().getString(R.string.param_booking_id));
+        if(bookingId != null) {
+            Booking booking = new Booking();
+            booking.set_id(bookingId);
+            Map<String, Object> params = new HashMap<String, Object>();
+            params.put(this.getResources().getString(R.string.ws_param), booking);
+            params.put(this.getResources().getString(R.string.ws_method), this.getResources().getString(R.string.post));
+            params.put(this.getResources().getString(R.string.ws_url), currentCaller);
+            new RestServiceHandler(this, params, this).execute();
+        }
     }
 
     public void book() {
@@ -121,23 +146,46 @@ public class BookActivity extends YourTimeActivity implements RestCaller{
         _bookButton.setEnabled(false);
         progressDialog = new ProgressDialog(BookActivity.this,R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage(getString(R.string.booking_processing_message));
+        switch (currentActivity){
+            case CONSUMER_APPOINTMENT_ADD_ACTIVITY:
+                progressDialog.setMessage(getString(R.string.booking_processing_message));
+                currentCaller = this.getResources().getString(R.string.WS_BOOK_APPOINTMENT);
+                break;
+            case CONSUMER_APPOINTMENT_UPDATE_ACTIVITY:
+                progressDialog.setMessage(getString(R.string.booking_update_processing_message));
+                currentCaller = this.getResources().getString(R.string.WS_APPOINTMENT_RESCHEDULE_BY_CONSUMER);
+                break;
+            case ISP_SCHEDULE_ADD_ACTIVITY:
+                progressDialog.setMessage(getString(R.string.schedule_processing_message));
+                currentCaller = this.getResources().getString(R.string.WS_CREATE_SCHEDULE_BY_ISP);
+                break;
+            case ISP_SCHEDULE_UPDATE_ACTIVITY:
+                progressDialog.setMessage(getString(R.string.schedule_update_processing_message));
+                currentCaller = this.getResources().getString(R.string.WS_SCHEDULE_RESCHEDULE_BY_ISP);
+                break;
+        }
+
         progressDialog.show();
 
         String bookingDate = _bookingDate.getText().toString();
         String bookingTime = _bookingTime.getText().toString();
+        String bookingReason = _bookingReason.getText().toString();
 
-        Booking booking = new Booking();
-        booking.setServiceProviderId(serviceProviderId);
         booking.setDate(bookingDate);
         booking.setTime(bookingTime);
-        booking.setUsername(SESSION_MANAGER.getUsername());
-        booking.setUserDetail(SESSION_MANAGER.getUserDetails());
+        booking.setReason(bookingReason);
+        if(isIspSpecific){
+            booking.setUsername(((EditText)findViewById(R.id.input_on_behalf_of)).getText().toString());
+            currentCaller = this.getResources().getString(R.string.WS_CREATE_SCHEDULE_BY_ISP);
+        }else {
+            booking.setUsername(getSessionManager().getUsername());
+            booking.setUserDetail(getSessionManager().getUserDetails());
+            currentCaller = this.getResources().getString(R.string.WS_BOOK_APPOINTMENT);
+        }
 
         Map<String, Object> params = new HashMap<String,Object>();
         params.put(this.getResources().getString(R.string.ws_param),booking);
         params.put(this.getResources().getString(R.string.ws_method),this.getResources().getString(R.string.post));
-        currentCaller = this.getResources().getString(R.string.ws_consumer_booking);
         params.put(this.getResources().getString(R.string.ws_url),currentCaller);
         new RestServiceHandler(this, params,this).execute();
 
@@ -157,7 +205,7 @@ public class BookActivity extends YourTimeActivity implements RestCaller{
     public void onWebServiceResult(JSONObject jsonObject) {
         Log.i(TAG,jsonObject.toString());
         if(currentCaller == null)return;
-        else if (currentCaller.equalsIgnoreCase(this.getResources().getString(R.string.ws_consumer_booking))){
+        else if (currentCaller.equalsIgnoreCase(this.getResources().getString(R.string.WS_BOOK_APPOINTMENT)) || currentCaller.equalsIgnoreCase(this.getResources().getString(R.string.WS_APPOINTMENT_RESCHEDULE_BY_CONSUMER))){
             try {
                 progressDialog.dismiss();
                 boolean isBooked = jsonObject.getBoolean(getString(R.string.param_status));
@@ -172,6 +220,34 @@ public class BookActivity extends YourTimeActivity implements RestCaller{
                     Toast.makeText(this, jsonObject.getString(getString(R.string.param_message)), Toast.LENGTH_SHORT).show();
                     _bookButton.setEnabled(true);
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }else if(currentCaller.equalsIgnoreCase(this.getResources().getString(R.string.WS_CREATE_SCHEDULE_BY_ISP)) || currentCaller.equalsIgnoreCase(this.getResources().getString(R.string.WS_SCHEDULE_RESCHEDULE_BY_ISP))){
+            try {
+                progressDialog.dismiss();
+                boolean isBooked = jsonObject.getBoolean(getString(R.string.param_status));
+                if(isBooked) {
+
+                    Toast.makeText(this, R.string.your_schedule_confirmed_message, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(this, IspHomeActivity.class);
+                    intent.putExtra(this.getResources().getString(R.string.caller), Pages.BOOK_ACTIVITY);
+                    intent.putExtra(this.getResources().getString(R.string.actAs),callingFrom);
+                    startActivity(intent);
+                    finish();
+                }else{
+                    Toast.makeText(this, jsonObject.getString(getString(R.string.param_message)), Toast.LENGTH_SHORT).show();
+                    _bookButton.setEnabled(true);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }else if(currentCaller.equalsIgnoreCase(this.getResources().getString(R.string.WS_VIEW_APPOINTMENT_DETAILS))){
+            try {
+                progressDialog.dismiss();
+                if(jsonObject.getBoolean(getString(R.string.param_status)))
+                    booking = (Booking) ReflectionUtil.mapJson2Bean(jsonObject.getJSONObject(getString(R.string.param_result)),Booking.class);
+                updateView();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -204,37 +280,87 @@ public class BookActivity extends YourTimeActivity implements RestCaller{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_consumer_book, menu);
+        int menuItemId = 0;
+        switch (currentActivity){
+            case ISP_SCHEDULE_ADD_ACTIVITY:
+                menuItemId = R.id.isp_action_add_schedule;
+                break;
+            case ISP_SCHEDULE_UPDATE_ACTIVITY:
+                menuItemId = R.id.isp_action_add_schedule;
+                break;
+            case CONSUMER_APPOINTMENT_ADD_ACTIVITY:
+                menuItemId = R.id.isp_action_add_schedule;
+                break;
+            case CONSUMER_APPOINTMENT_UPDATE_ACTIVITY:
+                menuItemId = R.id.consumer_action_book;
+                break;
+            default:
+                Log.w(TAG,"Consider to add "+currentActivity.name());
+        }
+        YourTimeUtil.controlMenuShowHide(this,menu,menuItemId,currentActivity);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        Intent intent = null;
-        switch (id){
-            case R.id.consumer_action_book_home:
-                intent = new Intent(this, ConsumerHomeActivity.class);
-                intent.putExtra(this.getResources().getString(R.string.caller), Pages.BOOK_ACTIVITY);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.consumer_action_book_settings:
-                intent = new Intent(this, IspSettingActivity.class);
-                intent.putExtra(this.getResources().getString(R.string.caller), Pages.BOOK_ACTIVITY);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.consumer_action_book_logout:
-                callingFrom = Pages.BOOK_ACTIVITY;
-                super.logout(this);
-                break;
-        }
-
+        YourTimeUtil.triggerMenuItemSelection(this,item.getItemId(),currentActivity,getSessionManager());
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean updateView() {
+        _bookingDate.setText(booking.getDate());
+        _bookingTime.setText(booking.getTime());
+        _bookingReason.setText(booking.getReason());
+
+        if(booking != null) {
+            switch (currentActivity) {
+                case ISP_SCHEDULE_ADD_ACTIVITY:
+                    findViewById(R.id.onBehalfOf).setVisibility(View.VISIBLE);
+                    _onBehalfOf.setVisibility(View.VISIBLE);
+                    _onBehalfOf.setText(booking.getUsername());
+                    break;
+                case ISP_SCHEDULE_UPDATE_ACTIVITY:
+                    findViewById(R.id.onBehalfOf).setVisibility(View.VISIBLE);
+                    _onBehalfOf.setVisibility(View.VISIBLE);
+                    _onBehalfOf.setText(booking.getUsername());
+                    break;
+                case CONSUMER_APPOINTMENT_ADD_ACTIVITY:
+                case CONSUMER_APPOINTMENT_UPDATE_ACTIVITY:
+                    findViewById(R.id.onBehalfOf).setVisibility(View.INVISIBLE);
+                    _onBehalfOf.setVisibility(View.VISIBLE);
+                    break;
+                default:
+                    Log.w(TAG, "Consider to add " + currentActivity.name());
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean updateModel() {
+
+        if(this.booking == null)
+            this.booking = new Booking();
+
+        this.booking.setDate(_bookingDate.getText().toString());
+        this.booking.setTime(_bookingTime.getText().toString());
+        this.booking.setReason(_bookingReason.getText().toString());
+
+        if(booking != null) {
+            switch (currentActivity) {
+                case ISP_SCHEDULE_ADD_ACTIVITY:
+                case ISP_SCHEDULE_UPDATE_ACTIVITY:
+                    this.booking.setUsername(_onBehalfOf.getText().toString());
+                    break;
+                case CONSUMER_APPOINTMENT_ADD_ACTIVITY:
+                case CONSUMER_APPOINTMENT_UPDATE_ACTIVITY:
+                    this.booking.setUsername(getSessionManager().getUsername());
+                    break;
+                default:
+                    Log.w(TAG, "Consider to add " + currentActivity.name());
+            }
+        }
+        return true;
     }
 }

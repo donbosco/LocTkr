@@ -16,19 +16,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.your.time.bean.Booking;
 import com.your.time.custom.adapter.CommonArrayAdapter;
 import com.your.time.util.Pages;
+import com.your.time.util.ReflectionUtil;
 import com.your.time.util.RestServiceHandler;
+import com.your.time.util.YourTimeUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +38,7 @@ public class ConsumerHomeActivity extends YourTimeActivity implements RestCaller
     private static final String TAG = "ConsumerHomeActivity";
     private static String currentCaller = null;
     private List<Booking> bookings = new ArrayList<Booking>();
+    private Booking booking;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +51,10 @@ public class ConsumerHomeActivity extends YourTimeActivity implements RestCaller
         setContentView(R.layout.activity_consumer_home);
         grid =(ListView) findViewById(R.id.consumer_appointment_grid);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.consumer_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_consumer_home);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.consumer_fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.consumer_home_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,14 +92,20 @@ public class ConsumerHomeActivity extends YourTimeActivity implements RestCaller
         } catch (IOException e) {
             e.printStackTrace();
         }*/
+        loadAppointments();
+    }
 
-
+    private void loadAppointments() {
         Map<String, Object> params = new HashMap<String,Object>();
         Booking booking = new Booking();
-        booking.setUsername(SESSION_MANAGER.getUserDetails().getUsername());
+        booking.setUsername(getSessionManager().getUserDetails().getUsername());
         params.put(this.getResources().getString(R.string.ws_param),booking);
         params.put(this.getResources().getString(R.string.ws_method),this.getResources().getString(R.string.post));
-        currentCaller = this.getResources().getString(R.string.ws_consumer_appointments_fetch) ;
+        if(currentActivity.equals(Pages.CONSUMER_ACTIVE_APPOINTMENT_ACTIVITY))
+            currentCaller = this.getResources().getString(R.string.WS_ALL_ACTIVE_APPOINTMENTS_BY_CONSUMER);
+        else
+            currentCaller = this.getResources().getString(R.string.WS_ALL_APPOINTMENTS_BY_CONSUMER);
+
         params.put(this.getResources().getString(R.string.ws_url),currentCaller);
         new RestServiceHandler(this, params,this).execute();
     }
@@ -127,29 +131,40 @@ public class ConsumerHomeActivity extends YourTimeActivity implements RestCaller
     public void onWebServiceResult(JSONObject jsonObject) {
         Log.i(TAG,jsonObject.toString());
         if(currentCaller == null)return;
-        else if(currentCaller.equalsIgnoreCase(this.getResources().getString(R.string.ws_consumer_appointments_fetch))){
+        else if(currentCaller.equalsIgnoreCase(this.getResources().getString(R.string.WS_ALL_ACTIVE_APPOINTMENTS_BY_CONSUMER))){
             try {
-                ObjectMapper objectMapper = new ObjectMapper();
-                bookings = objectMapper.readValue(jsonObject.getJSONArray("results").toString(),TypeFactory.defaultInstance().constructCollectionType(List.class,Booking.class));
-                int[] items = {R.id.consumer_home_sno,R.id.consumer_home_service,R.id.consumer_home_phonenumber,R.id.consumer_home_waitTime};
-                CommonArrayAdapter commonArrayAdapter = new CommonArrayAdapter(this,bookings,R.layout.content_consumer_home_row,items);
+                bookings = ReflectionUtil.mapJson2Bean(jsonObject.getJSONArray(getString(R.string.param_results)),Booking.class);
+                int[] items = null;
+                int rowLayoutId = 0;
+
+                    items[0] = R.id.consumer_appointment_sno;
+                    items[1] = R.id.consumer_appointment_service;
+                    items[2] = R.id.consumer_appointment_phonenumber;
+                    items[3] = R.id.consumer_appointment_waitTime;
+                    rowLayoutId = R.layout.content_consumer_appointment_row;
+
+                CommonArrayAdapter commonArrayAdapter = new CommonArrayAdapter(this,bookings,rowLayoutId,items);
                 grid.setAdapter(commonArrayAdapter);
                 grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Booking booking = bookings.get(position-1);
+                        booking = bookings.get(position-1);
+                        YourTimeUtil.dialog(ConsumerHomeActivity.this,getString(R.string.your_time_says),getString(R.string.question_on_click_grid_reschedule_cancel),android.R.drawable.ic_input_get);
                         Toast.makeText(ConsumerHomeActivity.this,"Clicked on position "+booking.getUsername(),Toast.LENGTH_SHORT).show();
                     }
                 });
 
                 loadHeader();
                 //loadFooter();
-            } catch (JsonParseException e) {
+            } catch (JSONException e) {
                 e.printStackTrace();
-            } catch (JsonMappingException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+            }
+        }else if(currentCaller.equals(this.getResources().getString(R.string.WS_APPOINTMENT_CANCEL_BY_CONSUMER))){
+            try {
+                if(jsonObject.getBoolean(getString(R.string.param_status))){
+                    YourTimeUtil.dialog(this,getString(R.string.your_time_says),getString(R.string.appointment_cancel_success),android.R.drawable.ic_dialog_info);
+                    loadAppointments();
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -158,37 +173,44 @@ public class ConsumerHomeActivity extends YourTimeActivity implements RestCaller
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_consumer_home, menu);
+        YourTimeUtil.controlMenuShowHide(this,menu,R.id.consumer_action_home,currentActivity);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        Intent intent = null;
-        switch (id){
-            case R.id.consumer_action_home_book:
-                intent = new Intent(this, MapsActivity.class);
-                intent.putExtra(this.getResources().getString(R.string.caller), Pages.CONSUMER_HOME_ACTIVITY);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.consumer_action_home_settings:
-                intent = new Intent(this, IspSettingActivity.class);
-                intent.putExtra(this.getResources().getString(R.string.caller), Pages.CONSUMER_HOME_ACTIVITY);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.consumer_action_home_logout:
-                callingFrom = Pages.CONSUMER_HOME_ACTIVITY;
-                super.logout(this);
-                break;
-        }
-
+        YourTimeUtil.triggerMenuItemSelection(this,item.getItemId(),currentActivity,getSessionManager());
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public boolean updateView() {
+        return false;
+    }
+
+    @Override
+    public boolean updateModel() {
+        return false;
+    }
+
+    public  void reschedule(View view){
+        Toast.makeText(ConsumerHomeActivity.this,"Reschedule will be invoked.",Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(ConsumerHomeActivity.this, BookActivity.class);
+        intent.putExtra(ConsumerHomeActivity.this.getResources().getString(R.string.caller), currentActivity);
+        intent.putExtra(ConsumerHomeActivity.this.getResources().getString(R.string.actAs), Pages.CONSUMER_APPOINTMENT_UPDATE_ACTIVITY);
+        startActivity(intent);
+        finish();
+    }
+
+    public  void cancelSchedule(View view){
+        Map<String, Object> params = new HashMap<String,Object>();
+        /*Booking booking = new Booking();
+        booking.setUsername(getSessionManager().getUserDetails().getUsername());*/
+        params.put(this.getResources().getString(R.string.ws_param),this.booking);
+        params.put(this.getResources().getString(R.string.ws_method),this.getResources().getString(R.string.post));
+        currentCaller = this.getResources().getString(R.string.WS_APPOINTMENT_CANCEL_BY_CONSUMER) ;
+        params.put(this.getResources().getString(R.string.ws_url),currentCaller);
+        new RestServiceHandler(this, params,this).execute();
+    }
+
 }

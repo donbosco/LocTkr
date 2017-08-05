@@ -28,6 +28,7 @@ public class LoginActivity extends YourTimeActivity implements RestCaller {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
     private static String currentCaller = null;
+    private static User user;
 
     @Bind(R.id.input_user)EditText _usernameText;
     @Bind(R.id.input_password) EditText _passwordText;
@@ -71,7 +72,7 @@ public class LoginActivity extends YourTimeActivity implements RestCaller {
         _loginButton.setEnabled(false);
         progressDialog = new ProgressDialog(LoginActivity.this,R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Authenticating...");
+        progressDialog.setMessage(getString(R.string.authendication_progress_msg));
         progressDialog.show();
 
         String username = _usernameText.getText().toString();
@@ -82,7 +83,7 @@ public class LoginActivity extends YourTimeActivity implements RestCaller {
         user.setPassword(password);
         params.put(this.getResources().getString(R.string.ws_param),user);
         params.put(this.getResources().getString(R.string.ws_method),this.getResources().getString(R.string.post));
-        currentCaller = this.getResources().getString(R.string.ws_authendicate) ;
+        currentCaller = this.getResources().getString(R.string.WS_AUTHENDICATE) ;
         params.put(this.getResources().getString(R.string.ws_url),currentCaller);
         new RestServiceHandler(this, params,this).execute();
     }
@@ -104,7 +105,7 @@ public class LoginActivity extends YourTimeActivity implements RestCaller {
             finish();
         }else{
             onLoginFailed();
-            Toast.makeText(this,"Unable to get the details, Please try login again.",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.failed_fetching_details,Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -122,14 +123,14 @@ public class LoginActivity extends YourTimeActivity implements RestCaller {
         String password = _passwordText.getText().toString();
 
         if (username.isEmpty() || username.length() == 0) {
-            _usernameText.setError("Enter a valid username");
+            _usernameText.setError(getString(R.string.enter_valid_username));
             valid = false;
         } else {
             _usernameText.setError(null);
         }
 
         if (password.isEmpty() || password.length() < 3 || password.length() > 10) {
-            _passwordText.setError("Password must be between 3 and 10 alphanumeric characters");
+            _passwordText.setError(getString(R.string.password_constraints));
             valid = false;
         } else {
             _passwordText.setError(null);
@@ -141,11 +142,11 @@ public class LoginActivity extends YourTimeActivity implements RestCaller {
     public void onWebServiceResult(JSONObject jsonObject) {
         Log.i(TAG,jsonObject.toString());
         if(currentCaller == null)return;
-        else if(currentCaller.equalsIgnoreCase(this.getResources().getString(R.string.ws_authendicate))) {
+        else if(currentCaller.equalsIgnoreCase(this.getResources().getString(R.string.WS_AUTHENDICATE))) {
             try {
-                boolean status = jsonObject.getBoolean("status");
-                String message = jsonObject.getString("message");
-                JSONObject userJson = jsonObject.getJSONObject("result");
+                boolean status = jsonObject.getBoolean(getString(R.string.param_status));
+                String message = jsonObject.getString(getString(R.string.param_message));
+                JSONObject userJson = jsonObject.getJSONObject(getString(R.string.param_result));
                 User user = (User) ReflectionUtil.mapJson2Bean(userJson,User.class);
                 if (status) {
                     onLoginSuccess(user);
@@ -161,62 +162,21 @@ public class LoginActivity extends YourTimeActivity implements RestCaller {
         }
     }
 
-    /*private class LongRunningGetIO extends AsyncTask<Void, Void, String> {
-
-        String username;
-        String password;
-
-        public LongRunningGetIO(String username, String password) {
-            this.username = username;
-            this.password = password;
+    @Override
+    public boolean updateView() {
+        if(user != null) {
+            _usernameText.setText(user.getUsername());
+            _passwordText.setText(user.getPassword());
         }
+        return true;
+    }
 
-        protected String getASCIIContentFromEntity(HttpEntity entity) throws IllegalStateException, IOException {
-            InputStream in = entity.getContent();
-            StringBuffer out = new StringBuffer();
-            int n = 1;
-            while (n > 0) {
-                byte[] b = new byte[4096];
-                n = in.read(b);
-                if (n > 0) out.append(new String(b, 0, n));
-            }
-            return out.toString();
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            HttpClient httpClient = new DefaultHttpClient();
-            HttpContext localContext = new BasicHttpContext();
-            HttpGet httpGet = new HttpGet("http://192.168.42.232:8080/YourTime/users/authendicate/" + username + "/" + password);
-            String text = null;
-            try {
-                HttpResponse response = httpClient.execute(httpGet, localContext);
-                HttpEntity entity = response.getEntity();
-                text = getASCIIContentFromEntity(entity);
-            } catch (Exception e) {
-                Log.e("LoginActivity", e.getLocalizedMessage(), e);
-                return e.getLocalizedMessage();
-            }
-            return text;
-        }
-
-
-        protected void onPostExecute(String results) {
-            try {
-                JSONObject jObject = new JSONObject(results);
-                boolean status = jObject.getBoolean("status");
-                String message = jObject.getString("message");
-                if (status) {
-                    onLoginSuccess();
-                } else {
-                    onLoginFailed();
-                }
-                Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } finally {
-                progressDialog.dismiss();
-            }
-        }
-    }*/
+    @Override
+    public boolean updateModel() {
+        if(user == null)
+            user = new User();
+        user.setUsername(_usernameText.getText().toString());
+        user.setPassword(_passwordText.getText().toString());
+        return true;
+    }
 }

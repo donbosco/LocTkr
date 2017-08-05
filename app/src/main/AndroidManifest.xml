@@ -45,6 +45,10 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_maps">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".LoginActivity"
@@ -58,10 +62,6 @@
             android:name=".ConsumerHomeActivity"
             android:label="@string/title_activity_consumer_home"
             android:theme="@style/AppTheme.light.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".SignUpActivity"

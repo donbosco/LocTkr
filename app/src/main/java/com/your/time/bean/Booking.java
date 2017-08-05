@@ -11,8 +11,10 @@ public class Booking extends Rest{
     protected String phonenumber;
 	protected String date;
 	protected String time;
+	protected String reason;
 	protected String status;
 	protected String waitTime;
+	protected String createdBy;
 
     public Booking() {}
 
@@ -115,4 +117,20 @@ public class Booking extends Rest{
     public String getPhonenumber() {
         return phonenumber;
     }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
+	public String getReason() {
+		return reason;
+	}
 }

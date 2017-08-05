@@ -16,20 +16,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.TypeFactory;
-import com.your.time.bean.ServiceProvider;
+import com.your.time.bean.Booking;
 import com.your.time.bean.User;
 import com.your.time.custom.adapter.CommonArrayAdapter;
 import com.your.time.util.Pages;
+import com.your.time.util.ReflectionUtil;
 import com.your.time.util.RestServiceHandler;
+import com.your.time.util.YourTimeUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +38,8 @@ public class IspHomeActivity extends YourTimeActivity implements RestCaller{
 
     private static final String TAG = "IspHomeActivity";
     private static String currentCaller = null;
-    private List<User> users = new ArrayList<User>();
+    private List<User> users = new ArrayList<User>();private Booking booking;
+    private List<Booking> bookings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +49,12 @@ public class IspHomeActivity extends YourTimeActivity implements RestCaller{
     }
     public void loadUI(){
         setContentView(R.layout.activity_isp_home);
-        grid =(ListView) findViewById(R.id.isp_schedule_grid);
+        grid =(ListView) findViewById(R.id.isp_home_grid);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.isp_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.isp_home_toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.isp_fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.isp_home_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,13 +86,16 @@ public class IspHomeActivity extends YourTimeActivity implements RestCaller{
             e.printStackTrace();
         }*/
 
+        loadSchedules();
+    }
 
+    private void loadSchedules() {
         Map<String, Object> params = new HashMap<String,Object>();
-        ServiceProvider serviceProvider = new ServiceProvider();
-        serviceProvider.setUsername("9500429891");
-        params.put(this.getResources().getString(R.string.ws_param),serviceProvider);
+        Booking booking = new Booking();
+        booking.setUsername(getSessionManager().getUserDetails().getUsername());
+        params.put(this.getResources().getString(R.string.ws_param),booking);
         params.put(this.getResources().getString(R.string.ws_method),this.getResources().getString(R.string.post));
-        currentCaller = this.getResources().getString(R.string.ws_isp_schedules_fetch) ;
+        currentCaller = this.getResources().getString(R.string.WS_ALL_SCHEDULES_DONE_BY_ISP);
         params.put(this.getResources().getString(R.string.ws_url),currentCaller);
         new RestServiceHandler(this, params,this).execute();
     }
@@ -120,11 +121,9 @@ public class IspHomeActivity extends YourTimeActivity implements RestCaller{
     public void onWebServiceResult(JSONObject jsonObject) {
         Log.i(TAG,jsonObject.toString());
         if(currentCaller == null)return;
-        else if(currentCaller.equalsIgnoreCase(this.getResources().getString(R.string.ws_isp_schedules_fetch))){
+        else if(currentCaller.equalsIgnoreCase(this.getResources().getString(R.string.WS_ALL_SCHEDULES_DONE_BY_ISP))){
             try {
-                ObjectMapper objectMapper = new ObjectMapper();
-                users = objectMapper.readValue(jsonObject.getJSONArray("results").toString(),TypeFactory.defaultInstance().constructCollectionType(List.class,User.class));
-
+                users = ReflectionUtil.mapJson2Bean(jsonObject.getJSONArray(getString(R.string.param_results)),User.class);
                 int[] items = {R.id.isp_home_sno,R.id.isp_home_username,R.id.isp_home_phonenumber,R.id.isp_home_action};
 
                 CommonArrayAdapter commonArrayAdapter = new CommonArrayAdapter(this,users,R.layout.content_isp_home_row,items);
@@ -132,19 +131,14 @@ public class IspHomeActivity extends YourTimeActivity implements RestCaller{
                 grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        User user = users.get(position-1);
-                        Toast.makeText(IspHomeActivity.this,"Clicked on position "+user.getUsername(),Toast.LENGTH_SHORT).show();
+                        booking = bookings.get(position-1);
+                        YourTimeUtil.dialog(IspHomeActivity.this,getString(R.string.your_time_says),getString(R.string.question_on_click_grid_reschedule_cancel),android.R.drawable.ic_input_get);
+                        Toast.makeText(IspHomeActivity.this,"Clicked on position "+booking.getUsername(),Toast.LENGTH_SHORT).show();
                     }
                 });
 
                 loadHeader();
                 //loadFooter();
-            } catch (JsonParseException e) {
-                e.printStackTrace();
-            } catch (JsonMappingException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -153,31 +147,43 @@ public class IspHomeActivity extends YourTimeActivity implements RestCaller{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_isp_home, menu);
+        YourTimeUtil.controlMenuShowHide(this,menu,R.id.isp_action_home,currentActivity);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        Intent intent = null;
-        switch (id){
-            case R.id.isp_action_settings:
-                intent = new Intent(this, IspSettingActivity.class);
-                intent.putExtra(this.getResources().getString(R.string.caller), Pages.ISP_HOME_ACTIVITY);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.isp_action_logout:
-                callingFrom = Pages.ISP_HOME_ACTIVITY;
-                super.logout(this);
-                break;
-        }
-
+        YourTimeUtil.triggerMenuItemSelection(this,item.getItemId(),currentActivity,getSessionManager());
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean updateView() {
+        return false;
+    }
+
+    @Override
+    public boolean updateModel() {
+        return false;
+    }
+
+    public  void reschedule(View view){
+        Toast.makeText(this,"Reschedule will be invoked.",Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, BookActivity.class);
+        intent.putExtra(this.getResources().getString(R.string.caller), currentActivity);
+        intent.putExtra(this.getResources().getString(R.string.actAs), Pages.ISP_SCHEDULE_UPDATE_ACTIVITY);
+        startActivity(intent);
+        finish();
+    }
+
+    public  void cancelSchedule(View view){
+        Map<String, Object> params = new HashMap<String,Object>();
+        Booking booking = new Booking();
+        booking.setUsername(getSessionManager().getUserDetails().getUsername());
+        params.put(this.getResources().getString(R.string.ws_param),booking);
+        params.put(this.getResources().getString(R.string.ws_method),this.getResources().getString(R.string.post));
+        currentCaller = this.getResources().getString(R.string.WS_SCHEDULE_CANCEL_BY_ISP) ;
+        params.put(this.getResources().getString(R.string.ws_url),currentCaller);
+        new RestServiceHandler(this, params,this).execute();
     }
 }

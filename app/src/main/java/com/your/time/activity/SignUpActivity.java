@@ -37,10 +37,11 @@ import butterknife.ButterKnife;
 
 public class SignUpActivity extends YourTimeActivity implements RestCaller{
 
-    private static final String TAG = "SignupActivity";
+    private static final String TAG = "SignUpActivity";
     List<HeaderInfo> myServiceTypes = new ArrayList<HeaderInfo>();
     private String selectedServiceType = null;
     private static String currentCaller = null;
+    private User user;
 
     @Bind(R.id.input_first_name)
     EditText _firstName;
@@ -80,9 +81,9 @@ public class SignUpActivity extends YourTimeActivity implements RestCaller{
     }
     public void loadUI(){
         setContentView(R.layout.activity_sign_up);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.isp_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.signup_toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.isp_fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.signup_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,7 +99,7 @@ public class SignUpActivity extends YourTimeActivity implements RestCaller{
         masterData.setType(this.getResources().getString(R.string.static_service_type));
         params.put(this.getResources().getString(R.string.ws_param),masterData);
         params.put(this.getResources().getString(R.string.ws_method),this.getResources().getString(R.string.post));
-        currentCaller = this.getResources().getString(R.string.ws_service_type_fetch) ;
+        currentCaller = this.getResources().getString(R.string.WS_FETCH_ANY_ACTIVE_TYPE) ;
         params.put(this.getResources().getString(R.string.ws_url),currentCaller);
         serviceType = (ExpandableListView) findViewById(R.id.lst_company_spec);
         new RestServiceHandler(this, params,this).execute();
@@ -136,46 +137,20 @@ public class SignUpActivity extends YourTimeActivity implements RestCaller{
         progressDialog.setMessage(getString(R.string.user_acc_creating_message));
         progressDialog.show();
 
-        String firstname = _firstName.getText().toString();
-        String lastname = _lastName.getText().toString();
-        String addressLine1 = _addressLine1.getText().toString();
-        String addressLine2 = _addressLine1.getText().toString();
-        String state = _state.getText().toString();
-        String country = _country.getText().toString();
-        String zipCode = _zip.getText().toString();
-        String email = _email.getText().toString();
-        String mobile = _phone.getText().toString();
-        String userPassword = _userPassword.getText().toString();
-        String userConfirmPassword = _userConfirmPassword.getText().toString();
-
-        User user = new User();
-        user.setFirstname(firstname);
-        user.setLastname(lastname);
-        user.setAddressline1(addressLine1);
-        user.setAddressline2(addressLine2);
-        user.setState(state);
-        user.setCountry(country);
-        user.setZip(zipCode);
-        user.setEmail(email);
-        user.setPhonenumber(mobile);
-        user.setPassword(userPassword);
-        user.setConfirmPassword(userConfirmPassword);
-        user.setServiceProvider(selectedServiceType==null?false:true);
-        user.setServiceProviderTye(selectedServiceType);
-        user.setRole("User");
+        updateModel();
 
         Map<String, Object> params = new HashMap<String,Object>();
         MasterData masterData = new MasterData();
         masterData.setType(this.getResources().getString(R.string.static_service_type));
         params.put(this.getResources().getString(R.string.ws_param),user);
         params.put(this.getResources().getString(R.string.ws_method),this.getResources().getString(R.string.post));
-        currentCaller = this.getResources().getString(R.string.ws_sign_up);
+        currentCaller = this.getResources().getString(R.string.WS_SIGN_UP);
         params.put(this.getResources().getString(R.string.ws_url),currentCaller);
         new RestServiceHandler(this, params,this).execute();
     }
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), R.string.login_failed, Toast.LENGTH_LONG).show();
 
         _signupButton.setEnabled(true);
     }
@@ -240,9 +215,9 @@ public class SignUpActivity extends YourTimeActivity implements RestCaller{
     public void onWebServiceResult(JSONObject jsonObject) {
         Log.i(TAG,jsonObject.toString());
         if(currentCaller == null)return;
-        else if(currentCaller.equalsIgnoreCase(this.getResources().getString(R.string.ws_service_type_fetch))){
+        else if(currentCaller.equalsIgnoreCase(this.getResources().getString(R.string.WS_FETCH_ANY_ACTIVE_TYPE))){
             try {
-                JSONArray jsonArray = jsonObject.getJSONArray("results");
+                JSONArray jsonArray = jsonObject.getJSONArray(getString(R.string.param_results));
                 HeaderInfo headerInfo = new HeaderInfo();
                 for (int i=0; i < jsonArray.length();i++) {
                     JSONObject object = jsonArray.getJSONObject(i);
@@ -304,7 +279,7 @@ public class SignUpActivity extends YourTimeActivity implements RestCaller{
                 }
             });
 
-        }else if (currentCaller.equalsIgnoreCase(this.getResources().getString(R.string.ws_sign_up))){
+        }else if (currentCaller.equalsIgnoreCase(this.getResources().getString(R.string.WS_SIGN_UP))){
             progressDialog.dismiss();
             try {
                 boolean isSignedUp = jsonObject.getBoolean(getString(R.string.param_status));
@@ -362,4 +337,41 @@ public class SignUpActivity extends YourTimeActivity implements RestCaller{
             return false;
         }
     };
+
+    @Override
+    public boolean updateView() {
+        return false;
+    }
+
+    @Override
+    public boolean updateModel() {
+        String firstname = _firstName.getText().toString();
+        String lastname = _lastName.getText().toString();
+        String addressLine1 = _addressLine1.getText().toString();
+        String addressLine2 = _addressLine1.getText().toString();
+        String state = _state.getText().toString();
+        String country = _country.getText().toString();
+        String zipCode = _zip.getText().toString();
+        String email = _email.getText().toString();
+        String mobile = _phone.getText().toString();
+        String userPassword = _userPassword.getText().toString();
+        String userConfirmPassword = _userConfirmPassword.getText().toString();
+
+        User user = new User();
+        user.setFirstname(firstname);
+        user.setLastname(lastname);
+        user.setAddressline1(addressLine1);
+        user.setAddressline2(addressLine2);
+        user.setState(state);
+        user.setCountry(country);
+        user.setZip(zipCode);
+        user.setEmail(email);
+        user.setPhonenumber(mobile);
+        user.setPassword(userPassword);
+        user.setConfirmPassword(userConfirmPassword);
+        user.setServiceProvider(selectedServiceType==null?false:true);
+        user.setServiceProviderTye(selectedServiceType);
+        user.setRole(getString(R.string.default_role_user));
+        return true;
+    }
 }

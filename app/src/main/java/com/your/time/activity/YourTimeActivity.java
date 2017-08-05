@@ -28,6 +28,7 @@ public abstract class YourTimeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         if (this.getIntent().getExtras() != null) {
             callingFrom = (Pages) this.getIntent().getExtras().get(this.getResources().getString(R.string.caller));
+            currentActivity = (Pages) this.getIntent().getExtras().get(this.getResources().getString(R.string.actAs));
         }
         /*SESSION_MANAGER = new SessionManager(getApplicationContext());
         if(!SESSION_MANAGER.isLoggedIn() && (currentActivity != null && Pages.LOGIN_ACTIVITY != currentActivity && Pages.SEARCH_ACTIVITY != currentActivity && Pages.MAIN_ACTIVITY != currentActivity)){
@@ -59,4 +60,16 @@ public abstract class YourTimeActivity extends AppCompatActivity {
                     }
                 }).setNegativeButton(android.R.string.no, null).show();
     }
+
+    public SessionManager getSessionManager() {
+        return SESSION_MANAGER;
+    }
+
+    public Pages getCurrentActivity(){
+        return currentActivity;
+    }
+
+    public abstract boolean updateView();
+
+    public abstract boolean updateModel();
 }

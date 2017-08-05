@@ -3,8 +3,10 @@ package com.your.time.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.your.time.util.Pages;
+import com.your.time.util.YourTimeUtil;
 
 
 public class MainActivity extends YourTimeActivity {
@@ -45,10 +47,19 @@ public class MainActivity extends YourTimeActivity {
     }
 
     public void bookSchedule(View view) {
-        Intent intent = new Intent(this, MapsActivity.class);
+        /*Intent intent = new Intent(this, MapsActivity.class);
         intent.putExtra(this.getResources().getString(R.string.caller), Pages.MAIN_ACTIVITY);
         startActivity(intent);
-        finish();
+        finish();*/
+        YourTimeUtil.dialog(MainActivity.this,"YourTime says","What do you want to perform?",android.R.drawable.ic_input_get);
+    }
+
+    public  void reschedule(View view){
+        Toast.makeText(MainActivity.this,"Reschedule will be invoked.",Toast.LENGTH_SHORT).show();
+    }
+
+    public  void cancelSchedule(View view){
+        Toast.makeText(MainActivity.this,"Schedule will be cancelled.",Toast.LENGTH_SHORT).show();
     }
 
     public void signup(View view) {
@@ -56,5 +67,27 @@ public class MainActivity extends YourTimeActivity {
         intent.putExtra(this.getResources().getString(R.string.caller), Pages.MAIN_ACTIVITY);
         startActivity(intent);
         finish();
+    }
+
+    /*@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        YourTimeUtil.controlMenuShowHide(this,menu,R.id.consumer_action_home,currentActivity);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        YourTimeUtil.triggerMenuItemSelection(this,item.getItemId(),currentActivity,getSessionManager());
+        return super.onOptionsItemSelected(item);
+    }*/
+
+    @Override
+    public boolean updateView() {
+        return false;
+    }
+
+    @Override
+    public boolean updateModel() {
+        return false;
     }
 }
