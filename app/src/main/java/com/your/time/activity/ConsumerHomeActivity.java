@@ -49,7 +49,7 @@ public class ConsumerHomeActivity extends YourTimeActivity implements RestCaller
 
     public void loadUI(){
         setContentView(R.layout.activity_consumer_home);
-        grid =(ListView) findViewById(R.id.consumer_appointment_grid);
+        grid =(ListView) findViewById(R.id.consumer_home_grid);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_consumer_home);
         setSupportActionBar(toolbar);
@@ -101,10 +101,10 @@ public class ConsumerHomeActivity extends YourTimeActivity implements RestCaller
         booking.setUsername(getSessionManager().getUserDetails().getUsername());
         params.put(this.getResources().getString(R.string.ws_param),booking);
         params.put(this.getResources().getString(R.string.ws_method),this.getResources().getString(R.string.post));
-        if(currentActivity.equals(Pages.CONSUMER_ACTIVE_APPOINTMENT_ACTIVITY))
+        //if(currentActivity.equals(Pages.CONSUMER_ACTIVE_APPOINTMENT_ACTIVITY))
             currentCaller = this.getResources().getString(R.string.WS_ALL_ACTIVE_APPOINTMENTS_BY_CONSUMER);
-        else
-            currentCaller = this.getResources().getString(R.string.WS_ALL_APPOINTMENTS_BY_CONSUMER);
+       /* else
+            currentCaller = this.getResources().getString(R.string.WS_ALL_APPOINTMENTS_BY_CONSUMER);*/
 
         params.put(this.getResources().getString(R.string.ws_url),currentCaller);
         new RestServiceHandler(this, params,this).execute();
@@ -134,14 +134,14 @@ public class ConsumerHomeActivity extends YourTimeActivity implements RestCaller
         else if(currentCaller.equalsIgnoreCase(this.getResources().getString(R.string.WS_ALL_ACTIVE_APPOINTMENTS_BY_CONSUMER))){
             try {
                 bookings = ReflectionUtil.mapJson2Bean(jsonObject.getJSONArray(getString(R.string.param_results)),Booking.class);
-                int[] items = null;
+                int[] items = new int[4];
                 int rowLayoutId = 0;
 
-                    items[0] = R.id.consumer_appointment_sno;
-                    items[1] = R.id.consumer_appointment_service;
-                    items[2] = R.id.consumer_appointment_phonenumber;
-                    items[3] = R.id.consumer_appointment_waitTime;
-                    rowLayoutId = R.layout.content_consumer_appointment_row;
+                    items[0] = R.id.consumer_home_sno;
+                    items[1] = R.id.consumer_home_service;
+                    items[2] = R.id.consumer_home_phonenumber;
+                    items[3] = R.id.consumer_home_waitTime;
+                    rowLayoutId = R.layout.content_consumer_home_row;
 
                 CommonArrayAdapter commonArrayAdapter = new CommonArrayAdapter(this,bookings,rowLayoutId,items);
                 grid.setAdapter(commonArrayAdapter);
@@ -162,7 +162,7 @@ public class ConsumerHomeActivity extends YourTimeActivity implements RestCaller
         }else if(currentCaller.equals(this.getResources().getString(R.string.WS_APPOINTMENT_CANCEL_BY_CONSUMER))){
             try {
                 if(jsonObject.getBoolean(getString(R.string.param_status))){
-                    YourTimeUtil.dialog(this,getString(R.string.your_time_says),getString(R.string.appointment_cancel_success),android.R.drawable.ic_dialog_info);
+                    YourTimeUtil.dialog(this,getString(R.string.your_time_says),getString(R.string.home_cancel_success),android.R.drawable.ic_dialog_info);
                     loadAppointments();
                 }
             } catch (JSONException e) {

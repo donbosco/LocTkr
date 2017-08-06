@@ -17,7 +17,7 @@ import com.your.time.util.SessionManager;
  */
 
 public abstract class YourTimeActivity extends AppCompatActivity {
-    protected SessionManager SESSION_MANAGER;
+    private SessionManager SESSION_MANAGER;
     protected Pages currentActivity;
     protected Activity activity;
     protected Pages callingFrom;
@@ -30,16 +30,17 @@ public abstract class YourTimeActivity extends AppCompatActivity {
             callingFrom = (Pages) this.getIntent().getExtras().get(this.getResources().getString(R.string.caller));
             currentActivity = (Pages) this.getIntent().getExtras().get(this.getResources().getString(R.string.actAs));
         }
-        /*SESSION_MANAGER = new SessionManager(getApplicationContext());
-        if(!SESSION_MANAGER.isLoggedIn() && (currentActivity != null && Pages.LOGIN_ACTIVITY != currentActivity && Pages.SEARCH_ACTIVITY != currentActivity && Pages.MAIN_ACTIVITY != currentActivity)){
+        SESSION_MANAGER = new SessionManager(getApplicationContext());
+        if(!SESSION_MANAGER.isLoggedIn() && Pages.isCommonLoginRequired(currentActivity)){
             Intent intent = new Intent(activity, MainActivity.class);
             intent.putExtra(this.getResources().getString(R.string.caller), Pages.MAIN_ACTIVITY);
+            intent.putExtra(this.getResources().getString(R.string.actAs), Pages.MAIN_ACTIVITY);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             activity.startActivity(intent);
             activity.finish();
-        }else{*/
+        }else{
             loadUI();
-        //}
+        }
     }
 
     public abstract void loadUI();
@@ -55,6 +56,7 @@ public abstract class YourTimeActivity extends AppCompatActivity {
                         SESSION_MANAGER.logoutUser(context);
                         Intent intent = new Intent(context, MainActivity.class);
                         intent.putExtra(context.getResources().getString(R.string.caller), callingFrom);
+                        intent.putExtra(context.getResources().getString(R.string.actAs), Pages.MAIN_ACTIVITY);
                         startActivity(intent);
                         finish();
                     }

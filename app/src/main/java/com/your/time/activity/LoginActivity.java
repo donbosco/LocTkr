@@ -57,6 +57,7 @@ public class LoginActivity extends YourTimeActivity implements RestCaller {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
                 intent.putExtra(LoginActivity.this.getResources().getString(R.string.caller), Pages.LOGIN_ACTIVITY);
+                intent.putExtra(LoginActivity.this.getResources().getString(R.string.actAs), Pages.SIGN_UP_ACTIVITY);
                 finish();
                 //overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
@@ -91,14 +92,16 @@ public class LoginActivity extends YourTimeActivity implements RestCaller {
     public void onLoginSuccess(User user) {
         if(user != null) {
             _loginButton.setEnabled(false);
-            SESSION_MANAGER.createLoginSession(this, user.getFirstname(), user.getEmail(), user.getUsername(), user.getPhonenumber(), user.isServiceProvider(), user.getServiceProviderId(), user.getRole());
+            getSessionManager().createLoginSession(this, user.getFirstname(), user.getEmail(), user.getUsername(), user.getPhonenumber(), user.isServiceProvider(), user.getServiceProviderId(), user.getRole());
             Intent intent = null;
             if(user.isServiceProvider()) {
                 intent = new Intent(this, IspHomeActivity.class);
                 intent.putExtra(this.getResources().getString(R.string.caller), Pages.LOGIN_ACTIVITY);
+                intent.putExtra(this.getResources().getString(R.string.actAs), Pages.ISP_HOME_ACTIVITY);
             }else{
                 intent = new Intent(this, ConsumerHomeActivity.class);
                 intent.putExtra(this.getResources().getString(R.string.caller), Pages.LOGIN_ACTIVITY);
+                intent.putExtra(this.getResources().getString(R.string.actAs), Pages.CONSUMER_HOME_ACTIVITY);
             }
             progressDialog.dismiss();
             startActivity(intent);

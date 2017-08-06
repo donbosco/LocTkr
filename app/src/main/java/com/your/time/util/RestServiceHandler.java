@@ -85,7 +85,8 @@ public class RestServiceHandler {
                     conn.setRequestProperty("Content-Type", "application/json");
 
 
-                    String input = toJson(params.get(context.getResources().getString(R.string.ws_param)));//"{\"qty\":100,\"name\":\"iPad 4\"}";
+                    //String input = toJson(params.get(context.getResources().getString(R.string.ws_param)));//"{\"qty\":100,\"name\":\"iPad 4\"}";
+                    String input = ReflectionUtil.mapBean2Json((Rest) params.get(context.getResources().getString(R.string.ws_param)));
                     OutputStream os = conn.getOutputStream();
                     os.write(input.getBytes());
                     os.flush();

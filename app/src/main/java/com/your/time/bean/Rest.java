@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.your.time.util.ReflectionUtil;
+import com.your.time.util.YourTimeUtil;
 
 /**
  * Created by Boscosiva on 25-06-2017.
@@ -24,10 +25,11 @@ public abstract class Rest {
             }else if(viewId.equals("sno")) {
                 text.setText(""+sno);
                 text.setGravity(Gravity.LEFT);
-            }else{
+            }else if(viewId.equals("waitTime")){
                 String string = (String) ReflectionUtil.getValue(rest, viewId);
                 string = string == null?"":string.trim();
-                text.setText(string);
+                //text.setText(string);
+                YourTimeUtil.getTimer(text,string).start();
                 text.setGravity(Gravity.LEFT);
             }
             text.setTextColor(Color.WHITE);

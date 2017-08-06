@@ -289,12 +289,20 @@ public class SignUpActivity extends YourTimeActivity implements RestCaller{
                         String serviceProviderId = this.getIntent().getExtras().getString(this.getResources().getString(R.string.param_service_provider_id));
                         Intent intent = new Intent(this, BookActivity.class);
                         intent.putExtra(this.getResources().getString(R.string.caller), Pages.SIGN_UP_ACTIVITY);
+                        intent.putExtra(this.getResources().getString(R.string.actAs), Pages.CONSUMER_APPOINTMENT_ADD_ACTIVITY);
                         intent.putExtra(this.getResources().getString(R.string.param_service_provider_id), serviceProviderId);
                         startActivity(intent);
                         finish();
                     } else {
                         Toast.makeText(this, R.string.user_creation_success_message, Toast.LENGTH_SHORT);
-                        Intent intent = new Intent(this, IspHomeActivity.class);
+                        Intent intent;
+                        if(getSessionManager().getUserDetails().isServiceProvider()){
+                            intent = new Intent(this, IspHomeActivity.class);
+                            intent.putExtra(this.getResources().getString(R.string.actAs), Pages.ISP_HOME_ACTIVITY);
+                        }else{
+                            intent = new Intent(this,ConsumerHomeActivity.class);
+                            intent.putExtra(this.getResources().getString(R.string.actAs), Pages.CONSUMER_HOME_ACTIVITY);
+                        }
                         intent.putExtra(this.getResources().getString(R.string.caller), Pages.SIGN_UP_ACTIVITY);
                         startActivity(intent);
                         finish();

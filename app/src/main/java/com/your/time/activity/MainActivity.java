@@ -42,6 +42,7 @@ public class MainActivity extends YourTimeActivity {
     public void signin(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
         intent.putExtra(this.getResources().getString(R.string.caller), Pages.MAIN_ACTIVITY);
+        intent.putExtra(this.getResources().getString(R.string.actAs), Pages.LOGIN_ACTIVITY);
         startActivity(intent);
         finish();
     }
@@ -65,6 +66,7 @@ public class MainActivity extends YourTimeActivity {
     public void signup(View view) {
         Intent intent = new Intent(this, SignUpActivity.class);
         intent.putExtra(this.getResources().getString(R.string.caller), Pages.MAIN_ACTIVITY);
+        intent.putExtra(this.getResources().getString(R.string.actAs), Pages.SIGN_UP_ACTIVITY);
         startActivity(intent);
         finish();
     }

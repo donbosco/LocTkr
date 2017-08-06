@@ -59,8 +59,28 @@
             android:theme="@style/AppTheme.light.NoActionBar">
         </activity>
         <activity
+            android:name=".IspScheduleActivity"
+            android:label="@string/title_activity_isp_home"
+            android:theme="@style/AppTheme.light.NoActionBar">
+        </activity>
+        <activity
+            android:name=".IspSettingActivity"
+            android:label="@string/title_activity_isp_settings"
+            android:theme="@style/AppTheme.light.NoActionBar">
+        </activity>
+        <activity
             android:name=".ConsumerHomeActivity"
             android:label="@string/title_activity_consumer_home"
+            android:theme="@style/AppTheme.light.NoActionBar">
+        </activity>
+        <activity
+            android:name=".ConsumerAppointmentActivity"
+            android:label="@string/title_activity_consumer_home"
+            android:theme="@style/AppTheme.light.NoActionBar">
+        </activity>
+        <activity
+            android:name=".ConsumerSettingActivity"
+            android:label="@string/title_activity_consumer_settings"
             android:theme="@style/AppTheme.light.NoActionBar">
         </activity>
         <activity

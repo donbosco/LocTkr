@@ -1,5 +1,6 @@
 package com.your.time.util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.your.time.bean.Rest;
@@ -65,5 +66,16 @@ public class ReflectionUtil {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static <T extends Rest> String mapBean2Json(T object){
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonString = null;
+        try {
+            jsonString = objectMapper.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return jsonString;
     }
 }

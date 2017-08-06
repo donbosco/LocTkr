@@ -18,6 +18,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.your.time.bean.Booking;
+import com.your.time.util.BookingStatus;
 import com.your.time.util.Pages;
 import com.your.time.util.ReflectionUtil;
 import com.your.time.util.RestServiceHandler;
@@ -26,7 +27,7 @@ import com.your.time.util.YourTimeUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -55,8 +56,6 @@ public class BookActivity extends YourTimeActivity implements RestCaller{
     Button _bookButton;
     @Bind(R.id.btn_cancel)
     Button _cancelButton;
-
-    DateFormat fmtDateAndTime = DateFormat.getDateTimeInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +115,8 @@ public class BookActivity extends YourTimeActivity implements RestCaller{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ConsumerHomeActivity.class);
-                intent.putExtra(BookActivity.this.getResources().getString(R.string.caller), Pages.BOOK_ACTIVITY);
+                intent.putExtra(BookActivity.this.getResources().getString(R.string.caller), currentActivity);
+                intent.putExtra(BookActivity.this.getResources().getString(R.string.actAs), callingFrom);
                 startActivity(intent);
                 finish();
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
@@ -150,18 +150,22 @@ public class BookActivity extends YourTimeActivity implements RestCaller{
             case CONSUMER_APPOINTMENT_ADD_ACTIVITY:
                 progressDialog.setMessage(getString(R.string.booking_processing_message));
                 currentCaller = this.getResources().getString(R.string.WS_BOOK_APPOINTMENT);
+                booking.setStatus(BookingStatus.NEW.name());
                 break;
             case CONSUMER_APPOINTMENT_UPDATE_ACTIVITY:
                 progressDialog.setMessage(getString(R.string.booking_update_processing_message));
                 currentCaller = this.getResources().getString(R.string.WS_APPOINTMENT_RESCHEDULE_BY_CONSUMER);
+                booking.setStatus(BookingStatus.RESCHEDULED.name());
                 break;
             case ISP_SCHEDULE_ADD_ACTIVITY:
                 progressDialog.setMessage(getString(R.string.schedule_processing_message));
                 currentCaller = this.getResources().getString(R.string.WS_CREATE_SCHEDULE_BY_ISP);
+                booking.setStatus(BookingStatus.CONFIRMED.name());
                 break;
             case ISP_SCHEDULE_UPDATE_ACTIVITY:
                 progressDialog.setMessage(getString(R.string.schedule_update_processing_message));
                 currentCaller = this.getResources().getString(R.string.WS_SCHEDULE_RESCHEDULE_BY_ISP);
+                booking.setStatus(BookingStatus.RESCHEDULED.name());
                 break;
         }
 
@@ -214,6 +218,7 @@ public class BookActivity extends YourTimeActivity implements RestCaller{
                     Toast.makeText(this, R.string.your_booking_confirmed_message, Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(this, ConsumerHomeActivity.class);
                     intent.putExtra(this.getResources().getString(R.string.caller), Pages.BOOK_ACTIVITY);
+                    intent.putExtra(this.getResources().getString(R.string.actAs), callingFrom);
                     startActivity(intent);
                     finish();
                 }else{
@@ -256,26 +261,41 @@ public class BookActivity extends YourTimeActivity implements RestCaller{
     }
 
     public void pickDate(){
-        DatePickerDialog.OnDateSetListener d = new DatePickerDialog.OnDateSetListener() {
+        Calendar cal = Calendar.getInstance();
+        DatePickerDialog datePickerDialog = new DatePickerDialog(BookActivity.this, new DatePickerDialog.OnDateSetListener() {
+            @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,int dayOfMonth) {
                 Calendar myCalendar = Calendar.getInstance();
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                _bookingDate.setText(fmtDateAndTime.format(myCalendar.getTime()));
+                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                _bookingDate.setText(format.format(myCalendar.getTime()));
             }
-        };
+        },cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.setTitle("Select Date");
+        datePickerDialog.show();
     }
 
     public void pickTime(){
-        TimePickerDialog.OnTimeSetListener  d = new TimePickerDialog.OnTimeSetListener() {
-            public void onTimeSet(TimePicker view, int hour, int min) {
+        Calendar mcurrentTime = Calendar.getInstance();
+        int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+        int minute = mcurrentTime.get(Calendar.MINUTE);
+        TimePickerDialog mTimePicker;
+        mTimePicker = new TimePickerDialog(BookActivity.this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                 Calendar myCalendar = Calendar.getInstance();
-                myCalendar.set(Calendar.HOUR_OF_DAY, hour);
-                myCalendar.set(Calendar.MINUTE, min);
-                _bookingTime.setText(fmtDateAndTime.format(myCalendar.getTime()));
+                myCalendar.set(Calendar.HOUR_OF_DAY, selectedHour);
+                myCalendar.set(Calendar.MINUTE, selectedMinute);
+                SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+                _bookingTime.setText(format.format(myCalendar.getTime()));
             }
-        };
+        }, hour, minute, true);//Yes 24 hour time
+        mTimePicker.setTitle("Select Time");
+        mTimePicker.show();
     }
 
     @Override

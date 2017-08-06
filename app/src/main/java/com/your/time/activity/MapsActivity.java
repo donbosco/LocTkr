@@ -352,11 +352,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if(manager.isLoggedIn()) {
             Intent intent = new Intent(this, BookActivity.class);
             intent.putExtra(this.getResources().getString(R.string.caller), Pages.MAPS_ACTIVITY);
+            intent.putExtra(this.getResources().getString(R.string.actAs), Pages.CONSUMER_APPOINTMENT_ADD_ACTIVITY);
             startActivity(intent);
             finish();
         }else{
             Intent intent = new Intent(this, SignUpActivity.class);
             intent.putExtra(this.getResources().getString(R.string.caller), Pages.MAPS_ACTIVITY);
+            intent.putExtra(this.getResources().getString(R.string.actAs), Pages.SIGN_UP_ACTIVITY);
             intent.putExtra(getString(R.string.param_service_provider_id),marker.getSnippet());
             startActivity(intent);
             finish();

@@ -37,7 +37,8 @@ public class Booking extends Rest{
 		this.date = date;
 		this.time = time;
 		this.status = status;
-		this.waitTime = YourTimeUtil.calculateWaitTime(date+" "+time);
+		if(date != null && time != null)
+			this.waitTime = YourTimeUtil.calculateWaitTime(date+" "+time);
 	}
 
 	public String get_id() {
@@ -78,7 +79,8 @@ public class Booking extends Rest{
 
 	public void setTime(String time) {
 		this.time = time;
-		waitTime = YourTimeUtil.calculateWaitTime(date+" "+time);
+		if(date != null && time != null)
+			waitTime = YourTimeUtil.calculateWaitTime(date+" "+time);
 	}
 
 	public String getStatus() {
@@ -90,7 +92,8 @@ public class Booking extends Rest{
 	}
 
 	public String getWaitTime() {
-		waitTime = YourTimeUtil.calculateWaitTime(date+" "+time);
+		if(date != null && time != null)
+			waitTime = YourTimeUtil.calculateWaitTime(date+" "+time);
 		return waitTime;
 	}
 

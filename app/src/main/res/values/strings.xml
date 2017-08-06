@@ -45,7 +45,6 @@
     <string name="cancel">Cancel</string>
     <string name="title_activity_book">Continue Book</string>
     <string name="booking_reason">Reason</string>
-    <string name="ws_consumer_appointments_fetch">http://</string>
     <string name="title_activity_consumer_home">Your appointments</string>
     <string name="caller">caller</string>
     <string name="consumer_action_book">Book</string>
@@ -108,25 +107,25 @@
     <string name="gws_param_radius">radius</string>
     <string name="gws_param_sensor">sensor</string>
 
-    <string name="WS_AUTHENDICATE">http://169.254.9.202:8080/users/authendicate</string>
-    <string name="WS_HOME">http://169.254.9.202:8080/users/all</string>
-    <string name="WS_SIGN_UP">http://169.254.9.202:8080/users/signup</string>
-    <string name="WS_UPDATE_USER_PROFILE">http://169.254.9.202:8080/users/profile/update</string>
-    <string name="WS_FETCH_ANY_ACTIVE_TYPE">http://169.254.9.202:8080/static/any/active</string>
-    <string name="WS_BOOK_APPOINTMENT">http://169.254.9.202:8080/book/consumer/appointment/create</string>
-    <string name="WS_VIEW_APPOINTMENT_DETAILS">http://169.254.9.202:8080/book/consumer/appointment/view</string>
-    <string name="WS_ALL_APPOINTMENTS_BY_CONSUMER">http://169.254.9.202:8080/book/consumer/appointment/list/all</string>
-    <string name="WS_ALL_ACTIVE_APPOINTMENTS_BY_CONSUMER">http://169.254.9.202:8080/book/consumer/appointment/list/active</string>
-    <string name="WS_APPOINTMENT_CANCEL_BY_CONSUMER">http://169.254.9.202:8080/book/consumer/appointment/cancel</string>
-    <string name="WS_APPOINTMENT_RESCHEDULE_BY_CONSUMER">http://169.254.9.202:8080/book/consumer/appointment/reschedule</string>
-    <string name="WS_CREATE_SCHEDULE_BY_ISP">http://169.254.9.202:8080/book/isp/schedule/create</string>
-    <string name="WS_VIEW_SCHEDULE_DETAILS_BY_ISP">http://169.254.9.202:8080/book/isp/schedule/view</string>
-    <string name="WS_ALL_SCHEDULES_BY_ISP">http://169.254.9.202:8080/book/isp/schedule/list/all</string>
-    <string name="WS_ALL_ACTIVE_SCHEDULES_BY_ISP">http://169.254.9.202:8080/book/isp/schedule/list/active</string>
-    <string name="WS_ALL_SCHEDULES_DONE_BY_ISP">http://169.254.9.202:8080/book/isp/schedule/list/isp</string>
-    <string name="WS_ALL_ACTIVE_SCHEDULES_DONE_BY_ISP">http://169.254.9.202:8080/book/isp/schedule/list/isp</string>
-    <string name="WS_SCHEDULE_CANCEL_BY_ISP">http://169.254.9.202:8080/book/isp/schedule/cancel</string>
-    <string name="WS_SCHEDULE_RESCHEDULE_BY_ISP">http://169.254.9.202:8080/book/isp/schedule/reschedule</string>
+    <string name="WS_AUTHENDICATE">http://192.168.137.1:8080/YourTime/users/authendicate</string>
+    <string name="WS_HOME">http://192.168.137.1:8080/YourTime/users/all</string>
+    <string name="WS_SIGN_UP">http://192.168.137.1:8080/YourTime/users/signup</string>
+    <string name="WS_UPDATE_USER_PROFILE">http://192.168.137.1:8080/YourTime/users/profile/update</string>
+    <string name="WS_FETCH_ANY_ACTIVE_TYPE">http://192.168.137.1:8080/YourTime/static/any/active</string>
+    <string name="WS_BOOK_APPOINTMENT">http://192.168.137.1:8080/YourTime/book/consumer/appointment/create</string>
+    <string name="WS_VIEW_APPOINTMENT_DETAILS">http://192.168.137.1:8080/YourTime/book/consumer/appointment/view</string>
+    <string name="WS_ALL_APPOINTMENTS_BY_CONSUMER">http://192.168.137.1:8080/YourTime/book/consumer/appointment/list/all</string>
+    <string name="WS_ALL_ACTIVE_APPOINTMENTS_BY_CONSUMER">http://192.168.137.1:8080/YourTime/book/consumer/appointment/list/active</string>
+    <string name="WS_APPOINTMENT_CANCEL_BY_CONSUMER">http://192.168.137.1:8080/YourTime/book/consumer/appointment/cancel</string>
+    <string name="WS_APPOINTMENT_RESCHEDULE_BY_CONSUMER">http://192.168.137.1:8080/YourTime/book/consumer/appointment/reschedule</string>
+    <string name="WS_CREATE_SCHEDULE_BY_ISP">http://192.168.137.1:8080/YourTime/book/isp/schedule/create</string>
+    <string name="WS_VIEW_SCHEDULE_DETAILS_BY_ISP">http://192.168.137.1:8080/YourTime/book/isp/schedule/view</string>
+    <string name="WS_ALL_SCHEDULES_BY_ISP">http://192.168.137.1:8080/YourTime/book/isp/schedule/list/all</string>
+    <string name="WS_ALL_ACTIVE_SCHEDULES_BY_ISP">http://192.168.137.1:8080/YourTime/book/isp/schedule/list/active</string>
+    <string name="WS_ALL_SCHEDULES_DONE_BY_ISP">http://192.168.137.1:8080/YourTime/book/isp/schedule/list/isp</string>
+    <string name="WS_ALL_ACTIVE_SCHEDULES_DONE_BY_ISP">http://192.168.137.1:8080/YourTime/book/isp/schedule/list/isp</string>
+    <string name="WS_SCHEDULE_CANCEL_BY_ISP">http://192.168.137.1:8080/YourTime/book/isp/schedule/cancel</string>
+    <string name="WS_SCHEDULE_RESCHEDULE_BY_ISP">http://192.168.137.1:8080/YourTime/book/isp/schedule/reschedule</string>
     <string name="param_results">results</string>
     <string name="your_time_says">YourTime says</string>
     <string name="question_on_click_grid_reschedule_cancel">What do you want to perform?</string>
@@ -140,5 +139,9 @@
     <string name="authendication_progress_msg">Authenticating...</string>
     <string name="default_role_user">User</string>
     <string name="login_failed">Login failed</string>
+    <string name="want_logout_question">Do you want to logout?</string>
+    <string name="title_activity_consumer_settings">Settings</string>
+    <string name="title_activity_isp_settings">Settings</string>
+    <string name="home_cancel_success">Your appointment was cancelled successfully</string>
 
 </resources>
