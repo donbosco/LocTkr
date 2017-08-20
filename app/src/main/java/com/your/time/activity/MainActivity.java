@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.your.time.util.Pages;
-import com.your.time.util.YourTimeUtil;
 
 
 public class MainActivity extends YourTimeActivity {
@@ -44,15 +43,15 @@ public class MainActivity extends YourTimeActivity {
         intent.putExtra(this.getResources().getString(R.string.caller), Pages.MAIN_ACTIVITY);
         intent.putExtra(this.getResources().getString(R.string.actAs), Pages.LOGIN_ACTIVITY);
         startActivity(intent);
-        finish();
+        //finish();
     }
 
     public void bookSchedule(View view) {
-        /*Intent intent = new Intent(this, MapsActivity.class);
+        Intent intent = new Intent(this, MapsActivity.class);
         intent.putExtra(this.getResources().getString(R.string.caller), Pages.MAIN_ACTIVITY);
         startActivity(intent);
-        finish();*/
-        YourTimeUtil.dialog(MainActivity.this,"YourTime says","What do you want to perform?",android.R.drawable.ic_input_get);
+        //finish();
+        //YourTimeUtil.dialog(MainActivity.this,getString(R.string.your_time_says),getString(R.string.question_on_click_grid_reschedule_cancel),R.drawable.ic_question);
     }
 
     public  void reschedule(View view){
@@ -68,7 +67,7 @@ public class MainActivity extends YourTimeActivity {
         intent.putExtra(this.getResources().getString(R.string.caller), Pages.MAIN_ACTIVITY);
         intent.putExtra(this.getResources().getString(R.string.actAs), Pages.SIGN_UP_ACTIVITY);
         startActivity(intent);
-        finish();
+        //finish();
     }
 
     /*@Override

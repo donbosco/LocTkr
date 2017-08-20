@@ -1,11 +1,16 @@
 package com.your.time.util;
 
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.your.time.activity.R;
 import com.your.time.bean.Places;
 import com.your.time.bean.ServiceProvider;
 
@@ -63,7 +68,11 @@ public class PlacesDisplayTask extends AsyncTask<Object, Integer, List<HashMap<S
                     ServiceProvider serviceProvider = (ServiceProvider) param.get(latLng.latitude+","+latLng.longitude);
                     if(serviceProvider != null) {
                         markerOptions.snippet(serviceProvider.getIspId());
-                        //markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker));
+                        BitmapDrawable bitmapdraw=(BitmapDrawable) Resources.getSystem().getDrawable(R.drawable.ic_marker);
+                        Bitmap b=bitmapdraw.getBitmap();
+                        Bitmap smallMarker = Bitmap.createScaledBitmap(b, 100, 100, false);
+                        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                        markerOptions.getIcon();
                     }
                     googleMap.addMarker(markerOptions);
                 //}

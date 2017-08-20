@@ -2,27 +2,34 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" >
-
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:id="@+id/dialogContentPanel"
+        android:padding="10dp">
     <ImageView
         android:id="@+id/imageDialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="6dp"
         android:layout_marginLeft="6dp"
+        android:padding="5dp"
         android:src="@android:drawable/ic_delete"/>
 
     <TextView
         android:id="@+id/textDialog"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="#FFF"
         android:layout_toRightOf="@+id/imageDialog"/>
-
+    </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textDialog"
-        android:gravity="center">
+        android:layout_below="@+id/dialogContentPanel"
+        android:gravity="center"
+        android:padding="10dp"
+        android:id="@+id/dialogButtonPanel">
     <Button
         android:id="@+id/rescheduleButton"
         android:layout_width="wrap_content"
@@ -48,6 +55,7 @@
         android:text="@string/okay"
         android:layout_marginTop="5dp"
         android:layout_marginRight="5dp"
-        android:layout_alignParentTop="true"/>
+        android:layout_alignParentTop="true"
+        android:onClick="okayClicked"/>
     </LinearLayout>
 </RelativeLayout>

@@ -1,5 +1,6 @@
 package com.your.time.activity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ import java.util.Map;
 public class ConsumerAppointmentActivity extends YourTimeActivity implements RestCaller{
 
     ListView grid;
+    Dialog dialog;
 
     private static final String TAG = "ConsumerAppointment";
     private static String currentCaller = null;
@@ -177,7 +179,7 @@ public class ConsumerAppointmentActivity extends YourTimeActivity implements Res
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         booking = bookings.get(position-1);
-                        YourTimeUtil.dialog(ConsumerAppointmentActivity.this,getString(R.string.your_time_says),getString(R.string.question_on_click_grid_reschedule_cancel),android.R.drawable.ic_input_get);
+                        dialog = YourTimeUtil.dialog(ConsumerAppointmentActivity.this,getString(R.string.your_time_says),getString(R.string.question_on_click_grid_reschedule_cancel),R.drawable.ic_question);
                         Toast.makeText(ConsumerAppointmentActivity.this,"Clicked on position "+booking.getUsername(),Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -190,7 +192,7 @@ public class ConsumerAppointmentActivity extends YourTimeActivity implements Res
         }else if(currentCaller.equals(this.getResources().getString(R.string.WS_APPOINTMENT_CANCEL_BY_CONSUMER))){
             try {
                 if(jsonObject.getBoolean(getString(R.string.param_status))){
-                    YourTimeUtil.dialog(this,getString(R.string.your_time_says),getString(R.string.appointment_cancel_success),android.R.drawable.ic_dialog_info);
+                    dialog = YourTimeUtil.dialog(this,getString(R.string.your_time_says),getString(R.string.appointment_cancel_success),R.drawable.ic_info);
                     loadAppointments();
                 }
             } catch (JSONException e) {
@@ -227,6 +229,7 @@ public class ConsumerAppointmentActivity extends YourTimeActivity implements Res
         Intent intent = new Intent(ConsumerAppointmentActivity.this, BookActivity.class);
         intent.putExtra(ConsumerAppointmentActivity.this.getResources().getString(R.string.caller), currentActivity);
         intent.putExtra(ConsumerAppointmentActivity.this.getResources().getString(R.string.actAs), Pages.CONSUMER_APPOINTMENT_UPDATE_ACTIVITY);
+        dialogClose();
         startActivity(intent);
         finish();
     }
@@ -240,5 +243,6 @@ public class ConsumerAppointmentActivity extends YourTimeActivity implements Res
         currentCaller = this.getResources().getString(R.string.WS_APPOINTMENT_CANCEL_BY_CONSUMER) ;
         params.put(this.getResources().getString(R.string.ws_url),currentCaller);
         new RestServiceHandler(this, params,this).execute();
+        dialogClose();
     }
 }

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#d5e7e2</color>
-    <color name="primary_dark">#a0d9fc</color>
-    <color name="primary_darker">#3ba4be</color>
+    <color name="primary">#8ae6a3</color>
+    <color name="primary_dark">#c2cede</color>
+    <color name="primary_darker">#9cb7de</color>
     <color name="accent">#FFFFFF</color>
-
+    <color name="background">#f9f9fa</color>
     <color name="black">#000000</color>
     <color name="jet">#222222</color>
     <color name="oil">#333333</color>
@@ -18,4 +18,5 @@
     <color name="green">#76c985</color>
     <color name="red">#bd091c</color>
     <color name="blue_drark">#3a02ff</color>
+    <color name="button">#950f69d1</color>
 </resources>

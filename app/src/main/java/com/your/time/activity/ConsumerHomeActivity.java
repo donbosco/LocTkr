@@ -117,6 +117,7 @@ public class ConsumerHomeActivity extends YourTimeActivity implements RestCaller
     private void loadHeader() {
         View headerView =  ((LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.content_consumer_home_header, null, false);
         grid.addHeaderView(headerView);
+
     }
 
     //@Override
@@ -149,12 +150,13 @@ public class ConsumerHomeActivity extends YourTimeActivity implements RestCaller
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         booking = bookings.get(position-1);
-                        YourTimeUtil.dialog(ConsumerHomeActivity.this,getString(R.string.your_time_says),getString(R.string.question_on_click_grid_reschedule_cancel),android.R.drawable.ic_input_get);
+                        dialog = YourTimeUtil.dialog(ConsumerHomeActivity.this,getString(R.string.your_time_says),getString(R.string.question_on_click_grid_reschedule_cancel),R.drawable.ic_question);
                         Toast.makeText(ConsumerHomeActivity.this,"Clicked on position "+booking.getUsername(),Toast.LENGTH_SHORT).show();
                     }
                 });
 
-                loadHeader();
+                if(grid.getHeaderViewsCount() == 0)
+                    loadHeader();
                 //loadFooter();
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -162,7 +164,7 @@ public class ConsumerHomeActivity extends YourTimeActivity implements RestCaller
         }else if(currentCaller.equals(this.getResources().getString(R.string.WS_APPOINTMENT_CANCEL_BY_CONSUMER))){
             try {
                 if(jsonObject.getBoolean(getString(R.string.param_status))){
-                    YourTimeUtil.dialog(this,getString(R.string.your_time_says),getString(R.string.home_cancel_success),android.R.drawable.ic_dialog_info);
+                    dialog = YourTimeUtil.dialog(this,getString(R.string.your_time_says),getString(R.string.home_cancel_success),R.drawable.ic_info);
                     loadAppointments();
                 }
             } catch (JSONException e) {
@@ -198,6 +200,7 @@ public class ConsumerHomeActivity extends YourTimeActivity implements RestCaller
         Intent intent = new Intent(ConsumerHomeActivity.this, BookActivity.class);
         intent.putExtra(ConsumerHomeActivity.this.getResources().getString(R.string.caller), currentActivity);
         intent.putExtra(ConsumerHomeActivity.this.getResources().getString(R.string.actAs), Pages.CONSUMER_APPOINTMENT_UPDATE_ACTIVITY);
+        dialogClose();
         startActivity(intent);
         finish();
     }
@@ -211,6 +214,7 @@ public class ConsumerHomeActivity extends YourTimeActivity implements RestCaller
         currentCaller = this.getResources().getString(R.string.WS_APPOINTMENT_CANCEL_BY_CONSUMER) ;
         params.put(this.getResources().getString(R.string.ws_url),currentCaller);
         new RestServiceHandler(this, params,this).execute();
+        dialogClose();
     }
 
 }

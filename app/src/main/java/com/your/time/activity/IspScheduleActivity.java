@@ -161,7 +161,7 @@ public class IspScheduleActivity extends YourTimeActivity implements RestCaller{
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         booking = bookings.get(position-1);
-                        YourTimeUtil.dialog(IspScheduleActivity.this,getString(R.string.your_time_says),getString(R.string.question_on_click_grid_reschedule_cancel),android.R.drawable.ic_input_get);
+                        YourTimeUtil.dialog(IspScheduleActivity.this,getString(R.string.your_time_says),getString(R.string.question_on_click_grid_reschedule_cancel),R.drawable.ic_question);
                         Toast.makeText(IspScheduleActivity.this,"Clicked on position "+booking.getUsername(),Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -174,7 +174,7 @@ public class IspScheduleActivity extends YourTimeActivity implements RestCaller{
         }else if(currentCaller.equals(this.getResources().getString(R.string.WS_APPOINTMENT_CANCEL_BY_CONSUMER))){
             try {
                 if(jsonObject.getBoolean(getString(R.string.param_status))){
-                    YourTimeUtil.dialog(this,getString(R.string.your_time_says),getString(R.string.schedule_cancel_success),android.R.drawable.ic_dialog_info);
+                    YourTimeUtil.dialog(this,getString(R.string.your_time_says),getString(R.string.schedule_cancel_success),R.drawable.ic_info);
                     loadSchedules();
                 }
             } catch (JSONException e) {

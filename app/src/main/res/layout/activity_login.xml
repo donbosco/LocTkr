@@ -12,17 +12,16 @@
         android:paddingLeft="24dp"
         android:paddingRight="24dp">
 
-        <!--<ImageView android:src="@drawable/logo"
+        <!--<ImageView android:src="@drawable/ic_logo"
             android:layout_width="wrap_content"
             android:layout_height="72dp"
             android:layout_marginBottom="24dp"
             android:layout_gravity="center_horizontal" />-->
         <AnalogClock
             android:id="@+id/analogClock1"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@drawable/clock_circle"
-            android:dial="@drawable/clock_circle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/clock1"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"/>
 

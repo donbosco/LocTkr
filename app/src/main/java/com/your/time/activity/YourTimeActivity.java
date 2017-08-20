@@ -1,6 +1,7 @@
 package com.your.time.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -22,6 +23,7 @@ public abstract class YourTimeActivity extends AppCompatActivity {
     protected Activity activity;
     protected Pages callingFrom;
     protected ProgressDialog progressDialog;
+    Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +49,9 @@ public abstract class YourTimeActivity extends AppCompatActivity {
 
     public void logout(final Context context){
         new AlertDialog.Builder(this)
-                .setTitle("YourTime says")
-                .setMessage("Do you want to logout?")
-                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle(getString(R.string.your_time_says))
+                .setMessage(getString(R.string.want_logout_question))
+                .setIcon(R.drawable.ic_alert)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
@@ -74,4 +76,34 @@ public abstract class YourTimeActivity extends AppCompatActivity {
     public abstract boolean updateView();
 
     public abstract boolean updateModel();
+
+    public void dialogClose(){
+        if(dialog != null && dialog.isShowing()){
+            dialog.dismiss();
+        }
+    }
+
+    public void okayClicked(){
+        if(dialog != null && dialog.isShowing()){
+            dialog.dismiss();
+        }
+    }
+
+    public void logout(){
+        new AlertDialog.Builder(this)
+                .setTitle(this.getString(R.string.your_time_says))
+                .setMessage(this.getString(R.string.want_logout_question))
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        getSessionManager().logoutUser(YourTimeActivity.this);
+                        Intent intent = new Intent(YourTimeActivity.this, MainActivity.class);
+                        intent.putExtra(getResources().getString(R.string.caller), currentActivity);
+                        intent.putExtra(getResources().getString(R.string.actAs), Pages.MAIN_ACTIVITY);
+                        startActivity(intent);
+                        finish();
+                    }
+                }).setNegativeButton(android.R.string.no, null).show();
+
+    }
 }

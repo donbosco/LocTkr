@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -42,7 +41,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
+public class MapsActivity extends YourTimeActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener, RestCaller {
 
@@ -121,6 +120,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 googlePlacesReadTask.execute(toPass);*/
             }
         });
+    }
+
+    @Override
+    public void loadUI() {
+
+    }
+
+    @Override
+    public boolean updateView() {
+        return false;
+    }
+
+    @Override
+    public boolean updateModel() {
+        return false;
     }
 
     public Location getLocation() {
@@ -243,7 +257,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
      * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
+     * we just add a ic_marker near Sydney, Australia.
      * If Google Play services is not installed on the device, the user will be prompted to install
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
@@ -298,7 +312,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void addMarker() {
-        // Add a marker in current location and move the camera
+        // Add a ic_marker in current location and move the camera
         LatLng currentLocation = new LatLng(currentLatitude, currentLongitude);
 
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());

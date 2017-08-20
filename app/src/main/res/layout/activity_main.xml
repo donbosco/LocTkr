@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="10dp"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:baselineAligned="false"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/lbl_yourtime"
@@ -11,58 +13,85 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:inputType="textPersonName"
-        android:paddingBottom="10dp"
         android:text="@string/save_time"
         android:textColor="@color/green"
         android:textSize="20sp" />
 
     <AnalogClock
         android:id="@+id/analogClock1"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:background="@drawable/clock_circle"
-        android:dial="@drawable/clock_circle"
-        android:layout_marginTop="150dp"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:id="@+id/imageButtonSignup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/item_circle"
-        android:gravity="center"
-        android:onClick="signup"
-        android:text="@string/sign_up"
-        android:textAlignment="center"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:background="@drawable/clock1"/>
 
-        android:layout_below="@+id/lbl_yourtime"
-        android:layout_toLeftOf="@+id/imageButtonBook"
-        android:layout_toStartOf="@+id/imageButtonBook"
-        android:layout_marginTop="52dp" />
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="30dp"
+        android:alignmentMode="alignBounds"
+        android:columnCount="2"
+        android:isScrollContainer="true"
+        android:rowCount="3"
+        android:stretchMode="spacingWidthUniform">
 
-    <TextView
-        android:id="@+id/imageButtonSignin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/item_circle"
-        android:gravity="center"
-        android:onClick="signin"
-        android:text="@string/sign_in"
-        android:textAlignment="center"
-        android:layout_alignBaseline="@+id/imageButtonSignup"
-        android:layout_alignBottom="@+id/imageButtonSignup"
-        android:layout_toRightOf="@+id/imageButtonBook"
-        android:layout_toEndOf="@+id/imageButtonBook" />
+        <ImageButton
+            android:id="@+id/imageButtonSignup"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_column="0"
+            android:layout_row="0"
+            android:layout_gravity="fill"
+            android:adjustViewBounds="true"
+            android:background="@drawable/signup"
+            android:onClick="signup"
+            android:scaleType="centerInside"
+            android:layout_margin="2dp"/>
 
-    <TextView
-        android:id="@+id/imageButtonBook"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/item_circle"
-        android:gravity="center"
-        android:onClick="bookSchedule"
-        android:text="@string/book"
-        android:layout_below="@+id/analogClock1"
-        android:layout_centerHorizontal="true" />
+        <ImageButton
+            android:id="@+id/imageButtonSignin"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_column="1"
+            android:layout_row="0"
+            android:layout_gravity="fill"
+            android:layout_rowWeight="1"
+            android:background="@drawable/signin"
+            android:text="@string/sign_in"
+            android:layout_marginLeft="2dp"
+            android:onClick="signin"/>
 
-</RelativeLayout>
+        <ImageButton
+            android:id="@+id/imageButtonBook"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_column="0"
+            android:layout_row="1"
+            android:background="@drawable/book"
+            android:onClick="bookSchedule"
+            android:text="@string/book"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_gravity="fill"/>
+
+        <ImageButton
+            android:id="@+id/imageButtonSettings"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_column="1"
+            android:layout_row="1"
+            android:background="@drawable/ic_settings"
+            android:onClick="bookSchedule"
+            android:layout_marginTop="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_gravity="fill"/>
+
+    </GridLayout>
+
+
+</LinearLayout>

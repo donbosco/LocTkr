@@ -132,7 +132,7 @@ public class IspHomeActivity extends YourTimeActivity implements RestCaller{
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         booking = bookings.get(position-1);
-                        YourTimeUtil.dialog(IspHomeActivity.this,getString(R.string.your_time_says),getString(R.string.question_on_click_grid_reschedule_cancel),android.R.drawable.ic_input_get);
+                        YourTimeUtil.dialog(IspHomeActivity.this,getString(R.string.your_time_says),getString(R.string.question_on_click_grid_reschedule_cancel),R.drawable.ic_question);
                         Toast.makeText(IspHomeActivity.this,"Clicked on position "+booking.getUsername(),Toast.LENGTH_SHORT).show();
                     }
                 });
