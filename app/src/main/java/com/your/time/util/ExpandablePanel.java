@@ -195,9 +195,9 @@ public class ExpandablePanel extends RelativeLayout {
 
     public interface OnExpandListener {
 
-        public void onExpand(View handle, View content);
+        void onExpand(View handle, View content);
 
-        public void onCollapse(View handle, View content);
+        void onCollapse(View handle, View content);
 
     }
 }

@@ -135,13 +135,13 @@ public class ConsumerHomeActivity extends YourTimeActivity implements RestCaller
         else if(currentCaller.equalsIgnoreCase(this.getResources().getString(R.string.WS_ALL_ACTIVE_APPOINTMENTS_BY_CONSUMER))){
             try {
                 bookings = ReflectionUtil.mapJson2Bean(jsonObject.getJSONArray(getString(R.string.param_results)),Booking.class);
-                int[] items = new int[4];
+                int[] items = new int[3];
                 int rowLayoutId = 0;
 
-                    items[0] = R.id.consumer_home_sno;
-                    items[1] = R.id.consumer_home_service;
-                    items[2] = R.id.consumer_home_phonenumber;
-                    items[3] = R.id.consumer_home_waitTime;
+//                    items[0] = R.id.consumer_home_sno;
+                    items[0] = R.id.consumer_home_service;
+                    items[1] = R.id.consumer_home_phonenumber;
+                    items[2] = R.id.consumer_home_waitTime;
                     rowLayoutId = R.layout.content_consumer_home_row;
 
                 CommonArrayAdapter commonArrayAdapter = new CommonArrayAdapter(this,bookings,rowLayoutId,items);
@@ -155,8 +155,8 @@ public class ConsumerHomeActivity extends YourTimeActivity implements RestCaller
                     }
                 });
 
-                if(grid.getHeaderViewsCount() == 0)
-                    loadHeader();
+                /*if(grid.getHeaderViewsCount() == 0)
+                    loadHeader();*/
                 //loadFooter();
             } catch (JSONException e) {
                 e.printStackTrace();

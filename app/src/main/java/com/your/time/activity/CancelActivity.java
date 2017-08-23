@@ -3,7 +3,6 @@ package com.your.time.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -68,7 +67,7 @@ public class CancelActivity extends YourTimeActivity implements RestCaller{
             booking.setServiceProviderId(this.getIntent().getExtras().getString(getString(R.string.param_service_provider_id)));
         }else if(Pages.isIspSpecific(callingFrom,true)){
             booking.setServiceProviderId(getSessionManager().getUserDetails().getServiceProviderId());
-            ((TextInputLayout)findViewById(R.id.onBehalfOf)).setVisibility(View.VISIBLE);
+            findViewById(R.id.onBehalfOf).setVisibility(View.VISIBLE);
             isIspSpecific = true;
         }
 

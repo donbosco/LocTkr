@@ -377,7 +377,7 @@ public class SignUpActivity extends YourTimeActivity implements RestCaller{
         user.setPhonenumber(mobile);
         user.setPassword(userPassword);
         user.setConfirmPassword(userConfirmPassword);
-        user.setServiceProvider(selectedServiceType==null?false:true);
+        user.setServiceProvider(selectedServiceType != null);
         user.setServiceProviderTye(selectedServiceType);
         user.setRole(getString(R.string.default_role_user));
         return true;

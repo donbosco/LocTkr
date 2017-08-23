@@ -160,7 +160,7 @@ public class ConsumerAppointmentActivity extends YourTimeActivity implements Res
                 int[] items = null;
                 int rowLayoutId = 0;
                 if(Pages.CONSUMER_ACTIVE_APPOINTMENT_ACTIVITY == currentActivity) {
-                    items[0] = R.id.consumer_appointment_sno;
+                    /*items[0] = R.id.consumer_appointment_sno;*/
                     items[1] = R.id.consumer_appointment_service;
                     items[2] = R.id.consumer_appointment_phonenumber;
                     items[3] = R.id.consumer_appointment_waitTime;

@@ -29,7 +29,7 @@
         <item name="android:textColorHint">@color/iron</item>
 
         <item name="colorButtonNormal">@color/primary_darker</item>
-        <item name="android:colorButtonNormal">@color/primary_darker</item>
+        <!--<item name="android:colorButtonNormal">@color/primary_darker</item>-->
     </style>
 
     <style name="AppTheme.Dark.Dialog" parent="Theme.AppCompat.Dialog">
@@ -46,6 +46,32 @@
     <style name="AppTheme.light.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.light.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="BaseTextStyle" parent="@style/Base.TextAppearance.AppCompat.Medium">
+        <item name="android:gravity">center|left</item>
+    </style>
+
+    <style name="TitleText" parent="@style/BaseTextStyle">
+        <!--<item name="android:textAppearance">@style/TextAppearance.FontPath.HelveticaNeueMedium</item>-->
+        <item name="android:textSize">14.0sp</item>
+        <item name="android:textColor">@color/font_text_title</item>
+    </style>
+
+    <style name="grid_style" parent="@style/TitleText">
+        <item name="android:textSize">16.0sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="waiting_time_style" parent="@style/TitleText">
+        <item name="android:textSize">16.0sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="SubTitleText" parent="@style/BaseTextStyle">
+        <!--<item name="android:textAppearance">@style/TextAppearance.FontPath.HelveticaNeueRegular</item>-->
+        <item name="android:textSize">12.0sp</item>
+        <item name="android:textColor">@color/font_text_body</item>
+    </style>
 
 </resources>
 

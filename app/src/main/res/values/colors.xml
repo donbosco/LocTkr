@@ -19,4 +19,6 @@
     <color name="red">#bd091c</color>
     <color name="blue_drark">#3a02ff</color>
     <color name="button">#950f69d1</color>
+    <color name="font_text_title">#ff333333</color>
+    <color name="font_text_body">#ff6a6a6a</color>
 </resources>

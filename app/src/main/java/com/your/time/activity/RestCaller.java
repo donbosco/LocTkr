@@ -7,5 +7,5 @@ import org.json.JSONObject;
  */
 
 public interface RestCaller {
-    public void onWebServiceResult(JSONObject jsonObject);
+    void onWebServiceResult(JSONObject jsonObject);
 }

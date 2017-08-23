@@ -1,6 +1,5 @@
 package com.your.time.bean;
 
-import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
@@ -26,14 +25,14 @@ public abstract class Rest {
                 text.setText(""+sno);
                 text.setGravity(Gravity.LEFT);
             }else if(viewId.equals("waitTime")){
-                String string = (String) ReflectionUtil.getValue(rest, viewId);
+                String string = ReflectionUtil.getValue(rest, viewId);
                 string = string == null?"":string.trim();
                 //text.setText(string);
                 YourTimeUtil.getTimer(text,string).start();
                 text.setGravity(Gravity.LEFT);
             }
-            text.setTextColor(Color.WHITE);
+            //text.setTextColor(Color.WHITE);
         }
         return layoutView;
-    };
+    }
 }

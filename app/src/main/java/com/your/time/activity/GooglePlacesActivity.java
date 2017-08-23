@@ -72,7 +72,7 @@ public class GooglePlacesActivity extends FragmentActivity implements LocationLi
         if (location != null) {
             onLocationChanged(location);
         }
-        locationManager.requestLocationUpdates(bestProvider, 20000, 0, (android.location.LocationListener) this);
+        locationManager.requestLocationUpdates(bestProvider, 20000, 0, this);
 
         btnFind.setOnClickListener(new View.OnClickListener() {
             @Override
