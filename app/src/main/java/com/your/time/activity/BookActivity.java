@@ -75,13 +75,6 @@ public class BookActivity extends YourTimeActivity implements RestCaller{
         });*/
 
         booking = new Booking();
-        if(callingFrom == Pages.SIGN_UP_ACTIVITY || callingFrom == Pages.MAPS_ACTIVITY) {
-            booking.setServiceProviderId(this.getIntent().getExtras().getString(getString(R.string.param_service_provider_id)));
-        }else if(Pages.isIspSpecific(callingFrom,true)){
-            booking.setServiceProviderId(getSessionManager().getUserDetails().getServiceProviderId());
-            findViewById(R.id.onBehalfOf).setVisibility(View.VISIBLE);
-            isIspSpecific = true;
-        }
 
         ButterKnife.bind(this);
 
@@ -121,6 +114,27 @@ public class BookActivity extends YourTimeActivity implements RestCaller{
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
         });
+
+        if(callingFrom == Pages.SIGN_UP_ACTIVITY || callingFrom == Pages.MAPS_ACTIVITY) {
+            booking.setServiceProviderId(this.getIntent().getExtras().getString(getString(R.string.param_service_provider_id)));
+        }else if(Pages.isIspSpecific(this,callingFrom,true)){
+            booking.setServiceProviderId(getSessionManager().getUserDetails().getServiceProviderId());
+            findViewById(R.id.onBehalfOf).setVisibility(View.VISIBLE);
+            if (this.getIntent().getExtras() != null) {
+                booking = (Booking) ReflectionUtil.mapJson2Bean((String)this.getIntent().getExtras().get(getString(R.string.param_booking)),Booking.class);
+                if(booking != null)
+                    updateView();
+            }
+            isIspSpecific = true;
+        }else if(Pages.isConsumerSpecific(this,callingFrom,true)){
+            if (this.getIntent().getExtras() != null) {
+                booking = (Booking) ReflectionUtil.mapJson2Bean((String)this.getIntent().getExtras().get(getString(R.string.param_booking)),Booking.class);
+                if(booking != null)
+                    updateView();
+            }
+            findViewById(R.id.onBehalfOf).setVisibility(View.VISIBLE);
+            isIspSpecific = false;
+        }
 
         currentCaller = getString(R.string.WS_VIEW_APPOINTMENT_DETAILS);
 
@@ -335,10 +349,6 @@ public class BookActivity extends YourTimeActivity implements RestCaller{
         if(booking != null) {
             switch (currentActivity) {
                 case ISP_SCHEDULE_ADD_ACTIVITY:
-                    findViewById(R.id.onBehalfOf).setVisibility(View.VISIBLE);
-                    _onBehalfOf.setVisibility(View.VISIBLE);
-                    _onBehalfOf.setText(booking.getUsername());
-                    break;
                 case ISP_SCHEDULE_UPDATE_ACTIVITY:
                     findViewById(R.id.onBehalfOf).setVisibility(View.VISIBLE);
                     _onBehalfOf.setVisibility(View.VISIBLE);
@@ -346,8 +356,8 @@ public class BookActivity extends YourTimeActivity implements RestCaller{
                     break;
                 case CONSUMER_APPOINTMENT_ADD_ACTIVITY:
                 case CONSUMER_APPOINTMENT_UPDATE_ACTIVITY:
-                    findViewById(R.id.onBehalfOf).setVisibility(View.INVISIBLE);
-                    _onBehalfOf.setVisibility(View.VISIBLE);
+                    findViewById(R.id.onBehalfOf).setVisibility(View.GONE);
+                    _onBehalfOf.setVisibility(View.GONE);
                     break;
                 default:
                     Log.w(TAG, "Consider to add " + currentActivity.name());

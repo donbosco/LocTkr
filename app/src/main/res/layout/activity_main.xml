@@ -19,11 +19,12 @@
 
     <AnalogClock
         android:id="@+id/analogClock1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dip"
+        android:layout_height="200dip"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
-        android:background="@drawable/clock1"/>
+        android:background="@drawable/book"
+        android:onClick="bookSchedule"/>
 
     <GridLayout
         android:layout_width="match_parent"
@@ -44,7 +45,7 @@
             android:layout_row="0"
             android:layout_gravity="fill"
             android:adjustViewBounds="true"
-            android:background="@drawable/signup"
+            android:background="@drawable/sign_up_blue"
             android:onClick="signup"
             android:scaleType="centerInside"
             android:layout_margin="2dp"/>
@@ -57,7 +58,7 @@
             android:layout_row="0"
             android:layout_gravity="fill"
             android:layout_rowWeight="1"
-            android:background="@drawable/signin"
+            android:background="@drawable/sign_in_blue"
             android:text="@string/sign_in"
             android:layout_marginLeft="2dp"
             android:onClick="signin"/>
@@ -70,8 +71,8 @@
             android:layout_height="20dp"
             android:layout_column="0"
             android:layout_row="1"
-            android:background="@drawable/book"
-            android:onClick="bookSchedule"
+            android:background="@drawable/message"
+            android:onClick="messages"
             android:text="@string/book"
             android:layout_marginLeft="2dp"
             android:layout_marginTop="2dp"
@@ -85,7 +86,7 @@
             android:layout_height="25dp"
             android:layout_column="1"
             android:layout_row="1"
-            android:background="@drawable/ic_settings"
+            android:background="@drawable/settings"
             android:onClick="bookSchedule"
             android:layout_marginTop="0dp"
             android:layout_marginLeft="0dp"

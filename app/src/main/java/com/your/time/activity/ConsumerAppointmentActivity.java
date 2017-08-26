@@ -157,34 +157,25 @@ public class ConsumerAppointmentActivity extends YourTimeActivity implements Res
         else if(currentCaller.equalsIgnoreCase(this.getResources().getString(R.string.WS_ALL_ACTIVE_APPOINTMENTS_BY_CONSUMER))  || currentCaller.equalsIgnoreCase(this.getResources().getString(R.string.WS_ALL_APPOINTMENTS_BY_CONSUMER))){
             try {
                 bookings = ReflectionUtil.mapJson2Bean(jsonObject.getJSONArray(getString(R.string.param_results)),Booking.class);
-                int[] items = null;
                 int rowLayoutId = 0;
                 if(Pages.CONSUMER_ACTIVE_APPOINTMENT_ACTIVITY == currentActivity) {
-                    /*items[0] = R.id.consumer_appointment_sno;*/
-                    items[1] = R.id.consumer_appointment_service;
-                    items[2] = R.id.consumer_appointment_phonenumber;
-                    items[3] = R.id.consumer_appointment_waitTime;
                     rowLayoutId = R.layout.content_consumer_appointment_row;
                 }else {
-                    items[0] = R.id.consumer_history_appointment_sno;
-                    items[1] = R.id.consumer_history_appointment_service;
-                    items[2] = R.id.consumer_history_appointment_phonenumber;
-                    items[3] = R.id.consumer_history_appointment_date;
                     rowLayoutId = R.layout.content_consumer_hostory_appointment_row;
                 }
 
-                CommonArrayAdapter commonArrayAdapter = new CommonArrayAdapter(this,bookings,rowLayoutId,items);
+                CommonArrayAdapter commonArrayAdapter = new CommonArrayAdapter(this,bookings,rowLayoutId,currentActivity);
                 grid.setAdapter(commonArrayAdapter);
                 grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         booking = bookings.get(position-1);
-                        dialog = YourTimeUtil.dialog(ConsumerAppointmentActivity.this,getString(R.string.your_time_says),getString(R.string.question_on_click_grid_reschedule_cancel),R.drawable.ic_question);
+                        //dialog = YourTimeUtil.dialog(ConsumerAppointmentActivity.this,getString(R.string.your_time_says),getString(R.string.question_on_click_grid_reschedule_cancel),R.drawable.question);
                         Toast.makeText(ConsumerAppointmentActivity.this,"Clicked on position "+booking.getUsername(),Toast.LENGTH_SHORT).show();
                     }
                 });
-
-                loadHeader();
+                if(grid.getHeaderViewsCount() == 0)
+                    loadHeader();
                 //loadFooter();
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -192,7 +183,7 @@ public class ConsumerAppointmentActivity extends YourTimeActivity implements Res
         }else if(currentCaller.equals(this.getResources().getString(R.string.WS_APPOINTMENT_CANCEL_BY_CONSUMER))){
             try {
                 if(jsonObject.getBoolean(getString(R.string.param_status))){
-                    dialog = YourTimeUtil.dialog(this,getString(R.string.your_time_says),getString(R.string.appointment_cancel_success),R.drawable.ic_info);
+                    dialog = YourTimeUtil.dialog(this,getString(R.string.your_time_says),getString(R.string.appointment_cancel_success),R.drawable.info);
                     loadAppointments();
                 }
             } catch (JSONException e) {
@@ -225,16 +216,19 @@ public class ConsumerAppointmentActivity extends YourTimeActivity implements Res
     }
 
     public  void reschedule(View view){
+        booking = bookings.get((Integer)view.getTag(R.string.param_booking));
         Toast.makeText(ConsumerAppointmentActivity.this,"Reschedule will be invoked.",Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(ConsumerAppointmentActivity.this, BookActivity.class);
         intent.putExtra(ConsumerAppointmentActivity.this.getResources().getString(R.string.caller), currentActivity);
         intent.putExtra(ConsumerAppointmentActivity.this.getResources().getString(R.string.actAs), Pages.CONSUMER_APPOINTMENT_UPDATE_ACTIVITY);
+        intent.putExtra(getString(R.string.param_booking),ReflectionUtil.mapBean2Json(booking));
         dialogClose();
         startActivity(intent);
         finish();
     }
 
     public  void cancelSchedule(View view){
+        booking = bookings.get((Integer)view.getTag(R.string.param_booking));
         Map<String, Object> params = new HashMap<String,Object>();
         /*Booking booking = new Booking();
         booking.setUsername(getSessionManager().getUserDetails().getUsername());*/

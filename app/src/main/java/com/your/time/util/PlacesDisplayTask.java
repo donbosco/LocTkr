@@ -68,7 +68,7 @@ public class PlacesDisplayTask extends AsyncTask<Object, Integer, List<HashMap<S
                     ServiceProvider serviceProvider = (ServiceProvider) param.get(latLng.latitude+","+latLng.longitude);
                     if(serviceProvider != null) {
                         markerOptions.snippet(serviceProvider.getIspId());
-                        BitmapDrawable bitmapdraw=(BitmapDrawable) Resources.getSystem().getDrawable(R.drawable.ic_marker);
+                        BitmapDrawable bitmapdraw=(BitmapDrawable) Resources.getSystem().getDrawable(R.drawable.active_marker);
                         Bitmap b=bitmapdraw.getBitmap();
                         Bitmap smallMarker = Bitmap.createScaledBitmap(b, 100, 100, false);
                         markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));

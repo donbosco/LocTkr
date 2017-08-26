@@ -36,7 +36,7 @@ public class IspScheduleActivity extends YourTimeActivity implements RestCaller{
 
     ListView grid;
 
-    private static final String TAG = "IspHomeActivity";
+    private static final String TAG = "IspSchedule";
     private static String currentCaller = null;
     private List<User> users = new ArrayList<User>();
     private Booking booking;
@@ -139,34 +139,26 @@ public class IspScheduleActivity extends YourTimeActivity implements RestCaller{
         else if(currentCaller.equalsIgnoreCase(this.getResources().getString(R.string.WS_ALL_ACTIVE_SCHEDULES_BY_ISP))  || currentCaller.equalsIgnoreCase(this.getResources().getString(R.string.WS_ALL_SCHEDULES_BY_ISP))){
             try {
                 bookings = ReflectionUtil.mapJson2Bean(jsonObject.getJSONArray(getString(R.string.param_results)),Booking.class);
-                int[] items = null;
                 int rowLayoutId = 0;
                 if(Pages.ISP_ACTIVE_SCHEDULE_ACTIVITY == currentActivity) {
-                    items[0] = R.id.isp_schedule_sno;
-                    items[1] = R.id.isp_schedule_username;
-                    items[2] = R.id.isp_schedule_phonenumber;
-                    items[3] = R.id.isp_schedule_action;
                     rowLayoutId = R.layout.content_isp_schedule_row;
                 }else {
-                    items[0] = R.id.isp_history_schedule_sno;
-                    items[1] = R.id.isp_schedule_username;
-                    items[2] = R.id.isp_history_schedule_phonenumber;
-                    items[3] = R.id.isp_history_schedule_date;
                     rowLayoutId = R.layout.content_isp_history_schedule_row;
                 }
 
-                CommonArrayAdapter commonArrayAdapter = new CommonArrayAdapter(this,bookings,rowLayoutId,items);
+                CommonArrayAdapter commonArrayAdapter = new CommonArrayAdapter(this,bookings,rowLayoutId,currentActivity);
                 grid.setAdapter(commonArrayAdapter);
                 grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         booking = bookings.get(position-1);
-                        YourTimeUtil.dialog(IspScheduleActivity.this,getString(R.string.your_time_says),getString(R.string.question_on_click_grid_reschedule_cancel),R.drawable.ic_question);
+                        //YourTimeUtil.dialog(IspScheduleActivity.this,getString(R.string.your_time_says),getString(R.string.question_on_click_grid_reschedule_cancel),R.drawable.question);
                         Toast.makeText(IspScheduleActivity.this,"Clicked on position "+booking.getUsername(),Toast.LENGTH_SHORT).show();
                     }
                 });
 
-                loadHeader();
+                if(grid.getHeaderViewsCount() == 0)
+                    loadHeader();
                 //loadFooter();
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -174,7 +166,7 @@ public class IspScheduleActivity extends YourTimeActivity implements RestCaller{
         }else if(currentCaller.equals(this.getResources().getString(R.string.WS_APPOINTMENT_CANCEL_BY_CONSUMER))){
             try {
                 if(jsonObject.getBoolean(getString(R.string.param_status))){
-                    YourTimeUtil.dialog(this,getString(R.string.your_time_says),getString(R.string.schedule_cancel_success),R.drawable.ic_info);
+                    YourTimeUtil.dialog(this,getString(R.string.your_time_says),getString(R.string.schedule_cancel_success),R.drawable.info);
                     loadSchedules();
                 }
             } catch (JSONException e) {
@@ -207,15 +199,18 @@ public class IspScheduleActivity extends YourTimeActivity implements RestCaller{
     }
 
     public  void reschedule(View view){
+        booking = bookings.get((Integer)view.getTag(R.string.param_booking));
         Toast.makeText(this,"Reschedule will be invoked.",Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, BookActivity.class);
         intent.putExtra(this.getResources().getString(R.string.caller), currentActivity);
         intent.putExtra(this.getResources().getString(R.string.actAs), Pages.ISP_SCHEDULE_UPDATE_ACTIVITY);
+        intent.putExtra(getString(R.string.param_booking),ReflectionUtil.mapBean2Json(booking));
         startActivity(intent);
         finish();
     }
 
     public  void cancelSchedule(View view){
+        booking = bookings.get((Integer)view.getTag(R.string.param_booking));
         Map<String, Object> params = new HashMap<String,Object>();
         Booking booking = new Booking();
         booking.setUsername(getSessionManager().getUserDetails().getUsername());

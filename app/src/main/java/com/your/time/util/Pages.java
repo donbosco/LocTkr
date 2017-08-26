@@ -1,5 +1,7 @@
 package com.your.time.util;
 
+import com.your.time.activity.YourTimeActivity;
+
 /**
  * Created by Boscosiva on 22-07-2017.
  */
@@ -49,7 +51,7 @@ public enum Pages {
                 || activityType == BOOK_ACTIVITY)?true:false;
     }
 
-    public static boolean isConsumerSpecific(Pages activityType,boolean checkLogin){
+    public static boolean isConsumerSpecific(YourTimeActivity activity,Pages activityType, boolean checkLogin){
         boolean isConsumerSpecific = (   activityType == CONSUMER_HOME_ACTIVITY
                                     || activityType == CONSUMER_ACTIVE_APPOINTMENT_ACTIVITY
                                     || activityType == CONSUMER_APPOINTMENT_HISTORY_ACTIVITY
@@ -58,25 +60,34 @@ public enum Pages {
                                     || activityType == CONSUMER_PROFILE_UPDATE_ACTIVITY
                                     || activityType == CONSUMER_SETTING_ACTIVITY)?true:false;
         boolean loginCheck = false;
-        if(checkLogin)
+        if(checkLogin) {
             loginCheck = isCommonLoginRequired(activityType);
-        else
+            if(loginCheck){
+                loginCheck = activity.getSessionManager().isLoggedIn();
+            }else
+                loginCheck = true;
+        }else
             loginCheck = isCommonNoLoginRequired(activityType);
+
         return isConsumerSpecific && loginCheck;
     }
 
-    public static boolean isIspSpecific(Pages activityType,boolean checkLogin){
-        boolean isIspSpecific = (   activityType == ISP_HOME_ACTIVITY
+    public static boolean isIspSpecific(YourTimeActivity activity,Pages activityType,boolean checkLogin) {
+        boolean isIspSpecific = (activityType == ISP_HOME_ACTIVITY
                 || activityType == ISP_ACTIVE_SCHEDULE_ACTIVITY
                 || activityType == ISP_SCHEDULE_HISTORY_ACTIVITY
                 || activityType == ISP_SCHEDULE_ADD_ACTIVITY
                 || activityType == ISP_SCHEDULE_UPDATE_ACTIVITY
                 || activityType == ISP_PROFILE_UPDATE_ACTIVITY
-                || activityType == ISP_SETTING_ACTIVITY)?true:false;
+                || activityType == ISP_SETTING_ACTIVITY) ? true : false;
         boolean loginCheck = false;
-        if(checkLogin)
+        if (checkLogin){
             loginCheck = isCommonLoginRequired(activityType);
-        else
+            if (loginCheck) {
+                loginCheck = activity.getSessionManager().isLoggedIn();
+            } else
+                loginCheck = true;
+        }else
             loginCheck = isCommonNoLoginRequired(activityType);
         return isIspSpecific && loginCheck;
     }

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
 <LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
@@ -34,4 +35,165 @@
         android:layout_marginLeft="3dp"
         android:layout_weight="0.20" />
 
+</LinearLayout>-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="left"
+        android:orientation="horizontal"
+        android:paddingRight="2.0dip"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.01"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+            <!--<View
+                android:layout_width="fill_parent"
+                android:layout_height="0.0dip"
+                android:layout_weight="1.0" />-->
+
+            <LinearLayout
+                android:layout_width="60.0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/consumer_appointment_history_status"
+                    android:layout_width="60.0dip"
+                    android:layout_height="40.0dip"
+                    android:layout_marginLeft="2.0dip"
+                    android:gravity="center_vertical"
+                    android:src="@drawable/book_wait" />
+            </LinearLayout>
+
+            <!--<View
+                android:layout_width="fill_parent"
+                android:layout_height="0.0dip"
+                android:layout_weight="1.0" />-->
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.99"
+            android:gravity="left"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+            <!--<View
+                android:layout_width="fill_parent"
+                android:layout_height="0.0dip"
+                android:layout_weight="1.0" />-->
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:orientation="horizontal"
+                android:paddingLeft="5.0dip"
+                android:paddingRight="4.0dip">
+
+                <TextView
+                    android:id="@+id/consumer_appointment_history_service"
+                    style="@style/grid_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="10.0dip"
+                    android:layout_weight="1.0"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textSize="14.0sp" />
+
+                <TextView
+                    android:id="@+id/consumer_appointment_history_address"
+                    style="@style/grid_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/consumer_appointment_history_service"
+                    android:layout_marginRight="10.0dip"
+                    android:layout_weight="1.0"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textSize="14.0sp" />
+
+                <TextView
+                    android:id="@+id/consumer_appointment_history_phonenumber"
+                    style="@style/waiting_time_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/consumer_appointment_history_address" />
+
+                <!--<LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/consumer_appointment_history_phonenumber"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/consumer_appointment_history_reschedule"
+                        style="@style/waiting_time_style"
+                        android:layout_width="50dip"
+                        android:layout_height="50dip"
+                        android:background="@drawable/book_reschedule"
+                        android:onClick="reschedule" />
+
+                    <Space
+                        android:layout_width="50dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <ImageView
+                        android:id="@+id/consumer_appointment_history_cancel"
+                        style="@style/waiting_time_style"
+                        android:layout_width="50dip"
+                        android:layout_height="50dip"
+                        android:layout_marginLeft="5dip"
+                        android:background="@drawable/cancel"
+                        android:elevation="1dp"
+                        android:onClick="cancelSchedule" />
+                </LinearLayout>-->
+            </RelativeLayout>
+
+            <!--<View
+                android:layout_width="fill_parent"
+                android:layout_height="0.0dip"
+                android:layout_weight="1.0" />-->
+        </LinearLayout>
+
+        <!--<LinearLayout
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="0.32"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/consumer_appointment_history_waitTime"
+                style="@style/waiting_time_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/done" />
+        </LinearLayout>-->
+
+    </LinearLayout>
 </LinearLayout>

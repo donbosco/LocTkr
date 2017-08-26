@@ -1,19 +1,16 @@
 package com.your.time.bean;
 
-import android.view.Gravity;
 import android.view.View;
-import android.widget.TextView;
 
-import com.your.time.util.ReflectionUtil;
-import com.your.time.util.YourTimeUtil;
+import com.your.time.util.Pages;
 
 /**
  * Created by Boscosiva on 25-06-2017.
  */
 
 public abstract class Rest {
-    public View adapterMapper(View layoutView,int[] itemIds,int sno,int resourceId,Rest rest){
-        for (int i=0;i < itemIds.length;i++) {
+    public abstract <T extends Rest> View adapterMapper(View layoutView, Pages page,int position);//{
+        /*for (int i=0;i < itemIds.length;i++) {
             TextView text = (TextView) layoutView.findViewById(itemIds[i]);
             String viewId = layoutView.getResources().getResourceName(text.getId());
             viewId = viewId.substring(viewId.lastIndexOf("_")+1,viewId.length());
@@ -30,9 +27,15 @@ public abstract class Rest {
                 //text.setText(string);
                 YourTimeUtil.getTimer(text,string).start();
                 text.setGravity(Gravity.LEFT);
+            }else if(viewId.equals("status")) {
+
+            }else{
+                String string = ReflectionUtil.getValue(rest, viewId);
+                string = string == null?"nothing":string.trim();
+                text.setText(string);
             }
-            //text.setTextColor(Color.WHITE);
-        }
-        return layoutView;
-    }
+            //text.setTextColor(Color.BLACK);
+        }*/
+        //return layoutView;
+    //}
 }

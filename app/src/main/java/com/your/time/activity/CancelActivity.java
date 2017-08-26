@@ -65,7 +65,7 @@ public class CancelActivity extends YourTimeActivity implements RestCaller{
         booking = new Booking();
         if(callingFrom == Pages.SIGN_UP_ACTIVITY || callingFrom == Pages.MAPS_ACTIVITY) {
             booking.setServiceProviderId(this.getIntent().getExtras().getString(getString(R.string.param_service_provider_id)));
-        }else if(Pages.isIspSpecific(callingFrom,true)){
+        }else if(Pages.isIspSpecific(this,callingFrom,true)){
             booking.setServiceProviderId(getSessionManager().getUserDetails().getServiceProviderId());
             findViewById(R.id.onBehalfOf).setVisibility(View.VISIBLE);
             isIspSpecific = true;
@@ -180,7 +180,7 @@ public class CancelActivity extends YourTimeActivity implements RestCaller{
                 boolean isBooked = jsonObject.getBoolean(getString(R.string.param_status));
                 if(isBooked) {
 
-                    Toast.makeText(this, R.string.home_cancel_success, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.consumer_appointment_cancel_success, Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(this, ConsumerHomeActivity.class);
                     intent.putExtra(this.getResources().getString(R.string.caller), Pages.BOOK_ACTIVITY);
                     intent.putExtra(this.getResources().getString(R.string.actAs), callingFrom);

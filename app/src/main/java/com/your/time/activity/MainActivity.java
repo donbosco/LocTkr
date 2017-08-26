@@ -70,6 +70,10 @@ public class MainActivity extends YourTimeActivity {
         //finish();
     }
 
+    public  void messages(View view){
+        Toast.makeText(MainActivity.this,"Schedule will be cancelled.",Toast.LENGTH_SHORT).show();
+    }
+
     /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         YourTimeUtil.controlMenuShowHide(this,menu,R.id.consumer_action_home,currentActivity);

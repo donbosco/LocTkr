@@ -48,7 +48,7 @@
     <style name="AppTheme.light.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="BaseTextStyle" parent="@style/Base.TextAppearance.AppCompat.Medium">
-        <item name="android:gravity">center|left</item>
+        <!--<item name="android:gravity">center|left</item>-->
     </style>
 
     <style name="TitleText" parent="@style/BaseTextStyle">
@@ -63,8 +63,8 @@
     </style>
 
     <style name="waiting_time_style" parent="@style/TitleText">
-        <item name="android:textSize">16.0sp</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">18.0sp</item>
+        <item name="android:textColor">@color/blue_drark</item>
     </style>
 
     <style name="SubTitleText" parent="@style/BaseTextStyle">

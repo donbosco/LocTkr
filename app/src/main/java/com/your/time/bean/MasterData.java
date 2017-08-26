@@ -1,5 +1,9 @@
 package com.your.time.bean;
 
+import android.view.View;
+
+import com.your.time.util.Pages;
+
 import java.io.Serializable;
 
 public class MasterData extends Rest implements Serializable{
@@ -49,5 +53,10 @@ public class MasterData extends Rest implements Serializable{
 	}
 	public void setOrder(int order) {
 		this.order = order;
+	}
+
+	@Override
+	public <T extends Rest> View adapterMapper(View layoutView, Pages page,int position) {
+		return null;
 	}
 }

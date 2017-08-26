@@ -440,7 +440,7 @@
     <dimen name="textinput_margin_for_textview">12.0dip</dimen>
     <dimen name="title_small_padding">5.0dip</dimen>
     <dimen name="title_top_margin">60.0dip</dimen>
-    <dimen name="transaction_row_height">64.0dip</dimen>
+    <dimen name="transaction_row_height">75.0dip</dimen>
     <dimen name="vertical_space_margin">8.0dip</dimen>
     <dimen name="view_spacing_small">8.0dip</dimen>
     <dimen name="view_width">200.0dip</dimen>

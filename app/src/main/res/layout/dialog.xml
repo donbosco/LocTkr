@@ -57,5 +57,23 @@
         android:layout_marginRight="5dp"
         android:layout_alignParentTop="true"
         android:onClick="okayClicked"/>
+    <Button
+        android:id="@+id/closeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_alignParentTop="true"
+        android:onClick="okayClicked"/>
+    <Button
+        android:id="@+id/logoutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/logout"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_alignParentTop="true"
+        android:onClick="logoutClicked"/>
     </LinearLayout>
 </RelativeLayout>

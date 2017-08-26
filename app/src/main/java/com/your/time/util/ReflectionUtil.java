@@ -48,6 +48,17 @@ public class ReflectionUtil {
         return (T)value;
     }
 
+    public static <T> Rest mapJson2Bean(String jsonString, Class<T> t){
+        ObjectMapper objectMapper = new ObjectMapper();
+        Rest rest = null;
+        try {
+            rest = (Rest) objectMapper.readValue(jsonString,t);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return rest;
+    }
+
     public static <T> Rest mapJson2Bean(JSONObject jsonObject, Class<T> t){
         ObjectMapper objectMapper = new ObjectMapper();
         try {

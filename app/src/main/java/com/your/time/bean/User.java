@@ -1,7 +1,10 @@
 package com.your.time.bean;
 
+import android.view.View;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.your.time.util.Pages;
 
 import java.io.Serializable;
 
@@ -185,5 +188,10 @@ public class User extends Rest implements Serializable {
 
     public String getServiceProviderId() {
         return serviceProviderId;
+    }
+
+    @Override
+    public <T extends Rest> View adapterMapper(View layoutView, Pages page,int position) {
+        return null;
     }
 }

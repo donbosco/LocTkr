@@ -145,20 +145,36 @@ public class YourTimeUtil {
         // set values for custom dialog components - text, image and button
         TextView text = (TextView) dialog.findViewById(R.id.textDialog);
         text.setText(desc);
-        if(imageResourceId == R.drawable.ic_info){
-            if(dialog.findViewById(R.id.rescheduleButton) != null)
-                dialog.findViewById(R.id.rescheduleButton).setVisibility(View.GONE);
-            if(dialog.findViewById(R.id.cancelButton) != null)
-                dialog.findViewById(R.id.cancelButton).setVisibility(View.GONE);
+
+        if(dialog.findViewById(R.id.rescheduleButton) != null)
+            dialog.findViewById(R.id.rescheduleButton).setVisibility(View.GONE);
+        if(dialog.findViewById(R.id.cancelButton) != null)
+            dialog.findViewById(R.id.cancelButton).setVisibility(View.GONE);
+        if(dialog.findViewById(R.id.okayButton) != null)
+            dialog.findViewById(R.id.okayButton).setVisibility(View.GONE);
+        if(dialog.findViewById(R.id.closeButton) != null)
+            dialog.findViewById(R.id.closeButton).setVisibility(View.GONE);
+        if(dialog.findViewById(R.id.logoutButton) != null)
+            dialog.findViewById(R.id.logoutButton).setVisibility(View.GONE);
+
+        if(imageResourceId == R.drawable.info){
             if(dialog.findViewById(R.id.okayButton) != null)
                 dialog.findViewById(R.id.okayButton).setVisibility(View.VISIBLE);
-        }else{
-            if(dialog.findViewById(R.id.rescheduleButton) != null)
-                dialog.findViewById(R.id.rescheduleButton).setVisibility(View.VISIBLE);
+        }else if(imageResourceId == R.drawable.cancel){
             if(dialog.findViewById(R.id.cancelButton) != null)
                 dialog.findViewById(R.id.cancelButton).setVisibility(View.VISIBLE);
-            if(dialog.findViewById(R.id.okayButton) != null)
-                dialog.findViewById(R.id.okayButton).setVisibility(View.GONE);
+            if(dialog.findViewById(R.id.closeButton) != null)
+                dialog.findViewById(R.id.closeButton).setVisibility(View.VISIBLE);
+        }else if(imageResourceId == R.drawable.book_reschedule){
+            if(dialog.findViewById(R.id.rescheduleButton) != null)
+                dialog.findViewById(R.id.rescheduleButton).setVisibility(View.VISIBLE);
+            if(dialog.findViewById(R.id.closeButton) != null)
+                dialog.findViewById(R.id.closeButton).setVisibility(View.VISIBLE);
+        }else{
+            if(dialog.findViewById(R.id.logoutButton) != null)
+                dialog.findViewById(R.id.logoutButton).setVisibility(View.VISIBLE);
+            if(dialog.findViewById(R.id.closeButton) != null)
+                dialog.findViewById(R.id.closeButton).setVisibility(View.VISIBLE);
         }
         ImageView image = (ImageView) dialog.findViewById(R.id.imageDialog);
         image.setImageResource(imageResourceId);
@@ -239,19 +255,21 @@ public class YourTimeUtil {
                     secs = secs - 1;
                     String waitingTimeText = (days>0?((days<10?"0"+days:days)+":"):"")+(hours>0?((hours<10?"0"+hours:hours)+":"):"")+(mins>0?((mins<10?"0"+mins:mins)+":"):"")+(secs<10?"0"+secs:secs);
                     textView.setText(waitingTimeText);
+                    //System.out.println("Waiting TIME: "+waitingTimeText);
+                    //textView.setTextColor(Color.BLACK);
                 }
 
                 public void onFinish() {
-                    textView.setText("DONE!");
+                    textView.setText("DONE");
                 }
             };
         }else
             return new CountDownTimer(1000, 1000) {
                 public void onTick(long millisUntilFinished) {
-                    textView.setText("DONE!");
+                    textView.setText("DONE");
                 }
                 public void onFinish() {
-                    textView.setText("DONE!");
+                    textView.setText("DONE");
                 }
             };
     }
@@ -276,9 +294,17 @@ public class YourTimeUtil {
                     waitTime += days + "d";
                 if (hours != 0)
                     waitTime += hours + "h";
+                else if(days > 0)
+                    waitTime += hours + "h";
+
                 if (minutes != 0)
                     waitTime += minutes + "m";
+                else if(hours > 0 || days > 0)
+                    waitTime += minutes + "m";
+
                 if (seconds != 0)
+                    waitTime += seconds + "s";
+                else if (hours > 0 || days > 0 || minutes > 0)
                     waitTime += seconds + "s";
                 System.out.println("Waiting Time : " + waitTime);
             } catch (ParseException e) {

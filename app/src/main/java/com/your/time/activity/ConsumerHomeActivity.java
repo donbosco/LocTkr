@@ -137,26 +137,24 @@ public class ConsumerHomeActivity extends YourTimeActivity implements RestCaller
                 bookings = ReflectionUtil.mapJson2Bean(jsonObject.getJSONArray(getString(R.string.param_results)),Booking.class);
                 int[] items = new int[3];
                 int rowLayoutId = 0;
-
-//                    items[0] = R.id.consumer_home_sno;
-                    items[0] = R.id.consumer_home_service;
-                    items[1] = R.id.consumer_home_phonenumber;
+                    items[0] = R.id.consumer_home_status;
+                    items[1] = R.id.consumer_home_service;
                     items[2] = R.id.consumer_home_waitTime;
                     rowLayoutId = R.layout.content_consumer_home_row;
 
-                CommonArrayAdapter commonArrayAdapter = new CommonArrayAdapter(this,bookings,rowLayoutId,items);
+                CommonArrayAdapter commonArrayAdapter = new CommonArrayAdapter(this,bookings,rowLayoutId,Pages.CONSUMER_ACTIVE_APPOINTMENT_ACTIVITY);
                 grid.setAdapter(commonArrayAdapter);
                 grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         booking = bookings.get(position-1);
-                        dialog = YourTimeUtil.dialog(ConsumerHomeActivity.this,getString(R.string.your_time_says),getString(R.string.question_on_click_grid_reschedule_cancel),R.drawable.ic_question);
+                        //dialog = YourTimeUtil.dialog(ConsumerHomeActivity.this,getString(R.string.your_time_says),getString(R.string.question_on_click_grid_reschedule_cancel),R.drawable.question);
                         Toast.makeText(ConsumerHomeActivity.this,"Clicked on position "+booking.getUsername(),Toast.LENGTH_SHORT).show();
                     }
                 });
 
-                /*if(grid.getHeaderViewsCount() == 0)
-                    loadHeader();*/
+                if(grid.getHeaderViewsCount() == 0)
+                    loadHeader();
                 //loadFooter();
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -164,7 +162,7 @@ public class ConsumerHomeActivity extends YourTimeActivity implements RestCaller
         }else if(currentCaller.equals(this.getResources().getString(R.string.WS_APPOINTMENT_CANCEL_BY_CONSUMER))){
             try {
                 if(jsonObject.getBoolean(getString(R.string.param_status))){
-                    dialog = YourTimeUtil.dialog(this,getString(R.string.your_time_says),getString(R.string.home_cancel_success),R.drawable.ic_info);
+                    dialog = YourTimeUtil.dialog(this,getString(R.string.your_time_says),getString(R.string.consumer_appointment_cancel_success),R.drawable.info);
                     loadAppointments();
                 }
             } catch (JSONException e) {
@@ -196,10 +194,12 @@ public class ConsumerHomeActivity extends YourTimeActivity implements RestCaller
     }
 
     public  void reschedule(View view){
+        booking = bookings.get((Integer)view.getTag(R.string.param_booking));
         Toast.makeText(ConsumerHomeActivity.this,"Reschedule will be invoked.",Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(ConsumerHomeActivity.this, BookActivity.class);
         intent.putExtra(ConsumerHomeActivity.this.getResources().getString(R.string.caller), currentActivity);
         intent.putExtra(ConsumerHomeActivity.this.getResources().getString(R.string.actAs), Pages.CONSUMER_APPOINTMENT_UPDATE_ACTIVITY);
+        intent.putExtra(getString(R.string.param_booking),ReflectionUtil.mapBean2Json(booking));
         dialogClose();
         startActivity(intent);
         finish();
@@ -209,6 +209,7 @@ public class ConsumerHomeActivity extends YourTimeActivity implements RestCaller
         Map<String, Object> params = new HashMap<String,Object>();
         /*Booking booking = new Booking();
         booking.setUsername(getSessionManager().getUserDetails().getUsername());*/
+        booking = bookings.get((Integer)view.getTag(R.string.param_booking));
         params.put(this.getResources().getString(R.string.ws_param),this.booking);
         params.put(this.getResources().getString(R.string.ws_method),this.getResources().getString(R.string.post));
         currentCaller = this.getResources().getString(R.string.WS_APPOINTMENT_CANCEL_BY_CONSUMER) ;

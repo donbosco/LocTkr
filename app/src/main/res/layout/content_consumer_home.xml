@@ -9,6 +9,7 @@
         android:clickable="true"
         android:paddingTop="10dp"
         android:layout_margin="@dimen/text_margin"
+        android:scrollbars="vertical|horizontal"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context="com.your.time.activity.ConsumerHomeActivity"
         tools:showIn="@layout/activity_consumer_home"/>

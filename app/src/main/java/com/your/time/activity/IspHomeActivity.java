@@ -124,21 +124,37 @@ public class IspHomeActivity extends YourTimeActivity implements RestCaller{
         else if(currentCaller.equalsIgnoreCase(this.getResources().getString(R.string.WS_ALL_SCHEDULES_DONE_BY_ISP))){
             try {
                 users = ReflectionUtil.mapJson2Bean(jsonObject.getJSONArray(getString(R.string.param_results)),User.class);
-                int[] items = {R.id.isp_home_sno,R.id.isp_home_username,R.id.isp_home_phonenumber,R.id.isp_home_action};
-
-                CommonArrayAdapter commonArrayAdapter = new CommonArrayAdapter(this,users,R.layout.content_isp_home_row,items);
+                CommonArrayAdapter commonArrayAdapter = new CommonArrayAdapter(this,users,R.layout.content_isp_home_row,currentActivity);
                 grid.setAdapter(commonArrayAdapter);
                 grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         booking = bookings.get(position-1);
-                        YourTimeUtil.dialog(IspHomeActivity.this,getString(R.string.your_time_says),getString(R.string.question_on_click_grid_reschedule_cancel),R.drawable.ic_question);
+                        //YourTimeUtil.dialog(IspHomeActivity.this,getString(R.string.your_time_says),getString(R.string.question_on_click_grid_reschedule_cancel),R.drawable.question);
                         Toast.makeText(IspHomeActivity.this,"Clicked on position "+booking.getUsername(),Toast.LENGTH_SHORT).show();
                     }
                 });
 
                 loadHeader();
                 //loadFooter();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }else if(currentCaller.equals(this.getResources().getString(R.string.WS_SCHEDULE_CANCEL_BY_ISP))){
+            try {
+                if(jsonObject.getBoolean(getString(R.string.param_status))){
+                    dialog = YourTimeUtil.dialog(this,getString(R.string.your_time_says),getString(R.string.isp_schedule_cancel_success),R.drawable.info);
+                    loadSchedules();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }else if(currentCaller.equals(this.getResources().getString(R.string.WS_SCHEDULE_CONFIRM_BY_ISP))){
+            try {
+                if(jsonObject.getBoolean(getString(R.string.param_status))){
+                    dialog = YourTimeUtil.dialog(this,getString(R.string.your_time_says),getString(R.string.isp_schedule_confirm_success),R.drawable.info);
+                    loadSchedules();
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -168,17 +184,30 @@ public class IspHomeActivity extends YourTimeActivity implements RestCaller{
     }
 
     public  void reschedule(View view){
+        booking = bookings.get((Integer)view.getTag(R.string.param_booking));
         Toast.makeText(this,"Reschedule will be invoked.",Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, BookActivity.class);
         intent.putExtra(this.getResources().getString(R.string.caller), currentActivity);
         intent.putExtra(this.getResources().getString(R.string.actAs), Pages.ISP_SCHEDULE_UPDATE_ACTIVITY);
+        intent.putExtra(getString(R.string.param_booking),ReflectionUtil.mapBean2Json(booking));
         startActivity(intent);
         finish();
     }
 
+    public  void confirmSchedule(View view){
+        Map<String, Object> params = new HashMap<String,Object>();
+        booking = bookings.get((Integer)view.getTag(R.string.param_booking));
+        booking.setUsername(getSessionManager().getUserDetails().getUsername());
+        params.put(this.getResources().getString(R.string.ws_param),booking);
+        params.put(this.getResources().getString(R.string.ws_method),this.getResources().getString(R.string.post));
+        currentCaller = this.getResources().getString(R.string.WS_SCHEDULE_CONFIRM_BY_ISP) ;
+        params.put(this.getResources().getString(R.string.ws_url),currentCaller);
+        new RestServiceHandler(this, params,this).execute();
+    }
+
     public  void cancelSchedule(View view){
         Map<String, Object> params = new HashMap<String,Object>();
-        Booking booking = new Booking();
+        booking = bookings.get((Integer)view.getTag(R.string.param_booking));
         booking.setUsername(getSessionManager().getUserDetails().getUsername());
         params.put(this.getResources().getString(R.string.ws_param),booking);
         params.put(this.getResources().getString(R.string.ws_method),this.getResources().getString(R.string.post));

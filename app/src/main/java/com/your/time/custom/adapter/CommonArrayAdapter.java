@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.your.time.bean.Rest;
+import com.your.time.util.Pages;
 
 import java.util.List;
 
@@ -16,16 +17,16 @@ public class CommonArrayAdapter<T extends Rest> extends BaseAdapter {
         Context context;
         List<T> data;
         LayoutInflater inflater;
-        int[] itemIds;
+        Pages page;
         int layoutId;
 
-        public CommonArrayAdapter(Context context,List<T> data, int layoutId,int[] items) {
+        public CommonArrayAdapter(Context context,List<T> data, int layoutId,Pages page) {
             super();
             this.context = context;
             this.data = data;
             this.inflater = LayoutInflater.from(context);//LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             this.layoutId = layoutId;
-            this.itemIds = items;
+            this.page = page;
         }
 
     @Override
@@ -49,7 +50,7 @@ public class CommonArrayAdapter<T extends Rest> extends BaseAdapter {
             if(convertView==null) {
                 convertView = inflater.inflate(layoutId, null);
             }
-            data.get(position).adapterMapper(convertView, itemIds, position + 1, 0, data.get(position));
+            data.get(position).adapterMapper(convertView, page,position);
 
             Log.i(this.getClass().getSimpleName(),"Position : "+position);
             return convertView;

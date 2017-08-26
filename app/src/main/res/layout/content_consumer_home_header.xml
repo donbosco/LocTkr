@@ -6,39 +6,41 @@
     android:weightSum="1">
 
     <TextView
-        android:id="@+id/homeHdrNo"
-        android:layout_width="2dp"
+        android:id="@+id/consumerHomeHdrStatus"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:textSize="14dp"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
-        android:text="@string/sno"
-        android:layout_weight="0.16" />
+        android:textAppearance="@style/SubTitleText"
+        android:text="@string/status"
+        android:layout_weight="0.01" />
     <TextView
-        android:id="@+id/homeHdrService"
-        android:layout_width="63dp"
+        android:id="@+id/consumerHomeHdrService"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:textSize="14dp"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
-        android:text="@string/service"
-        android:layout_weight="0.32" />
-    <TextView
-        android:id="@+id/homeHdrMobile"
+        android:layout_marginLeft="15dip"
+        android:textAppearance="@style/SubTitleText"
+        android:text="@string/service_detail"
+        android:layout_weight="0.7" />
+    <!--<TextView
+        android:id="@+id/consumerHomeHdrMobile"
         android:layout_width="30dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:textSize="14dp"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
         android:text="@string/mobile"
-        android:layout_weight="0.25" />
+        android:layout_weight="0.25" />-->
     <TextView
-        android:id="@+id/homeHdrWaitTime"
-        android:layout_width="15dp"
+        android:id="@+id/consumerHomeHdrWaitTime"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:textSize="14dp"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
+        android:textAppearance="@style/SubTitleText"
         android:text="@string/waitTime"
-        android:layout_weight="0.13" />
+        android:layout_weight="0.29"
+        android:gravity="right"/>
 </LinearLayout>

@@ -1,5 +1,9 @@
 package com.your.time.bean;
 
+import android.view.View;
+
+import com.your.time.util.Pages;
+
 import java.io.Serializable;
 
 public class ServiceProvider extends Rest implements Serializable{
@@ -162,5 +166,10 @@ public class ServiceProvider extends Rest implements Serializable{
 
 	public String getLongitude() {
 		return longitude;
+	}
+
+	@Override
+	public <T extends Rest> View adapterMapper(View layoutView, Pages page,int position) {
+		return null;
 	}
 }
